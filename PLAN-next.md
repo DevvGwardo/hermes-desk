@@ -11,10 +11,11 @@ Next decisions:
 4. Publish the public snapshot. Done on 2026-11-02: the verbatim xAI Grok Bot
    mark engine (`src/lib/grok-orb/`) and the extracted `docs/grok-*` artifacts
    were deleted, and `src/components/FatCatIcon.tsx` now renders the project's own
-   owl engine, so the current tree carries no third-party code. What is left is
-   mechanical — export the tree to a fresh public repository (single clean
-   commit) rather than flipping visibility, because this repository's history
-   still contains the deleted files. Secrets were re-swept in the same pass:
+   owl engine, so the current tree carries no third-party code. The public
+   repository (`DevvGwardo/hermes-desk`) is a single-commit snapshot of that
+   tree, so the removed material exists in no commit here; the private working
+   repository keeps its history and stays private. Secrets were re-swept in the
+   same pass:
    `gitleaks` over all reachable commits, 118 findings, all synthetic fixtures.
    See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 5. Incrementally add JavaScript type coverage and a real ESLint/coverage toolchain.
