@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Fake local checkout fixture</title></head>
+<body>
+  <h1 data-ref="e1">Test card checkout, no real payment</h1>
+  <form>
+    <label data-ref="e2" for="pan">Card number</label>
+    <input data-ref="e3" id="pan" autocomplete="cc-number" value="{{FAKE_CARD}}">
+    <label data-ref="e4" for="expiry">Expiry</label>
+    <input data-ref="e5" id="expiry" autocomplete="cc-exp" value="{{FAKE_EXPIRY}}">
+    <label data-ref="e6" for="security">Security digits</label>
+    <input data-ref="e7" id="security" autocomplete="cc-csc" value="{{FAKE_CSC}}">
+    <button data-ref="e8" type="submit">Confirm test order</button>
+  </form>
+  <p data-ref="e9">Another test card: {{FAKE_OTHER_CARD}}.</p>
+</body>
+</html>

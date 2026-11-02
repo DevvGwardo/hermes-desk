@@ -1,0 +1,2308 @@
+@import "tailwindcss";
+
+/* Nub / nubapp v2 — Cash App–inspired --ca-* tokens (hermes-deploy globals) */
+:root {
+  --ca-canvas: #9ecdff;
+  --ca-canvas-deep: #7eb6f5;
+  --ca-brand-tint: #b7d9fe;
+  --ca-ink: #1a3d6b;
+  --ca-ink-soft: #2a5280;
+  /* Muted ink. Was #5a7aa0: 4.44:1 on card (AA fail), 3.58:1 on the sidebar
+   * (#d6e9fb) where it is used most. Now 6.00:1 on card, 4.83:1 on sidebar,
+   * 5.62:1 on sidebar-hover. NOTE: still fails on the chat WALLPAPER (~1.2:1,
+   * the sky base is a mid blue) — text there must sit on an opaque surface,
+   * never directly on the wallpaper. See .sand-activity-line. */
+  --ca-ink-muted: #4b6585;
+  --ca-primary: #2f7ed8;
+  --ca-primary-hover: #2569b8;
+  --ca-primary-soft: #d6e9fb;
+  /* --ca-primary is a FILL colour (buttons, tints). As TEXT on a light surface
+   * it measured 4.12:1 on card and 3.32:1 on --ca-primary-soft — below AA.
+   * This darker step is the text-on-light variant: 6.08:1 on card, 4.89:1 on
+   * soft. Dark theme re-points it back at --ca-primary, which already passes
+   * (7.06:1 on --ca-card). */
+  --ca-primary-text: #2263ad;
+  /* Primary FILL for any surface that carries WHITE text: the user bubble and
+   * .nub-btn-primary (Send + other primary actions). --ca-primary is only
+   * 4.12:1 behind white (AA fail) — it stays the *text/tint* colour. This step
+   * is 4.80:1, hover 5.54:1. */
+  --ca-primary-fill: #2b73c6;
+  --ca-primary-fill-hover: #2569b8;
+  /* User message bubble fill (alias of the shared fill). */
+  --ca-bubble-user: var(--ca-primary-fill);
+  --ca-pink: #ffc0d8;
+  --ca-pink-soft: #ffe4ef;
+  --ca-pink-deep: #f59aba;
+  --ca-white: #ffffff;
+  --ca-card: #ffffff;
+  --ca-card-glass: rgba(255, 255, 255, 0.72);
+  --ca-hover: rgba(255, 255, 255, 0.7);
+  --ca-sidebar: var(--ca-primary-soft);
+  /* Decorative separator (cards, dividers). 1.23:1 on white by design — it is
+   * not load-bearing, so it is NOT the token for form-control outlines.
+   * Interactive boundaries use --ca-field-border below (WCAG 1.4.11 wants 3:1
+   * for the parts that identify a control). */
+  --ca-border: rgba(26, 61, 107, 0.12);
+  --ca-border-strong: rgba(26, 61, 107, 0.22);
+  /* Outline for text fields / controls that must be perceivable: 3.10:1 on
+   * white. */
+  --ca-field-border: rgba(26, 61, 107, 0.55);
+  /* Composer placeholder. --ca-ink-muted only reaches 3.00–3.27:1 on the
+   * composer glass (which sits over the wallpaper), so placeholders get their
+   * own darker step: 5.38:1 over sky-top glass, 4.94:1 over sky-bottom. */
+  --ca-placeholder: #3f5876;
+  --ca-shadow: 0 8px 28px rgba(26, 61, 107, 0.12);
+  --ca-shadow-soft: 0 2px 10px rgba(26, 61, 107, 0.08);
+  --ca-success: #1f9d6a;
+  /* 5.49:1 on card / behind white text, and 4.60:1 on --ca-pink-soft.
+   * The previous #c93b57 only reached 4.14:1 on error banners. */
+  --ca-danger: #bf3450;
+  --ca-warn: #e6a23c;
+  /* Text-on-light steps for status colours. The fills above are
+   * decorative-only (dots, progress bars, icon tints — never behind body
+   * text): --ca-success is ~3.6:1 and --ca-warn ~2.2:1 on card, both AA fails
+   * as text. These steps clear 4.5:1 on --ca-card. Dark re-points them at the
+   * fills, which already pass on --ca-card there. */
+  --ca-success-text: #146c4b;
+  --ca-warn-text: #8a5200;
+  /* Single focus-ring token: every text-entry control routes its
+   * :focus-visible outline through this (was a mix of /30 and /50 washes). */
+  --ca-focus-ring: var(--ca-primary-text);
+  --ca-radius: 16px;
+  --ca-radius-sm: 10px;
+  --ca-font: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ca-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Motion tokens (theme-independent). Enter = --ca-ease (fast out, soft
+   * land); leave = --ca-ease-in. Durations: 1 micro (hover, crossfade),
+   * 2 element enter, 3 screen enter. --ca-stagger spaces sibling entrances
+   * (set --i on each child). */
+  --ca-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ca-dur-1: 140ms;
+  --ca-dur-2: 220ms;
+  --ca-dur-3: 360ms;
+  --ca-stagger: 60ms;
+}
+
+@theme {
+  --color-ca-canvas: var(--ca-canvas);
+  --color-ca-ink: var(--ca-ink);
+  --color-ca-ink-muted: var(--ca-ink-muted);
+  --color-ca-primary: var(--ca-primary);
+  --color-ca-primary-text: var(--ca-primary-text);
+  --color-ca-fill: var(--ca-primary-fill);
+  --color-ca-border: var(--ca-border);
+  --color-ca-success: var(--ca-success);
+  --color-ca-danger: var(--ca-danger);
+  --color-ca-warn: var(--ca-warn);
+  --color-ca-sidebar: var(--ca-sidebar);
+  --color-ca-focus-ring: var(--ca-focus-ring);
+  --color-ca-pink: var(--ca-pink);
+  --color-ca-brand: var(--ca-brand-tint);
+  --color-ca-white: var(--ca-white);
+  --color-ca-card: var(--ca-card);
+  --font-sans: var(--ca-font);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  color-scheme: light;
+}
+
+/* Global keyboard-focus indicator: 2px outline on the primary-text step +
+ * offset, so focus is visible on every surface in both themes.
+ * Text-entry fields are excluded (owner call, 2026-09-27): a ring around a
+ * field you just clicked reads as a highlight. Fields show focus through
+ * their own focus:border-* colour. Checkboxes/radios/range keep the ring.
+ * Keep in step with hermes-deploy src/app/globals.css. */
+:where(a, button, input:is([type="checkbox"], [type="radio"], [type="range"], [type="file"]), [tabindex]:not(input, textarea, select)):focus-visible {
+  outline: 2px solid var(--ca-focus-ring, var(--ca-primary-text));
+  outline-offset: 2px;
+}
+
+body {
+  background: var(--ca-canvas);
+  color: var(--ca-ink);
+  font-family: var(--ca-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.nub-root {
+  min-height: 100%;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, var(--ca-brand-tint) 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, var(--ca-pink-soft) 0%, transparent 50%),
+    linear-gradient(180deg, var(--ca-canvas) 0%, var(--ca-canvas-deep) 100%);
+  color: var(--ca-ink);
+}
+
+/* Chat pane only — do not change global --ca-canvas. Sky is ~2 stops
+ * darker than the app canvas so #8ec4ff / #9ecdff mascot orbs read.
+ * The three gradient walls share one base layer via --chat-wall-base so the
+ * 180deg sky ramp is declared once (dark re-points the same var). */
+.chat-wall--sky,
+.chat-wall--haze,
+.chat-wall--blush {
+  --chat-wall-base: linear-gradient(180deg, #4f8ec8 0%, #2f6eae 100%);
+}
+
+.chat-wall--sky {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, var(--ca-brand-tint) 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, var(--ca-pink-soft) 0%, transparent 50%),
+    var(--chat-wall-base);
+}
+
+.chat-wall--haze {
+  background:
+    repeating-linear-gradient(
+      -32deg,
+      rgba(26, 61, 107, 0.07) 0 1px,
+      transparent 1px 8px
+    ),
+    radial-gradient(1200px 600px at 10% -10%, var(--ca-brand-tint) 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, var(--ca-pink-soft) 0%, transparent 50%),
+    var(--chat-wall-base);
+}
+
+.chat-wall--blush {
+  background:
+    radial-gradient(900px 520px at 88% 8%, var(--ca-pink-soft) 0%, transparent 52%),
+    radial-gradient(700px 420px at 18% 108%, var(--ca-pink) 0%, transparent 48%),
+    radial-gradient(1100px 560px at 8% -12%, var(--ca-brand-tint) 0%, transparent 55%),
+    var(--chat-wall-base);
+}
+
+.chat-wall--linen {
+  background-color: #f3eee4;
+  background-image: radial-gradient(rgba(26, 61, 107, 0.11) 1px, transparent 1.4px);
+  background-size: 11px 11px;
+}
+
+/* ─── Transcript surfaces ───────────────────────────────────────────────
+ * The chat transcript renders ON the wallpaper, and the sky/haze/blush bases
+ * are mid blues (#4f8ec8 → #2f6eae) where --ca-ink measured 2.06:1 and
+ * --ca-ink-muted 1.19:1 — both effectively invisible. Anything text-bearing
+ * inside the transcript therefore sits on an OPAQUE surface.
+ *
+ * --ca-hover is translucent white (0.7), so the same chips landed at
+ * ~#c1d4e7 and put muted text at 2.93:1. This class is that opaque surface:
+ * muted = 6.00:1, --ca-primary-text = 6.08:1. */
+.sand-on-wall {
+  background: var(--ca-card);
+}
+/* Hover tint lives in the class (not a Tailwind utility) because these
+ * unlayered rules outrank the utilities layer — a `hover:bg-…` utility would
+ * never win here. */
+.sand-on-wall--press:hover {
+  background: var(--ca-primary-soft);
+}
+/* The live activity row (mascot + verb + elapsed). Its text measured 2.06:1
+ * on the sky wallpaper and the muted elapsed 1.19:1 — the app's single most
+ * important status line was all but invisible on the default wallpaper. */
+.sand-activity-line {
+  background: var(--ca-card);
+  box-shadow: var(--ca-shadow-soft);
+}
+
+.nub-card {
+  background: var(--ca-card);
+  border: 1px solid var(--ca-border);
+  border-radius: var(--ca-radius);
+  box-shadow: var(--ca-shadow-soft);
+}
+
+/* ─── Auth / pairing screens — flat, unboxed ───────────────────────────
+ * Pairing codes render as plain type, not inside a bordered box. The
+ * screen itself is flat: no card border/shadow, and no wallpaper
+ * gradients behind it — just the canvas. Applied to WebConnect,
+ * WaitlistCapture, InviteRedeem (which share the same chrome). */
+.nub-auth-flat {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Flat canvas behind auth screens: kill the radial + linear wallpaper
+ * gradients from .nub-root so the page is one solid colour. Scoped with
+ * :has() so chat walls and every other surface keep their gradients. */
+.nub-root:has(.nub-auth-flat) {
+  background: var(--ca-canvas);
+}
+
+/* Unboxed pairing/invite code: plain centered type that stays clickable
+ * for copy. No border, no fill, no radius. */
+.nub-code-plain {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.nub-code-plain:hover {
+  border: 0;
+}
+
+.nub-glass {
+  background: var(--ca-card-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--ca-shadow-soft);
+}
+
+/* M4 (docs/CHAT_LOAD_AND_MOTION_SPEC.md): same fill/border/shadow as
+   .nub-glass without the 16px backdrop blur. The chat composer uses this —
+   it floats over the scrolling transcript, and the blur promoted extra
+   compositor layers per frame. Modal backdrops keep their blur. */
+.nub-glass-solid {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Floating overlays — context menus, confirm dialogs, sheets, the command
+   palette. These sit over the chat transcript, so a translucent fill
+   (.nub-glass is 72%) lets message text bleed through and makes the menu
+   unreadable. Always a solid card surface with a firm edge + lift. */
+.nub-overlay {
+  background: var(--ca-card);
+  border: 1px solid var(--ca-border-strong);
+  box-shadow:
+    0 12px 32px rgba(26, 61, 107, 0.18),
+    0 2px 8px rgba(26, 61, 107, 0.1);
+}
+/* Scrim behind modal overlays: dims the transcript so the dialog reads. */
+.nub-scrim {
+  background: rgba(10, 20, 35, 0.4);
+}
+
+/* Dictation waveform — Grok-parity voice-chip bars (see ChatPanel). Heights are
+   driven in real time from the mic level (inline transform), so no keyframes. */
+.ca-voice-bars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 13px;
+}
+/* ─── Intro + loading motion (shared) ───────────────────────────────────
+ * .ca-enter: a screen or block arriving — fade + 8px rise, staggered by
+ *   --i (0, 1, 2…) so a screen reads top-to-bottom instead of all at once.
+ * .ca-fade: an in-place swap (placeholder → value, hint → hint): opacity
+ *   only, keyed on the content so each new value fades in.
+ * .ca-reveal-late: a loader that should only appear if the wait is
+ *   noticeable (instant chunk loads never flash a spinner).
+ * All opacity/transform; all in the reduced-motion block. Fill mode is
+ * `backwards`, never `both`: a lingering `transform` after the animation
+ * would make the element the containing block for position:fixed
+ * descendants (popovers, docks) and silently mis-pin them. */
+.ca-enter {
+  animation: ca-enter var(--ca-dur-3) var(--ca-ease) backwards;
+  animation-delay: calc(var(--i, 0) * var(--ca-stagger));
+}
+@keyframes ca-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ca-fade {
+  animation: ca-fade var(--ca-dur-2) var(--ca-ease) backwards;
+}
+@keyframes ca-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.ca-reveal-late {
+  animation: ca-fade var(--ca-dur-2) var(--ca-ease) 300ms backwards;
+}
+
+/* ─── Chat loading flow ──────────────────────────────────────────────
+ * Every piece is CSS-only on opacity/transform (compositor work, no layout)
+ * and sits in the reduced-motion block below. The spec's rule stands: rows
+ * never animate in or out individually (docs/CHAT_LOAD_AND_MOTION_SPEC.md).
+ *
+ * 1. First open: .ca-transcript-in fades the WHOLE list in once, only when
+ *    it replaces the loading skeleton. A cached thread opens instantly.
+ * 2. The reply wait stays on the activity-line mascot (Grok parity: no
+ *    empty wait bubble, no streaming caret — pinned by
+ *    tool-call-rendering.test.tsx). The line eases in (.ca-activity-in);
+ *    its verb crossfades on each step and carries a light sheen
+ *    (.ca-activity-verb, background-clip text — the ink never drops below
+ *    the muted token, so it stays readable mid-sweep). */
+.ca-transcript-in {
+  animation: ca-transcript-in 240ms var(--ca-ease, ease-out) backwards;
+}
+@keyframes ca-transcript-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* The activity line's row opens and closes (grid 0fr ↔ 1fr) instead of
+   appearing at full height: the transcript scroller above it resizes over
+   ~220ms, and the stick-to-bottom glide follows, so a reply starting or
+   ending no longer jolts the transcript by the line's height. Clipped only
+   while closed/closing — open, the mascot's particles may overflow. */
+.ca-activity-slot {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition:
+    grid-template-rows 220ms var(--ca-ease, ease-out),
+    opacity 160ms ease-out;
+}
+@starting-style {
+  .ca-activity-slot[data-open='true'] {
+    grid-template-rows: 0fr;
+  }
+}
+.ca-activity-slot[data-open='false'] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+.ca-activity-slot-inner {
+  min-height: 0;
+}
+.ca-activity-slot[data-open='false'] > .ca-activity-slot-inner {
+  overflow: hidden;
+}
+
+/* A message that arrives while the chat is open (a send, a reply, a turn
+   from another device) eases in; rows present on open mount in place. The
+   stick-to-bottom glide (src/lib/bottom-follow.ts) moves the transcript at
+   the same time, so the pair reads as one motion instead of a hop. */
+.ca-row-in {
+  animation: ca-row-in 260ms var(--ca-ease, ease-out) backwards;
+}
+@keyframes ca-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Cached thread re-checking with the server (ChatPanel TranscriptSyncPill).
+ * Floats over the transcript, so it never moves rows. */
+.ca-sync-pill {
+  animation: ca-sync-pill-in 200ms var(--ca-ease, ease-out) both;
+}
+.ca-sync-dot {
+  width: 4px;
+  height: 4px;
+}
+@keyframes ca-sync-pill-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ca-activity-in {
+  animation: ca-activity-in 200ms var(--ca-ease, ease-out) backwards;
+}
+@keyframes ca-activity-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ca-activity-verb {
+  background-image: linear-gradient(
+    90deg,
+    var(--ca-ink) 0%,
+    var(--ca-ink) 38%,
+    var(--ca-ink-muted) 50%,
+    var(--ca-ink) 62%,
+    var(--ca-ink) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    ca-activity-verb-in 180ms var(--ca-ease, ease-out) backwards,
+    ca-activity-sheen 2.2s linear infinite;
+}
+@keyframes ca-activity-verb-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ca-activity-sheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+/* Bubble groups (iMessage-style stacks, src/lib/bubble-groups.ts).
+   Consecutive bubbles from one speaker form a group: outer corners stay fully
+   round, the corners where bubbles meet pinch to --ca-bubble-join. Logical
+   corners (start/end) so the shape mirrors correctly in RTL. `data-side` is
+   the inline side the bubble sits on: end = the user, start = the agent.
+   A lone bubble keeps the old single tail corner at its bottom. */
+.ca-bubble {
+  --ca-bubble-radius: 1rem;
+  --ca-bubble-join: 0.375rem;
+  border-radius: var(--ca-bubble-radius);
+}
+.ca-bubble[data-side='end'][data-group='single'],
+.ca-bubble[data-side='end'][data-group='first'] {
+  border-end-end-radius: var(--ca-bubble-join);
+}
+.ca-bubble[data-side='end'][data-group='middle'] {
+  border-start-end-radius: var(--ca-bubble-join);
+  border-end-end-radius: var(--ca-bubble-join);
+}
+.ca-bubble[data-side='end'][data-group='last'] {
+  border-start-end-radius: var(--ca-bubble-join);
+  border-end-end-radius: var(--ca-bubble-join);
+}
+.ca-bubble[data-side='start'][data-group='single'],
+.ca-bubble[data-side='start'][data-group='first'] {
+  border-end-start-radius: var(--ca-bubble-join);
+}
+.ca-bubble[data-side='start'][data-group='middle'] {
+  border-start-start-radius: var(--ca-bubble-join);
+  border-end-start-radius: var(--ca-bubble-join);
+}
+.ca-bubble[data-side='start'][data-group='last'] {
+  border-start-start-radius: var(--ca-bubble-join);
+  border-end-start-radius: var(--ca-bubble-join);
+}
+/* Rows inside a group sit tight; the list's space-y gap (a zero-specificity
+   :where margin in Tailwind v4) still separates groups. */
+.ca-row[data-group='first'],
+.ca-row[data-group='middle'] {
+  margin-block-end: 3px;
+}
+
+/* M3 (docs/CHAT_LOAD_AND_MOTION_SPEC.md): settled transcript rows skip
+   layout while offscreen. Applied by ChatPanel to every row whose message
+   is not streaming — the live tail row is excluded so stick-to-bottom keeps
+   its real layout height. auto 88px ≈ one bubble row; the browser replaces
+   the estimate with the real height once the row has rendered. */
+/* Every row carries the size hint, not only the content-visibility ones:
+   `auto` makes the browser remember each row's last rendered height, so
+   when a reply settles and its row first gains content-visibility it keeps
+   its real height. Without it the just-settled row (no remembered size yet)
+   briefly collapsed to 88px and scroll anchoring threw the view ~600px up. */
+.ca-row {
+  contain-intrinsic-size: auto 88px;
+}
+.ca-cv-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 88px;
+}
+
+/* M4: promote the dictation bars only while they are actually animating —
+   a permanent will-change keeps 8 composited layers alive around the clock. */
+.ca-voice-bars > span {
+  display: block;
+  width: 2px;
+  height: 100%;
+  border-radius: 9999px;
+  background: currentColor;
+  transform-origin: center;
+  transform: scaleY(0.12);
+  transition: transform 90ms ease-out;
+}
+.ca-voice-bars[data-live='true'] > span {
+  will-change: transform;
+}
+
+/* Listening pulse — used where the active dictate engine cannot report audio
+   levels (the platform speech recognizer on phone/web). Distinct from
+   .ca-voice-bars, which is a real FFT meter. */
+.ca-listening-pulse {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--ca-primary);
+  animation: ca-listening-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes ca-listening-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.72);
+  }
+}
+
+/* Send button pops in at the end of the composer when the draft has text —
+ * the mic button slides left as the icon mounts. */
+.maia-send-in {
+  animation: maia-send-in 180ms cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+@keyframes maia-send-in {
+  from {
+    opacity: 0;
+    transform: translateX(6px) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Left conversations rail — opaque fill so it reads as a panel against
+ * the cream/sky chat canvas. Do not reuse .nub-glass here (72% white). */
+.nub-sidebar {
+  background: var(--ca-sidebar);
+  box-shadow: var(--ca-shadow-soft);
+}
+
+/* Sidebar width transitions (toggle / expand / keyboard steps — never
+ * during a drag, where inline writes must track the pointer instantly).
+ * Pane crossfade for the list ↔ rail swap (runs on branch remount). */
+.sidebar-w-anim {
+  transition: width 200ms var(--ca-ease);
+}
+.sidebar-pane-in {
+  animation: sidebar-pane-in 180ms var(--ca-ease) both;
+}
+@keyframes sidebar-pane-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Grok Bot parity (`data-use-text-overflow-fade`): row titles fade at the
+ * right edge instead of a hard ellipsis, so hover actions never collide
+ * with the text. Applied on the title container, not the truncating span. */
+.sidebar-title-fade {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent 100%);
+}
+
+/* Grok Bot parity: the trailing row actions (pin / more) sit in a small
+ * pill that fades in on hover / focus-within, mirroring the
+ * `data-surface-sidebar-row:hover` reveal. */
+.sidebar-row-actions {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms var(--ca-ease);
+}
+.group:hover > .sidebar-row-actions,
+.group:focus-within > .sidebar-row-actions,
+.sidebar-row-actions:has([aria-expanded='true']),
+.sidebar-row-actions:has([data-open='true']) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Grok `data-sidebar-group[data-collapsed]`: section chevron rotates -90deg.
+ * Descendant selector — the chevron lives inside the label <button>. */
+.sidebar-section-chevron {
+  transition: transform 150ms var(--ca-ease);
+}
+.sidebar-section-collapsed .sidebar-section-chevron {
+  transform: rotate(-90deg);
+}
+
+
+.nub-btn-primary {
+  background: var(--ca-primary-fill);
+  color: var(--ca-white);
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(47, 126, 216, 0.28);
+}
+
+.nub-btn-primary:hover:not(:disabled) {
+  background: var(--ca-primary-fill-hover);
+}
+
+.nub-btn-primary:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.nub-btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nub-chip {
+  background: var(--ca-pink-soft);
+  color: var(--ca-ink);
+  border: 1px solid rgba(255, 192, 216, 0.8);
+  border-radius: 999px;
+}
+
+/* Touch pass: the ChatPanel composer + in-thread controls are desktop-sized
+   (24px textarea, 28px send). On phones that fails the ~44px touch minimum,
+   and a sub-16px input font makes iOS Safari auto-zoom on focus. Gate
+   everything behind (pointer: coarse) so desktop is untouched.
+
+   Every selector below is scoped under `.nub-root` on purpose. These
+   elements carry Tailwind utilities (`min-h-[24px]`, `h-7 w-7`, `py-1`) that
+   are ALSO single-class selectors; at equal specificity the winner is
+   whichever sits later in the stylesheet, so the unscoped form of this block
+   was a silent no-op — the rules parsed, matched, and changed nothing. The
+   `.nub-root` prefix lifts each rule to (0,2,0)+ so the touch sizing applies
+   regardless of utility order. Confirmed by measuring the rendered boxes. */
+@media (pointer: coarse) {
+  /* Composer textarea: 16px+ font (no iOS focus-zoom), taller single line. */
+  .nub-root .nub-composer-input {
+    font-size: 16px;
+    line-height: 1.4;
+    min-height: 44px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  /* Send + dictate round buttons: 44px hit area (visual stays compact). */
+  .nub-root .maia-send-in,
+  .nub-root .nub-glass button[aria-label='Click or hold to dictate'],
+  .nub-root .nub-glass button[aria-label='Stop dictation'] {
+    width: 44px;
+    height: 44px;
+  }
+  .nub-root .nub-glass button[aria-label='Stop dictation'] {
+    height: auto;
+    min-height: 44px;
+  }
+  /* In-thread choice chips + agent-question option chips + subagent pills. */
+  .nub-root .nub-chip.px-3,
+  .nub-root .sand-widget-option,
+  .nub-root .nub-subagent-pill {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+  }
+  .nub-root .nub-subagent-pill {
+    font-size: 12px;
+  }
+}
+
+.status-pulse {
+  animation: status-pulse 1.6s var(--ca-ease) infinite;
+}
+
+/* A working sidebar row past the mascot-engine budget (Sidebar
+ * SIDEBAR_LIVE_ORB_BUDGET): a small float so it still reads as busy.
+ * Transform-only — composited, no rAF, no layout. */
+.sidebar-orb-bob {
+  animation: sidebar-orb-bob 1.4s ease-in-out infinite;
+}
+@keyframes sidebar-orb-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.status-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--ca-warn) 0%,
+    #ffe2a8 45%,
+    var(--ca-warn) 100%
+  );
+  background-size: 200% 100%;
+  animation: status-shimmer 1.4s linear infinite;
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.7;
+  }
+}
+
+@keyframes status-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes typing-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--ca-primary);
+  animation: typing-bounce 1.1s infinite ease-in-out;
+}
+
+/* Shine skeleton: content-shaped loading block with a highlight sweeping
+ * across it. Base tint is the card surface; the sheen mixes a little of the
+ * theme ink so it reads on both light and dark themes without extra tokens. */
+.skeleton-shine {
+  background-color: var(--ca-card);
+  background-image: linear-gradient(
+    100deg,
+    transparent 25%,
+    color-mix(in srgb, var(--ca-ink) 9%, transparent) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shine 1.6s ease-in-out infinite;
+}
+/* A chat picture appearing for the first time: already decoded (see
+ * lib/chat-images.ts), so it fades in whole instead of painting top-down. */
+.nub-img-in {
+  animation: nub-img-in 0.2s ease-out both;
+}
+@keyframes nub-img-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes skeleton-shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* In-flow Computer rail: width 0 when closed so chat flex-1 eases with it.
+ * Open width is set inline (drag-resize). CSS fallback is min(38vw, 26rem). */
+.nub-rail {
+  flex-shrink: 0;
+  overflow: hidden;
+  width: 0;
+  min-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  border-left-width: 0;
+  transition:
+    width 180ms var(--ca-ease),
+    min-width 180ms var(--ca-ease),
+    opacity 180ms var(--ca-ease),
+    border-width 180ms var(--ca-ease);
+}
+
+.nub-rail-computer.nub-rail-open {
+  width: min(38vw, 26rem);
+  min-width: 240px;
+  max-width: 40rem;
+  opacity: 1;
+  pointer-events: auto;
+  border-left-width: 1px;
+}
+
+.nub-rail-inner-computer {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+
+/* Overlay + fullscreen share their positioning contract — only geometry differs. */
+.nub-rail-computer.nub-rail-overlay,
+.nub-rail-computer.nub-rail-fullscreen {
+  position: absolute;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nub-rail-computer.nub-rail-overlay {
+  inset-block: 0;
+  right: 0;
+  z-index: 30;
+  width: min(90vw, 28rem);
+  min-width: 240px;
+  max-width: 28rem;
+  border-left-width: 1px;
+  box-shadow: -12px 0 32px rgba(26, 61, 107, 0.14);
+}
+
+.nub-rail-computer.nub-rail-fullscreen {
+  inset: 0;
+  z-index: 40;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  border-left-width: 0;
+}
+
+.nub-rail-computer.nub-rail-dragging {
+  transition: none;
+}
+
+.nub-computer-stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0b0f14;
+}
+
+.nub-computer-stage--empty {
+  background: transparent;
+}
+
+.nub-computer-fit {
+  overflow: hidden;
+  background: #000;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(26, 61, 107, 0.22);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(47, 126, 216, 0.55);
+}
+
+/* Faux Linux desktop preview */
+.faux-desktop {
+  background: linear-gradient(160deg, #3d6ea8 0%, #1e3f66 55%, #12253c 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.faux-desktop__topbar {
+  height: 28px;
+  background: rgba(10, 20, 35, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  color: #dbe9ff;
+  font-size: 10px;
+}
+
+.faux-desktop__dock {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+}
+
+.faux-desktop__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.faux-desktop__window {
+  position: absolute;
+  left: 12%;
+  top: 18%;
+  width: 70%;
+  height: 52%;
+  border-radius: 10px;
+  background: #f4f7fb;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.faux-desktop__window-bar {
+  height: 22px;
+  background: #e5ecf5;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+}
+
+.faux-desktop__traffic {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Agent bubbles: GFM markdown. Code fences stay clipped so env dumps
+ * don't blow out the thread (Grok sand-message GFM parity). */
+.nub-md {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.7;
+}
+
+.nub-md > :first-child {
+  margin-top: 0;
+}
+
+.nub-md > :last-child {
+  margin-bottom: 0;
+}
+
+.nub-md p {
+  margin: 0.55em 0;
+}
+
+.nub-md h1,
+.nub-md h2,
+.nub-md h3,
+.nub-md h4,
+.nub-md-h {
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0.7em 0 0.3em;
+}
+
+.nub-md-h--brand {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+}
+
+.nub-md-brand {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  flex-shrink: 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.nub-md h1 {
+  font-size: 1.15em;
+}
+.nub-md h2 {
+  font-size: 1.05em;
+}
+.nub-md h3,
+.nub-md h4 {
+  font-size: 1em;
+}
+
+/* Markdown in the docked file preview (FilePanel) reads as a document, not a
+ * chat bubble: a real heading hierarchy with ruled sections. */
+.nub-file-doc .nub-md h1 {
+  font-size: 1.4em;
+  line-height: 1.25;
+  margin-bottom: 0.4em;
+}
+.nub-file-doc .nub-md h2 {
+  font-size: 1.15em;
+  margin-top: 1.1em;
+  padding-top: 0.9em;
+  border-top: 1px solid var(--ca-border);
+}
+.nub-file-doc .nub-md h3 {
+  font-size: 1.02em;
+  margin-top: 0.9em;
+}
+
+/* Tailwind v4 preflight strips list-style/margins/padding from every list.
+ * Restore real list semantics inside markdown bubbles: visible bullets and
+ * numbers, nested indentation, and readable rhythm between items. */
+.nub-md ul,
+.nub-md ol {
+  list-style: revert;
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.nub-md ul {
+  list-style-type: disc;
+}
+
+.nub-md ol {
+  list-style-type: decimal;
+}
+
+.nub-md li {
+  margin: 0.3em 0;
+}
+
+.nub-md li > p {
+  margin: 0.15em 0;
+}
+
+/* Nested lists: tighter rhythm, deeper indent, and a marker change so levels
+ * are visually distinct (disc → circle → square, lower-roman for ordered). */
+.nub-md li > ul,
+.nub-md li > ol {
+  margin: 0.25em 0 0.1em;
+}
+
+.nub-md ul ul {
+  list-style-type: circle;
+}
+
+.nub-md ul ul ul {
+  list-style-type: square;
+}
+
+.nub-md ol ol {
+  list-style-type: lower-alpha;
+}
+
+.nub-md ol ol ol {
+  list-style-type: lower-roman;
+}
+
+/* GFM task lists: the checkbox replaces the marker, so suppress the bullet
+ * and give the box real spacing (preflight leaves inputs at 0 padding). */
+.nub-md li.task-list-item {
+  list-style: none;
+}
+
+.nub-md li.task-list-item > input[type='checkbox'] {
+  margin: 0 0.45em 0 -1.4em;
+  vertical-align: middle;
+}
+
+.nub-md blockquote {
+  margin: 0.5em 0;
+  padding-left: 0.75em;
+  border-left: 2px solid var(--ca-border-strong);
+  color: var(--ca-ink-muted);
+}
+
+.nub-md a {
+  color: var(--ca-primary-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.nub-md-img {
+  display: inline-block;
+  max-width: min(100%, 280px);
+  max-height: 96px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0.15em 0.35em 0.15em 0;
+}
+
+/* An image alone in its paragraph is a picture, not a logo in a line of
+ * text: shown like a screenshot (MessageBody.tsx `MarkdownImage`). */
+.nub-md-img--block {
+  display: block;
+  max-width: min(100%, 32rem);
+  max-height: 18rem;
+  margin: 0;
+  border-radius: 0.5rem;
+  border: 1px solid var(--ca-border);
+}
+
+.nub-md-img-fallback {
+  color: var(--ca-ink-muted);
+}
+
+.nub-md-img-fallback--block {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  border: 1px dashed var(--ca-border);
+  border-radius: 0.5rem;
+  padding: 0.35em 0.7em;
+  font-size: 12px;
+}
+
+.nub-md hr {
+  border: 0;
+  border-top: 1px solid var(--ca-border);
+  margin: 0.7em 0;
+}
+
+.nub-md table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  font-size: 12px;
+  border-collapse: collapse;
+  margin: 0.5em 0;
+}
+
+.nub-md th,
+.nub-md td {
+  border: 1px solid var(--ca-border);
+  padding: 0.2em 0.5em;
+  text-align: left;
+}
+
+.nub-md th {
+  background: var(--ca-primary-soft);
+  font-weight: 600;
+}
+
+.nub-md code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--ca-primary-soft);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  /* Inline code carries explicit <wbr> break opportunities after path
+   * separators (see InlineCode). `anywhere` inherited from .nub-md would
+   * ignore them and split mid-token to fill the line; `break-word` uses the
+   * natural boundaries first and only falls back to a mid-token split when a
+   * single segment is wider than the line. */
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.nub-md-code {
+  margin: 0.5em 0;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--ca-border);
+  background: #f4f8fd;
+}
+
+.nub-md-code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0.25rem 0.55rem;
+  border-bottom: 1px solid var(--ca-border);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.nub-md-code-lang {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ca-ink-muted);
+}
+
+.nub-md-code-copy {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ca-primary);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.nub-md-code-copy:hover {
+  text-decoration: underline;
+}
+
+.nub-md-code pre {
+  margin: 0;
+  max-height: 14rem;
+  overflow: auto;
+  padding: 0.55rem 0.7rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  white-space: pre;
+}
+
+.nub-md-code code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+.nub-md input[type='checkbox'] {
+  margin-right: 0.4em;
+  accent-color: var(--ca-primary);
+}
+
+/* ─── Grok parity: message hover actions ───────────────────────────────
+ *
+ * Grok v0.20 uses a `--sent-message-actions-opacity` custom-property
+ * (0 by default → 1 on hover / focus-within / menu-open).  We mirror that
+ * pattern on Maia's `sand-message-action-anchor` so the floating action bar
+ * fades in smoothly instead of appearing instantly via React `useState`.
+ *
+ * Grok source (stylex hashed → semantic `ui-*` classes, asar extraction):
+ *   .ui-x9f8cm  { opacity: var(--sent-message-actions-opacity, 1) }
+ *   .ui-n6xul0:hover { --sent-message-actions-opacity: 1 }
+ *   .ui-17k20vh { --sent-message-actions-opacity: 1 }   (menu-open)
+ *   .ui-1siixho:focus-within { --sent-message-actions-opacity: 1 }
+ *
+ * We keep the React-driven show/hide (pointer events gated) but layer the
+ * CSS opacity transition on top so actions *fade in*, matching Grok.  The
+ * transition is 120ms with the app's standard ease-out curve.
+ */
+
+:root {
+  --maia-msg-actions-opacity: 0;
+}
+
+/* Anchor default: actions hidden */
+.sand-message-action-anchor {
+  --maia-msg-actions-opacity: 0;
+}
+
+/* Anchor hovered / keyboard-focused / menu-open: actions visible */
+.sand-message-action-anchor:hover,
+.sand-message-action-anchor:focus-within,
+.sand-message-action-anchor--menu-open {
+  --maia-msg-actions-opacity: 1;
+}
+
+/* Action bar itself — opacity driven by the custom property */
+.sand-message-hover-actions {
+  opacity: var(--maia-msg-actions-opacity, 0);
+  transition: opacity 120ms var(--ca-ease);
+  pointer-events: none;
+}
+
+/* When the anchor is open, allow pointer events on the action bar */
+.sand-message-action-anchor:hover .sand-message-hover-actions,
+.sand-message-action-anchor:focus-within .sand-message-hover-actions,
+.sand-message-action-anchor--menu-open .sand-message-hover-actions {
+  pointer-events: auto;
+}
+
+/* Individual hover-action buttons — subtle press feedback */
+.sand-message-hover-actions__button {
+  transition:
+    transform 80ms var(--ca-ease),
+    background-color 80ms var(--ca-ease);
+}
+
+.sand-message-hover-actions__button:active {
+  transform: scale(0.92);
+}
+
+/* Touch: no hover on phones — the bar opens on tap (MessageActions), so
+ * give the buttons real hit targets and lift the bar off the bubble. */
+@media (pointer: coarse) {
+  .sand-message-hover-actions {
+    margin-bottom: 0.35rem;
+  }
+  .sand-message-hover-actions__button {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+/* iOS Safari zooms the whole viewport whenever a focused text field's
+ * font-size is under 16px. The message composer ships `text-sm` (14px), so
+ * tapping it on an iPhone yanked the page zoom on the app's PRIMARY
+ * interaction and left it zoomed. Hold every text-entry control at >=16px on
+ * touch devices. The `.nub-root` prefix is load-bearing: it out-specifies
+ * Tailwind's `.text-sm`/`.text-xs` utilities, which are single class
+ * selectors and would otherwise win over a bare element selector. */
+@media (pointer: coarse) {
+  .nub-root input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']),
+  .nub-root textarea,
+  .nub-root select,
+  .nub-root [contenteditable='true'] {
+    font-size: 16px;
+  }
+}
+
+/* ─── Reaction pills ────────────────────────────────────────────────
+ * Grok reaction pills: rounded-full, border, compact, subtle bg on active.
+ * We replace the inline border-color/bg with CSS custom properties so
+ * dark-mode and wallpaper variants can override them.
+ */
+
+.sand-reaction-pill {
+  transition:
+    transform 120ms var(--ca-ease),
+    box-shadow 120ms var(--ca-ease),
+    background-color 120ms var(--ca-ease);
+}
+
+.sand-reaction-pill:hover {
+  box-shadow: 0 1px 6px rgba(26, 61, 107, 0.1);
+}
+
+.sand-reaction-pill:active {
+  transform: scale(0.94);
+}
+
+/* Pill container: no gap on user bubbles (right-aligned). */
+.sand-reaction-pills {
+  transition: opacity 150ms var(--ca-ease);
+}
+
+/* ─── Reaction picker popover ──────────────────────────────────────────
+ * Grok picker: positioned above the smiley button, rounded-xl, shadow.
+ * We add a subtle enter animation (scale from 0.92 + fade).
+ */
+
+.sand-reaction-picker {
+  animation: reaction-picker-in 150ms var(--ca-ease) both;
+}
+
+@keyframes reaction-picker-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Emoji grid inside the expanded picker */
+.sand-emoji-picker__results::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sand-emoji-picker__results::-webkit-scrollbar-thumb {
+  background: rgba(26, 61, 107, 0.15);
+  border-radius: 2px;
+}
+
+/* ─── Reply quote (in-bubble) ─────────────────────────────────────────
+ * Grok reply-quote: left-border accent + muted text, small arrow icon.
+ */
+
+.sand-reply-quote {
+  border-left: 2px solid var(--ca-primary-soft);
+  padding-left: 6px;
+}
+
+/* ─── Reply pill (above composer) ─────────────────────────────────────
+ * Grok prompt-reply-pill: rounded-xl, subtle border, glass bg.
+ */
+
+.sand-prompt-reply-pill {
+  animation: reply-pill-in 180ms var(--ca-ease) both;
+}
+
+@keyframes reply-pill-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ─── Grok parity: transcript row entrance animation ───────────────────
+ * Grok slides new rows in from the bottom with a subtle fade (0.24s).
+ */
+
+@keyframes transcript-row-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Dark wallpaper variants for message actions ───────────────────────
+ * When chat-wall--sky/haze/blush is active, the action bar needs a
+ * slightly stronger glass + border so it reads against the gradient.
+ */
+
+.chat-wall--sky .sand-message-hover-actions,
+.chat-wall--haze .sand-message-hover-actions,
+.chat-wall--blush .sand-message-hover-actions {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 16px rgba(26, 61, 107, 0.14);
+}
+
+/* ─── HUD mode — floating strip over whatever the user is in ─────────────
+ * Mirrors hermes-agent apps/desktop/src/styles.css [data-hud-shell] contract:
+ * chrome-free, transparent window, Spotlight-like composer bar. The transcript
+ * is visibility-gated (recent/busy/focus) so idle HUD is just the bar.
+ * Applied when <html data-hud> (set by src/main.tsx isHudWindow()).
+ */
+html[data-hud],
+html[data-hud] body,
+html[data-hud] #root {
+  background: transparent !important;
+}
+html[data-hud] body {
+  overflow: hidden;
+}
+.hud-root {
+  /* Fully transparent — the widget shows only the composer pill and message
+   * bubbles. No window glass, no rectangle: the character IS the interface. */
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html[data-hud] .hud-thread {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition:
+    opacity 180ms cubic-bezier(0.4, 0, 0.7, 0.2),
+    transform 120ms cubic-bezier(0.4, 0, 0.7, 0.2);
+}
+html[data-hud] .hud-root[data-hud-recent] .hud-thread,
+html[data-hud] .hud-root:focus-within .hud-thread {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition:
+    opacity 110ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 110ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Free-float (desktop-pet genre): the cat is the sole chrome. */
+/* Clicky-mode bubble tail — points from the speech bubble at the mascot. */
+/* The bubble is an OPAQUE card: a transparent Electron window can't blur the
+ * apps behind it (backdrop-filter only sees this page), so any see-through
+ * fill let the window underneath bleed through the text. */
+html[data-hud] .hud-bubble {
+  background: var(--ca-card, #fff);
+  color: var(--ca-ink, #1a3d6b);
+  border: 1px solid var(--ca-border, rgba(26, 61, 107, 0.12));
+  box-shadow:
+    0 18px 40px -12px rgba(26, 61, 107, 0.35),
+    0 2px 8px rgba(26, 61, 107, 0.08);
+}
+html[data-hud] .hud-bubble-tail {
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--ca-card, #fff);
+  border-right: 1px solid var(--ca-border, rgba(26, 61, 107, 0.12));
+  border-bottom: 1px solid var(--ca-border, rgba(26, 61, 107, 0.12));
+  border-bottom-right-radius: 3px;
+}
+html[data-hud] .hud-head:active {
+  cursor: grabbing;
+}
+html[data-hud] .hud-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ca-ink-muted, #4b6585);
+}
+html[data-hud] .hud-close {
+  color: var(--ca-ink-muted, #4b6585);
+  background: transparent;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+html[data-hud] .hud-close:hover {
+  background: var(--ca-primary-soft, #d6e9fb);
+  color: var(--ca-ink, #1a3d6b);
+}
+/* Long replies scroll under a soft top fade instead of hard-clipping a line. */
+html[data-hud] .hud-thread {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ca-border, rgba(26, 61, 107, 0.2)) transparent;
+  padding-top: 6px;
+}
+html[data-hud] .hud-thread[data-scrolled] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 14px);
+}
+html[data-hud] .hud-thread::-webkit-scrollbar {
+  width: 6px;
+}
+html[data-hud] .hud-thread::-webkit-scrollbar-thumb {
+  background: var(--ca-border, rgba(26, 61, 107, 0.2));
+  border-radius: 999px;
+}
+html[data-hud] .hud-msg-user {
+  background: var(--ca-bubble-user, #2b73c6);
+  color: #fff;
+}
+html[data-hud] .hud-msg-agent {
+  color: var(--ca-ink, #1a3d6b);
+}
+html[data-hud] .hud-empty {
+  color: var(--ca-ink-muted, #4b6585);
+}
+html[data-hud] .hud-typing {
+  font-size: 18px;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: var(--ca-ink-muted, #4b6585);
+  padding: 2px 2px 6px;
+  animation: hud-typing 1s ease-in-out infinite;
+}
+@keyframes hud-typing {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+}
+html[data-hud] .hud-act-chip {
+  background: var(--ca-primary-soft, #d6e9fb);
+  color: var(--ca-ink-soft, #2a5280);
+}
+html[data-hud] .hud-act-hint {
+  background: #fff4d6;
+  color: #6b4a00;
+}
+html[data-hud] .hud-act-fix {
+  background: #ffe39a;
+  color: #4a3300;
+}
+html[data-hud] .hud-act-fix:hover {
+  background: #ffd766;
+}
+/* #100 surfaces on the card bubble (were white-on-dark-glass). */
+html[data-hud] .hud-working {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ca-ink-muted, #4b6585);
+  opacity: 0.8;
+}
+html[data-hud] .hud-activity-card {
+  background: color-mix(in srgb, var(--ca-success, #1f9d55) 12%, transparent);
+  color: var(--ca-ink, #1a3d6b);
+}
+html[data-hud] .hud-activity-card[data-status='error'] {
+  background: color-mix(in srgb, var(--ca-danger, #d93636) 12%, transparent);
+}
+html[data-hud] .hud-card-preview {
+  color: var(--ca-ink-muted, #4b6585);
+}
+html[data-hud] .hud-card-open {
+  background: var(--ca-primary-soft, #d6e9fb);
+  color: var(--ca-ink, #1a3d6b);
+  transition: background-color 120ms ease;
+}
+html[data-hud] .hud-card-open:hover {
+  background: color-mix(in srgb, var(--ca-primary, #2f7ed8) 22%, transparent);
+}
+html[data-hud] .hud-card-dismiss,
+html[data-hud] .hud-see-dismiss,
+html[data-hud] .hud-capture-remove {
+  color: var(--ca-ink-muted, #4b6585);
+}
+html[data-hud] .hud-card-dismiss:hover,
+html[data-hud] .hud-see-dismiss:hover,
+html[data-hud] .hud-capture-remove:hover {
+  color: var(--ca-ink, #1a3d6b);
+}
+html[data-hud] .hud-note,
+html[data-hud] .hud-capture {
+  background: var(--ca-primary-soft, #d6e9fb);
+  color: var(--ca-ink-muted, #4b6585);
+}
+html[data-hud] .hud-capture-thumb {
+  border: 1px solid var(--ca-border, rgba(26, 61, 107, 0.12));
+}
+html[data-hud] .hud-capture-label {
+  color: var(--ca-ink-soft, #2a5280);
+}
+/* Same warm notice as the act hint: a missing permission is fixable. */
+html[data-hud] .hud-see-error {
+  background: #fff4d6;
+  color: #6b4a00;
+}
+html[data-hud] .hud-see-fix {
+  background: #ffe39a;
+  color: #4a3300;
+}
+html[data-hud] .hud-see-fix:hover {
+  background: #ffd766;
+}
+html[data-hud] .hud-see {
+  color: var(--ca-ink-soft, #2a5280);
+  background: transparent;
+  transition: background-color 120ms ease;
+}
+html[data-hud] .hud-see:hover:not(:disabled) {
+  background: var(--ca-card, #fff);
+}
+html[data-hud] .hud-see[data-active] {
+  background: var(--ca-primary-fill, #2b73c6);
+  color: #fff;
+}
+/* Composer: one pill holding mic, input and send (Spotlight-style). */
+html[data-hud] .hud-composer {
+  background: var(--ca-primary-soft, #d6e9fb);
+  border: 1px solid transparent;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+html[data-hud] .hud-composer:focus-within {
+  border-color: var(--ca-focus-ring, #2263ad);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ca-primary, #2f7ed8) 18%, transparent);
+}
+html[data-hud] .hud-input {
+  color: var(--ca-ink, #1a3d6b);
+}
+html[data-hud] .hud-input::placeholder {
+  color: var(--ca-placeholder, #3f5876);
+  opacity: 0.7;
+}
+html[data-hud] .hud-mic {
+  color: var(--ca-ink-soft, #2a5280);
+  background: transparent;
+  transition: background-color 120ms ease;
+}
+html[data-hud] .hud-mic:hover:not(:disabled) {
+  background: var(--ca-card, #fff);
+}
+html[data-hud] .hud-mic[data-listening] {
+  background: #fde2e2;
+}
+html[data-hud] .hud-rec-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #e5484d;
+  animation: hud-typing 1s ease-in-out infinite;
+}
+html[data-hud] .hud-send {
+  background: var(--ca-primary-fill, #2b73c6);
+  color: #fff;
+  transition: background-color 120ms ease, opacity 120ms ease;
+}
+html[data-hud] .hud-send:hover:not(:disabled) {
+  background: var(--ca-primary-fill-hover, #2569b8);
+}
+html[data-hud] .hud-send:disabled {
+  opacity: 0.35;
+}
+/* The cat floats on nothing: no halo, no plate, no focus ring box. Only a
+ * tight 1px contact shadow so the pale cat still reads on white pages. */
+html[data-hud] .hud-orb,
+html[data-hud] .hud-mascot {
+  background: transparent;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.22));
+}
+html[data-hud] .hud-orb:focus-visible,
+html[data-hud] .hud-mascot:focus-visible {
+  filter: drop-shadow(0 0 1.5px var(--ca-focus-ring, #2263ad)) drop-shadow(0 0 1.5px var(--ca-focus-ring, #2263ad));
+}
+/* Walking bob while the main process roams the window across the desktop. */
+@keyframes hud-walk-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+html[data-hud] .hud-orb[data-walking] {
+  animation: hud-walk-bob 0.72s ease-in-out infinite;
+}
+/* Pointer on the mascot (Clippy gestureAt): while the cat is commanded to a
+ * screen point, an arrow orbits the cat aiming at the target; on arrival it
+ * point-pulses twice so you can see where the mascot intends to act. */
+html[data-hud] .hud-pointer-orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+html[data-hud] .hud-pointer-arrow {
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 12px solid rgba(255, 255, 255, 0.95);
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+}
+html[data-hud] .hud-pointer-orbit[data-phase='point'] .hud-pointer-arrow {
+  animation: hud-point-pulse 0.45s ease-in-out 2;
+}
+/* Point label chip: what the mascot is pointing at (from [POINT:x,y:label]). */
+html[data-hud] .hud-pointer-label {
+  position: absolute;
+  left: 100%;
+  top: -18px;
+  margin-left: 4px;
+  white-space: nowrap;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.72);
+  padding: 2px 7px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+/* Status badge on the collapsed cat: working (pulsing accent ring, count
+   when >1), finished (green check), failed (red !). Fed by the main window's
+   activity relay (src/lib/hud-activity.ts). */
+html[data-hud] .hud-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0.55);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+html[data-hud] .hud-badge-working {
+  background: var(--nub-accent, #9ecdff);
+  color: #0b1a2e;
+  animation: hud-badge-pulse 1.4s ease-in-out infinite;
+}
+html[data-hud] .hud-badge-done {
+  background: #34c77b;
+  color: #fff;
+}
+html[data-hud] .hud-badge-error {
+  background: #ef4444;
+  color: #fff;
+}
+@keyframes hud-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(158, 205, 255, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(158, 205, 255, 0); }
+}
+html[data-hud] .hud-card-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Act hint: input injection needs Accessibility, and a DROPPED event looks
+   exactly like a landed one — so when it cannot work, the bubble says so. */
+html[data-hud] .hud-act-hint {
+  animation: hud-act-hint-in 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-hud] .hud-act-fix {
+  transition: background-color 120ms ease;
+}
+@keyframes hud-act-hint-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hud-point-pulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.65);
+  }
+}
+.hud-drag {
+  -webkit-app-region: drag;
+  user-select: none;
+}
+
+/* ─── Boot orb overlay (components/BootOrbSplash.tsx) ──────────────────
+ * nub-boot-orb-timing-sync: DROP_MS=380 IRIS_DELAY_MS=260 IRIS_MS=680 UNMOUNT_MS=960
+ * The nubcat whirls center-screen while the shell loads, then drops away:
+ * a quick squash, then it shrinks to nothing in place (it recedes into the
+ * middle of the screen, it doesn't fall down it) while the canvas holds. At
+ * 260ms a circular hole opens from the mascot outward (680ms) and reveals
+ * the app. JS unmounts at 960ms, just after the iris ends (260 + 680 = 940).
+ * Same exit as the nub.lol waitlist intro (hermes-deploy globals.css
+ * .nub-intro*). Canvas colours mirror index.html .nub-splash (desktop
+ * #9ecdff / #000; phone #dae8f9 / #0a0a0a), and the phone query mirrors
+ * PHONE_SHELL_MQ in src/lib/platform.ts. */
+@property --nub-boot-iris {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+.nub-boot-orb {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: #9ecdff;
+}
+html[data-theme='dark'] .nub-boot-orb {
+  background: #000;
+}
+@media (max-width: 720px), (pointer: coarse) and (max-width: 959px) {
+  .nub-boot-orb {
+    background: #dae8f9;
+  }
+  html[data-theme='dark'] .nub-boot-orb {
+    background: #0a0a0a;
+  }
+}
+/* The mark grows out of the 72px app icon the static splash was showing
+ * (72 / 140 ≈ 0.52). Wrapper-only: the engine owns the SVG's transforms. */
+.nub-boot-orb-mark {
+  display: grid;
+  place-items: center;
+  will-change: transform, opacity;
+  animation: nub-boot-orb-in var(--ca-dur-3) var(--ca-ease) both;
+}
+@keyframes nub-boot-orb-in {
+  from {
+    opacity: 0;
+    transform: scale(0.52);
+  }
+}
+.nub-boot-orb--leaving {
+  pointer-events: none;
+  --nub-boot-iris: 0%;
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 50%,
+    transparent var(--nub-boot-iris),
+    #000 calc(var(--nub-boot-iris) + 1px)
+  );
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    transparent var(--nub-boot-iris),
+    #000 calc(var(--nub-boot-iris) + 1px)
+  );
+  animation: nub-boot-orb-iris 680ms var(--ca-ease) 260ms both;
+}
+/* The opacity tail is a safety net for engines that flip the unregistered
+ * radius discretely instead of interpolating it. */
+@keyframes nub-boot-orb-iris {
+  0% {
+    --nub-boot-iris: 0%;
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    --nub-boot-iris: 130%;
+    opacity: 0;
+  }
+}
+/* Anticipation squash, a hair of lift, then it drops away to a point. */
+.nub-boot-orb-mark--drop {
+  animation: nub-boot-orb-drop 380ms cubic-bezier(0.5, 0, 0.75, 0.5) both;
+}
+@keyframes nub-boot-orb-drop {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  24% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.1, 0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(6px) scale(0);
+  }
+}
+
+/* ─── Accessibility: reduced-motion (consolidated) ─────────────────────
+ * Every animation/transition in this sheet is neutralised here in one place:
+ * status pulses, typing dots, skeletons, the send-button entrance, voice-bar
+ * easing, message-action fades, HUD walk/point/hint motion, and the Tailwind
+ * animate-pulse/animate-spin utilities (agent status dots, loading spinners).
+ * GrokOrb/FatCatIcon morphs and the Framer Motion entrances are JS-driven:
+ * GrokOrb pauses its rAF engine from matchMedia, and every framer-motion call
+ * site gates on useReducedMotion() (pinned by reduced-motion.test.ts).
+ * The rail keeps a zero-duration transition (not `none`) so its width still
+ * snaps open. .nub-mobile's own orbit/skeleton guards live in mobile.css. */
+@media (prefers-reduced-motion: reduce) {
+  .nub-boot-orb-mark,
+  .nub-boot-orb-mark--drop,
+  .nub-boot-orb--leaving,
+  .ca-enter,
+  .ca-fade,
+  .ca-reveal-late,
+  .ca-transcript-in,
+  .ca-row-in,
+  .ca-sync-pill,
+  .ca-activity-in,
+  .ca-activity-verb,
+  .ca-listening-pulse,
+  .maia-send-in,
+  .nub-boot-shimmer,
+  .sidebar-pane-in,
+  .skeleton-shine,
+  .nub-img-in,
+  .status-pulse,
+  .status-shimmer,
+  .typing-dot,
+  .sand-reaction-picker,
+  .sand-prompt-reply-pill,
+  .animate-pulse,
+  .sidebar-orb-bob,
+  .animate-spin,
+  html[data-hud] .hud-orb[data-walking],
+  html[data-hud] .hud-pointer-orbit[data-phase='point'] .hud-pointer-arrow,
+  html[data-hud] .hud-act-hint,
+  html[data-hud] .hud-badge-working,
+  html[data-hud] .hud-typing,
+  html[data-hud] .hud-rec-dot {
+    animation: none !important;
+  }
+  .ca-voice-bars > span,
+  .sand-message-hover-actions,
+  .sand-reaction-pill,
+  .sand-reaction-pills,
+  .sidebar-w-anim,
+  .ca-activity-slot,
+  html[data-hud] .hud-orb,
+  html[data-hud] .hud-act-fix {
+    transition: none !important;
+  }
+  .nub-rail {
+    transition-duration: 0ms;
+  }
+}
+
+/* Agent chips ("from <agent>") and @mention chips in dark mode: the
+   light-mode 45% body tint over a dark bubble goes mid-grey, where the eye
+   colour (often navy) read 1.74:1. Tint toward the card instead and name the
+   agent in ink; even a white body stays near 7:1. The inline style carries
+   --chip-body. */
+html[data-theme='dark'] .nub-agent-chip[style],
+html[data-theme='dark'] .nub-mention[style] {
+  background-color: color-mix(in srgb, var(--chip-body) 28%, var(--ca-card)) !important;
+  color: var(--ca-ink) !important;
+}
+
+/* True-black dark theme — every --ca-* token redefined. Light :root above is untouched. */
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --ca-canvas: #000000;
+  --ca-canvas-deep: #0a0a0a;
+  --ca-brand-tint: #1c1c1c;
+  --ca-ink: #f5f5f5;
+  --ca-ink-soft: #a3a3a3;
+  /* Was #737373: 3.98:1 on --ca-card (AA fail). #858585 = 5.12:1 on card,
+   * 5.69:1 on canvas, 5.37:1 on sidebar, AND 4.62:1 on --ca-primary-soft
+   * (#1c1c1c) — the artifact kind badge and the sidebar "Search" label sit on
+   * that, where the previous #808080 only reached 4.32:1. */
+  --ca-ink-muted: #858585;
+  --ca-primary: #5aa2ef;
+  --ca-primary-hover: #7ab5f3;
+  --ca-primary-soft: #1c1c1c;
+  /* No separate step needed in dark — --ca-primary already clears AA as text
+   * here (7.06:1 on --ca-card). */
+  --ca-primary-text: var(--ca-primary);
+  /* Primary fill for white text. White on --ca-primary measured 2.68:1 in dark
+   * (the dark palette lightened it to read on black). #4379b3 = 4.54:1 for the
+   * text and still 4.62:1 against the canvas, so filled shapes keep their edge.
+   * Hover must DARKEN here (#3a6a9e = 5.62:1): the light hover step #7ab5f3 is
+   * only 2.16:1 behind white, so hover cannot reuse --ca-primary-hover. */
+  --ca-primary-fill: #4379b3;
+  --ca-primary-fill-hover: #3a6a9e;
+  /* User message bubble fill (alias of the shared fill). */
+  --ca-bubble-user: var(--ca-primary-fill);
+  /* 4.95:1 on the composer glass (#0c0c0c). */
+  --ca-placeholder: #808080;
+  --ca-pink: #f59aba;
+  --ca-pink-soft: #261b20;
+  --ca-pink-deep: #e07ba1;
+  --ca-white: #ffffff;
+  --ca-card: #111111;
+  --ca-card-glass: rgba(17, 17, 17, 0.72);
+  --ca-hover: rgba(255, 255, 255, 0.08);
+  --ca-sidebar: #0a0a0a;
+  --ca-border: rgba(255, 255, 255, 0.12);
+  --ca-border-strong: rgba(255, 255, 255, 0.22);
+  /* Interactive control outline: 3.19:1 on --ca-card. */
+  --ca-field-border: rgba(255, 255, 255, 0.35);
+  --ca-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  --ca-shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --ca-success: #34c98a;
+  --ca-danger: #f26d8a;
+  --ca-warn: #f0b45a;
+  /* No separate steps needed in dark — the fills already clear AA as text on
+   * --ca-card here, and --ca-primary already passes (7.06:1). */
+  --ca-success-text: var(--ca-success);
+  --ca-warn-text: var(--ca-warn);
+  --ca-focus-ring: var(--ca-primary);
+  --ca-radius: 16px;
+  --ca-radius-sm: 10px;
+  --ca-font: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ca-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── Batch C dark-migration helpers ───────────────────────────────────
+ * Light values match the classes they replace, so light is pixel-identical.
+ * .nub-scrim: modal scrim (navy tint in light, neutral black in dark).
+ * .nub-solid-navy: navy pill w/ white text (brand-blue in dark — white text
+ *   on --ca-ink would be unreadable once --ca-ink flips near-white).
+ * .nub-hover-faint: icon-button hover (black/5 light, white/10 dark).
+ */
+.nub-scrim {
+  background: rgba(26, 61, 107, 0.28);
+}
+.nub-solid-navy {
+  background: var(--ca-ink);
+  color: #fff;
+}
+html[data-theme='dark'] .nub-scrim {
+  background: rgba(0, 0, 0, 0.55);
+}
+html[data-theme='dark'] .nub-solid-navy {
+  background: var(--ca-primary-fill);
+  color: #fff;
+}
+html[data-theme='dark'] .nub-hover-faint:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Dark-theme survivor overrides ────────────────────────────────────
+ * Hardcoded light surfaces above keep their light values; these dark-scoped
+ * rules re-skin them in neutral true-black (never blue-tinted).
+ */
+
+/* Chat wallpapers: sky/haze/blush bases go near-black; token glows adapt.
+ * Same --chat-wall-base sharing as the light rules — the ramp is one var. */
+html[data-theme='dark'] .chat-wall--sky,
+html[data-theme='dark'] .chat-wall--haze,
+html[data-theme='dark'] .chat-wall--blush {
+  --chat-wall-base: linear-gradient(180deg, #171717 0%, #000000 100%);
+}
+html[data-theme='dark'] .chat-wall--sky {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, var(--ca-brand-tint) 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, var(--ca-pink-soft) 0%, transparent 50%),
+    var(--chat-wall-base);
+}
+html[data-theme='dark'] .chat-wall--haze {
+  background:
+    repeating-linear-gradient(
+      -32deg,
+      rgba(255, 255, 255, 0.06) 0 1px,
+      transparent 1px 8px
+    ),
+    radial-gradient(1200px 600px at 10% -10%, var(--ca-brand-tint) 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, var(--ca-pink-soft) 0%, transparent 50%),
+    var(--chat-wall-base);
+}
+html[data-theme='dark'] .chat-wall--blush {
+  background:
+    radial-gradient(900px 520px at 88% 8%, var(--ca-pink-soft) 0%, transparent 52%),
+    radial-gradient(700px 420px at 18% 108%, rgba(245, 154, 186, 0.12) 0%, transparent 48%),
+    radial-gradient(1100px 560px at 8% -12%, var(--ca-brand-tint) 0%, transparent 55%),
+    var(--chat-wall-base);
+}
+html[data-theme='dark'] .chat-wall--linen {
+  background-color: #0a0a0a;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1.4px);
+}
+
+/* Glass + scrollbars: white borders / navy thumbs become neutral. */
+html[data-theme='dark'] .nub-glass {
+  border-color: var(--ca-border-strong);
+}
+html[data-theme='dark'] .nub-overlay {
+  background: #1c1c1c; /* one step above --ca-card (#111) so it lifts off the #000–#161616 chat canvas */
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.7),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+}
+html[data-theme='dark'] .nub-scrim {
+  background: rgba(0, 0, 0, 0.6);
+}
+html[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+}
+html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+html[data-theme='dark'] .sand-emoji-picker__results::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Code blocks: pale-blue surfaces become card/primary-soft. */
+html[data-theme='dark'] .nub-md-code {
+  background: var(--ca-card);
+}
+html[data-theme='dark'] .nub-md-code-bar {
+  background: var(--ca-primary-soft);
+}
+
+/* Faux desktop preview window: light chrome becomes dark chrome. */
+html[data-theme='dark'] .faux-desktop__window {
+  background: #141414;
+}
+html[data-theme='dark'] .faux-desktop__window-bar {
+  background: #1f1f1f;
+}
+
+/* Reaction pills + message-action glass on dark walls. */
+html[data-theme='dark'] .sand-reaction-pill:hover {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+html[data-theme='dark'] .chat-wall--sky .sand-message-hover-actions,
+html[data-theme='dark'] .chat-wall--haze .sand-message-hover-actions,
+html[data-theme='dark'] .chat-wall--blush .sand-message-hover-actions {
+  background: rgba(17, 17, 17, 0.97);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Sidebar footer "Connect apps" pill (Sidebar.tsx, Grok Bot parity). */
+.sidebar-connect-pill {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--ca-border-strong);
+  padding: 0 10px 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--ca-ink);
+  transition: background-color 120ms var(--ca-ease), border-color 120ms var(--ca-ease);
+}
+.sidebar-connect-pill:hover {
+  background: var(--ca-hover);
+}
+.sidebar-connect-marks {
+  display: inline-flex;
+  flex-shrink: 0;
+  min-width: 40px;
+}
+.sidebar-connect-mark {
+  display: inline-flex;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1.5px var(--ca-card);
+}
+.sidebar-connect-mark + .sidebar-connect-mark {
+  margin-left: -7px;
+}
+
+/* ─── Design mode (Settings → Appearance → Design) ──────────────────────
+ * `data-design` is present only while a preset is applied or previewed, so
+ * with no preset every rule here is dormant and the shipped look is
+ * untouched. Values arrive as validated numeric/px custom properties from
+ * lib/design-preset.ts — no user CSS, selector or URL ever reaches this block.
+ * Density is the transcript's vertical rhythm; radius reaches cards and
+ * message bubbles (Tailwind's rounded-* utilities stay fixed by design). */
+html[data-design] .nub-card {
+  border-radius: var(--ca-radius);
+}
+html[data-design] [data-skin="messenger"] .ca-bubble,
+html[data-design] [data-skin="messenger"] .ca-bubble[data-side="start"][data-group] {
+  border-radius: var(--ca-radius) var(--ca-radius) var(--ca-radius) var(--ca-radius-sm);
+}
+html[data-design] [data-skin="messenger"] .ca-bubble[data-side="end"],
+html[data-design] [data-skin="messenger"] .ca-bubble[data-side="end"][data-group] {
+  border-radius: var(--ca-radius) var(--ca-radius) var(--ca-radius-sm) var(--ca-radius);
+}
+html[data-design] .messenger-transcript {
+  padding-block: var(--ca-density-pad, 18px) !important;
+}
+html[data-design] .messenger-transcript > :not([hidden]) ~ :not([hidden]) {
+  margin-top: var(--ca-density-gap, 12px) !important;
+}

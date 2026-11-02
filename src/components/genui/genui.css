@@ -1,0 +1,71 @@
+.genui {
+  width: 100%; min-width: 0; max-width: 100%; margin-top: 10px;
+  color: var(--ca-ink, var(--desk-text-primary)); font-family: inherit;
+  font-size: 13px; line-height: 1.45;
+}
+.genui-source { margin: 0 0 8px; font-size: 11px; font-weight: 600; color: var(--ca-ink-muted, var(--desk-text-secondary)); overflow-wrap: anywhere; }
+.genui-source span { font-weight: 400; }
+.genui-group { display: grid; gap: 8px; min-width: 0; margin-bottom: 8px; }
+.genui-card {
+  min-width: 0; max-width: 100%; border: 1px solid var(--ca-border, var(--desk-hairline));
+  border-radius: 10px; padding: 12px; background: var(--ca-card, var(--desk-surface-3));
+  overflow-wrap: anywhere;
+}
+.genui-card h4 { margin: 0 0 8px; font-size: 13px; font-weight: 600; line-height: 1.4; }
+.genui-stat { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
+.genui-detail, .genui-note { margin: 6px 0 0; color: var(--ca-ink-muted, var(--desk-text-secondary)); font-size: 11px; }
+.genui-table-scroll { max-width: 100%; overflow-x: auto; border-radius: 3px; }
+/* Content-sized columns that scroll: a fixed layout squeezed six columns into 61px each at phone width. */
+.genui-table-scroll table { width: max-content; min-width: 100%; border-collapse: collapse; table-layout: auto; font-size: 12px; }
+.genui-table-scroll th, .genui-table-scroll td { min-width: 0; padding: 6px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--ca-border, var(--desk-hairline)); overflow-wrap: anywhere; }
+.genui-table-scroll th { font-weight: 600; color: var(--ca-ink-muted, var(--desk-text-secondary)); white-space: nowrap; }
+/* A cell holds a data value, not prose: cap the measure so one long string cannot make the table enormous. */
+.genui-table-scroll td { max-width: 24ch; }
+/* Numbers line up down the column instead of ragging from the left like labels do. */
+.genui-table-scroll td.genui-num { text-align: right; font-variant-numeric: tabular-nums; }
+.genui-table-scroll tr:last-child td { border-bottom: 0; }
+.genui-bars, .genui-checklist { list-style: none; padding: 0; margin: 0; }
+.genui-bars li + li { margin-top: 10px; }
+.genui-bar-label { display: flex; gap: 10px; justify-content: space-between; font-size: 12px; }
+.genui-bar-label span { min-width: 0; overflow-wrap: anywhere; }
+.genui-bar-label span:last-child { font-variant-numeric: tabular-nums; }
+.genui-bar-track { height: 6px; margin-top: 4px; border-radius: 3px; background: var(--ca-hover, var(--desk-surface-4)); overflow: hidden; }
+.genui-bar { height: 100%; border-radius: inherit; background: var(--ca-primary-text, var(--desk-agent-accent)); }
+.genui-checklist li + li { margin-top: 6px; }
+.genui-checklist label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; padding: 3px 0; }
+/* The messenger shell's generic form-control minimum must not enlarge a native checkbox. */
+.genui-checklist input { flex-shrink: 0; width: 15px; height: 15px; min-height: 0; margin: 2px 0 0; accent-color: var(--ca-primary-text, var(--desk-agent-accent)); }
+.genui-checklist input:checked + span { color: var(--ca-ink-muted, var(--desk-text-secondary)); text-decoration: line-through; }
+.genui-checklist input:focus-visible, .genui-table-scroll:focus-visible { outline: 2px solid var(--ca-primary-text, var(--desk-agent-accent)); outline-offset: 3px; }
+/* Apollo-era handbook page: a document, not a themed card. Paper stays paper in either app theme, because the
+   genre is a scan of black ink on white stock, not a surface that follows the room lighting. */
+.genui-card[data-genui-type="handbook"] {
+  position: relative; border: 1px solid #111; border-radius: 0; padding: 16px 20px 18px 18px;
+  background: #fbfaf5; color: #111; font-family: "Iowan Old Style", Iowan, Georgia, serif;
+  box-shadow: 2px 2px 0 rgb(0 0 0 / 18%);
+}
+/* Black thumb tab on the right edge — the one purely decorative mark the genre allows. */
+.genui-card[data-genui-type="handbook"]::after {
+  content: ""; position: absolute; top: 14px; right: -1px; width: 8px; height: 46px; background: #111;
+}
+.genui-hb-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px;
+  margin: 0 0 12px; padding-bottom: 5px; border-bottom: 2px solid #111;
+  font-family: "Courier New", monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+}
+.genui-hb-sub { font-weight: 400; letter-spacing: .08em; }
+.genui-hb-paras { margin: 0; padding: 0; list-style: none; font-size: 12.5px; line-height: 1.6; }
+.genui-hb-paras li { display: grid; grid-template-columns: 1.6em 1fr; margin-bottom: 7px; }
+.genui-hb-num { font-family: "Courier New", monospace; font-size: 11px; }
+.genui-hb-table { margin-top: 4px; }
+.genui-hb-table table { font-family: "Courier New", monospace; font-size: 11px; }
+.genui-hb-table th, .genui-hb-table td { padding: 4px 8px 4px 0; border-bottom: 1px solid rgb(17 17 17 / 35%); color: #111; }
+.genui-hb-table th { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.genui-hb-notice {
+  display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: baseline;
+  margin: 10px 0 0; padding: 7px 9px; border: 1px solid #111; font-size: 11.5px; line-height: 1.45;
+}
+.genui-hb-notice strong { font-family: "Courier New", monospace; font-size: 10px; letter-spacing: .12em; }
+.genui-hb-notice[data-level="WARNING"] { border-width: 2px; }
+.genui-hb-notice[data-level="WARNING"] strong { text-decoration: underline; }

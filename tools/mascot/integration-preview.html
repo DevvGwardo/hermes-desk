@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-hud data-theme="dark">
+  <head><meta charset="utf-8"><title>Pip integration fixture</title></head>
+  <body style="margin:0;background:#161617">
+    <div id="root"></div>
+    <script type="module">
+      import React from 'react'
+      import { createRoot } from 'react-dom/client'
+      import { HudShell } from '/src/components/HudShell.tsx'
+      import { AgentMascot, agentColor } from '/src/components/AgentMascot.tsx'
+      import { setState } from '/src/lib/agents/store.ts'
+      import '/src/index.css'
+
+      // Local test bridge only. No screen captures, clicks, typing or transport calls.
+      let pointer
+      window.nubAgent = {
+        hud: {
+          onPointer: cb => { pointer = cb; return () => { pointer = undefined } },
+          setCollapsed() {}, setClickThrough() {},
+          actStatus: async () => ({ trusted: false }),
+        },
+      }
+      const agent = {
+        id: 'profile:runner', hermesProfile: 'runner', name: 'Runner',
+        status: 'running', region: 'local', createdAt: '2026-01-01',
+        ui_meta: { accent_color: '#94d3c6' },
+        persona: { title: 'Runner', description: 'Local visual fixture' },
+      }
+      const root = createRoot(document.getElementById('root'))
+      const renderHud = () => root.render(React.createElement(HudShell))
+      setState({
+        agents: [agent], groups: [], selectedConversationId: 'fixture',
+        conversations: [{ id: 'fixture', title: 'Fixture', target: { type: 'agent', agentId: agent.id }, createdAt: '2026-01-01', updatedAt: '2026-01-01' }],
+        messagesByThreadId: { fixture: [] },
+      }, { persist: false })
+      window.pipFixture = {
+        ready: true,
+        color: agentColor(agent),
+        pointer: (phase, angle = 0.5) => pointer?.({ phase, angle }),
+        hud: renderHud,
+        stream() {
+          setState({ messagesByThreadId: { fixture: [
+            { id: 'u', role: 'user', content: 'Tell me what changed.', createdAt: '2026-01-01' },
+            { id: 'r', role: 'agent', content: 'Pip is ready to help. Every agent has a consistent colour.', streaming: true, createdAt: '2026-01-01' },
+          ] } }, { persist: false })
+        },
+        presenceGrid() {
+          const presences = ['idle', 'thinking', 'tool', 'browsing', 'waiting-approval', 'talking', 'happy', 'error', 'sleep', 'offline']
+          root.render(React.createElement('div', { style: { padding: 24, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 20, color: '#f5f5f5', font: '14px system-ui' } },
+            presences.map(presence => React.createElement('div', { key: presence, style: { background: '#1c1c1e', padding: 18, borderRadius: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 } },
+              React.createElement(AgentMascot, { agentId: agent.id, profile: agent, presence, size: 100, reducedMotion: true }),
+              React.createElement('span', null, presence),
+              React.createElement(AgentMascot, { agentId: agent.id, profile: agent, presence, size: 40, reducedMotion: true }),
+            )),
+          ))
+        },
+      }
+      renderHud()
+    </script>
+  </body>
+</html>

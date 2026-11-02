@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hermes Desk · Design system</title>
+  <style>
+    html, body, #root { margin: 0; min-height: 100%; }
+    body { background: #09090b; }
+    button, summary { -webkit-tap-highlight-color: transparent; }
+    .app { height: calc(100vh - 32px); margin: 16px; overflow: hidden; border: 1px solid var(--desk-hairline-strong); border-radius: var(--desk-radius-md); background: var(--desk-surface-1); box-shadow: var(--desk-shadow-modal); }
+    .window-chrome { height: 32px; display: flex; align-items: center; justify-content: center; position: relative; background: var(--desk-surface-2); border-bottom: 1px solid var(--desk-hairline); color: var(--desk-text-secondary); font-size: var(--desk-type-11); font-weight: var(--desk-weight-medium); }
+    .traffic { display: flex; gap: 8px; position: absolute; left: 12px; }
+    .traffic i { width: 10px; height: 10px; border-radius: 50%; background: #fb6b64; }
+    .traffic i:nth-child(2) { background: #efbd50; }.traffic i:nth-child(3) { background: #60c156; }
+    .columns { height: calc(100% - 32px); display: grid; grid-template-columns: 248px minmax(0, 1fr) minmax(0, 1fr); }
+    .sidebar { display: flex; flex-direction: column; min-height: 0; background: var(--desk-surface-1); border-right: 1px solid var(--desk-hairline); }
+    .sidebar-head { display: flex; align-items: center; padding: 0 12px 0 20px; height: 64px; flex-shrink: 0; gap: 4px; }
+    .sidebar-head strong { flex: 1; font-size: var(--desk-type-15); font-weight: var(--desk-weight-semibold); letter-spacing: -.3px; }
+    .roster { padding: 0 8px; overflow: auto; flex: 1; }
+    .eyebrow { color: var(--desk-text-tertiary); font-size: var(--desk-type-11); line-height: var(--desk-leading-11); font-weight: var(--desk-weight-medium); letter-spacing: .9px; text-transform: uppercase; }
+    .roster-label { display: flex; justify-content: space-between; align-items: center; padding: 12px 12px 8px; }
+    .roster .desk-list-row { min-height: 76px; padding: 12px; margin: 2px 0; gap: 8px; }
+    .roster .desk-list-row-leading { border-radius: 50%; background: var(--desk-surface-2); }
+    .roster .desk-list-row[data-selected="true"] .desk-list-row-leading { background: var(--desk-surface-4); }
+    .roster .desk-list-row-trailing { flex-direction: column; align-items: flex-end; gap: 4px; min-width: 20px; }
+    .row-time { font-size: var(--desk-type-11); line-height: var(--desk-leading-11); color: var(--desk-text-tertiary); font-weight: var(--desk-weight-regular); }
+    .row-live { color: var(--desk-agent-accent); display: inline-flex; gap: 4px; align-items: center; }
+    .row-live .desk-icon { display: inline-block; }
+    .sidebar-bottom { border-top: 1px solid var(--desk-hairline); padding: 8px 12px 0; flex-shrink: 0; }
+    .agent-card { width: 100%; min-height: 64px; display: flex; align-items: center; gap: 8px; padding: 8px; background: transparent; border: 0; border-radius: var(--desk-radius-sm); text-align: left; color: var(--desk-text-primary); cursor: pointer; }
+    .agent-card:hover { background: var(--desk-surface-2); }.agent-card:focus-visible { outline: 2px solid var(--desk-focus-ring); outline-offset: 2px; }
+    .agent-card-text { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+    .agent-card-text strong { font-size: var(--desk-type-13); font-weight: var(--desk-weight-semibold); }
+    .agent-card-text span { font-size: var(--desk-type-11); color: var(--desk-text-tertiary); }
+    .sidebar-settings { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; }
+    .connector-strip { display: flex; gap: 12px; align-items: center; justify-content: center; border-top: 1px solid var(--desk-hairline); min-height: 32px; margin: 0 -12px; font-size: var(--desk-type-11); color: var(--desk-text-tertiary); }
+    .connector-strip span { display: inline-flex; gap: 4px; align-items: center; }
+    .connector-strip .desk-status-dot { width: 4px; height: 4px; color: var(--desk-success); }
+    .connector-strip .unavailable { color: var(--desk-text-tertiary); }
+    .chat { min-width: 0; min-height: 0; display: flex; flex-direction: column; background: var(--desk-surface-2); border-right: 1px solid var(--desk-hairline); }
+    .chat-header { flex-shrink: 0; display: grid; grid-template-columns: 72px minmax(0, 1fr) 72px; align-items: center; height: 64px; padding: 0 12px; border-bottom: 1px solid var(--desk-hairline); background: var(--desk-surface-1); }
+    .chat-header .header-title { display: flex; justify-content: center; min-width: 0; }
+    .header-agent { min-height: 36px; gap: 8px; padding: 0 12px 0 4px; border-radius: var(--desk-radius-pill); background: var(--desk-surface-3); border: 0; color: var(--desk-text-primary); cursor: pointer; display: flex; align-items: center; font-weight: var(--desk-weight-semibold); }
+    .header-agent:focus-visible { outline: 2px solid var(--desk-focus-ring); outline-offset: 2px; }
+    .header-trailing { display: flex; gap: 4px; justify-content: flex-end; }
+    .transcript { padding: 20px 24px 12px; overflow-y: auto; flex: 1; min-height: 0; }
+    .date { display: flex; justify-content: center; margin: 0 0 20px; }
+    .date .desk-pill { background: var(--desk-surface-1); border: 0; }
+    .turn { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 16px; gap: 8px; }
+    .turn.out { align-items: flex-end; }
+    .bubble { padding: 12px 16px 8px; border-radius: var(--desk-radius-bubble); max-width: 86%; font-size: var(--desk-type-15); line-height: var(--desk-leading-15); overflow-wrap: anywhere; }
+    .bubble.incoming { background: var(--desk-surface-3); border-bottom-left-radius: var(--desk-radius-tail); }
+    .bubble.outgoing { background: var(--desk-surface-4); border-bottom-right-radius: var(--desk-radius-tail); max-width: 72%; }
+    .bubble p { margin: 0 0 12px; }.bubble p:last-of-type { margin-bottom: 8px; }
+    .bubble ul { margin: 0 0 12px; padding-left: 20px; }.bubble li { margin: 4px 0; }
+    .bubble strong { font-weight: var(--desk-weight-semibold); }
+    .bubble a { color: var(--desk-agent-accent); text-decoration: underline; text-underline-offset: 3px; }
+    .bubble code { font: var(--desk-type-13)/var(--desk-leading-13) var(--desk-font-mono); padding: 2px 4px; border-radius: var(--desk-radius-xs); color: var(--desk-text-primary); background: var(--desk-surface-2); }
+    .timestamp { display: flex; align-items: center; justify-content: flex-end; gap: 4px; color: var(--desk-text-tertiary); font-size: var(--desk-type-11); line-height: var(--desk-leading-11); font-variant-numeric: tabular-nums; }
+    .timestamp .desk-icon { color: var(--desk-agent-accent); }
+    .reply-quote { border-left: 3px solid var(--desk-agent-accent); background: var(--desk-surface-2); border-radius: 0 var(--desk-radius-xs) var(--desk-radius-xs) 0; padding: 8px 12px; margin-bottom: 12px; font-size: var(--desk-type-12); line-height: var(--desk-leading-12); }
+    .reply-quote strong { display: block; color: var(--desk-agent-accent); margin-bottom: 4px; }
+    .reasoning { margin: -4px 0 4px; color: var(--desk-text-secondary); font-size: var(--desk-type-12); line-height: var(--desk-leading-12); }
+    summary { list-style: none; min-height: 28px; display: flex; align-items: center; gap: 4px; cursor: pointer; border-radius: var(--desk-radius-xs); }
+    summary::-webkit-details-marker { display: none; }
+    details[open] > summary > .disclosure { transform: rotate(90deg); }
+    .reasoning summary > span:last-child { margin-left: auto; color: var(--desk-text-tertiary); }
+    .reasoning p { padding: 4px 0 8px; }
+    .steps { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--desk-hairline-strong); font-size: var(--desk-type-12); line-height: var(--desk-leading-12); }
+    .steps summary { color: var(--desk-text-secondary); gap: 4px; }.steps summary .duration { margin-left: auto; }
+    .tool-row { display: flex; align-items: center; min-height: 32px; gap: 8px; color: var(--desk-text-secondary); }
+    .tool-row .tool-label { flex: 1; min-width: 0; }
+    .tool-row .duration { font-variant-numeric: tabular-nums; color: var(--desk-text-tertiary); font-size: var(--desk-type-11); white-space: nowrap; }
+    .tool-row .state-done { color: var(--desk-success); }.tool-row .state-running { color: var(--desk-agent-accent); }.tool-row .state-failed { color: var(--desk-danger); }
+    .answer-label { color: var(--desk-text-primary); margin-bottom: 8px !important; font-weight: var(--desk-weight-semibold); }
+    .source-link { display: inline-flex; align-items: center; gap: 4px; color: var(--desk-agent-accent); font-size: var(--desk-type-12); line-height: var(--desk-leading-12); min-height: 28px; }
+    .bubble-actions { height: 32px; display: flex; align-items: center; gap: 4px; color: var(--desk-text-tertiary); }
+    .composer { border-top: 1px solid var(--desk-hairline); background: var(--desk-surface-1); padding: 12px 16px 8px; flex-shrink: 0; }
+    .composer-controls { display: flex; align-items: flex-end; gap: 4px; }
+    .composer-field { display: flex; align-items: center; flex: 1; min-width: 0; border: 1px solid var(--desk-control-border); border-radius: 22px; background: var(--desk-surface-3); padding: 4px; margin: 0 4px; min-height: 44px; }
+    .composer-field textarea { min-width: 0; width: 100%; resize: none; min-height: 32px; height: 32px; padding: 6px 8px; background: transparent; border: 0; font-size: var(--desk-type-15); line-height: var(--desk-leading-15); outline-offset: 0; border-radius: var(--desk-radius-sm); }
+    .composer-field:focus-within { outline: 2px solid var(--desk-focus-ring); outline-offset: 2px; }
+    .composer-field textarea:focus-visible { outline: 0; }
+    .composer-meta { display: flex; justify-content: center; gap: 4px; align-items: center; margin-top: 8px; color: var(--desk-text-tertiary); font-size: var(--desk-type-11); line-height: var(--desk-leading-11); }
+    .workspace { min-width: 0; min-height: 0; display: flex; flex-direction: column; background: var(--desk-surface-1); }
+    .workspace-header { display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 16px; border-bottom: 1px solid var(--desk-hairline); flex-shrink: 0; }
+    .workspace-heading { display: flex; flex-direction: column; gap: 4px; }.workspace-heading strong { font-size: var(--desk-type-13); font-weight: var(--desk-weight-medium); }
+    .workspace-heading .eyebrow { display: flex; gap: 8px; }.workspace-heading .eyebrow span { font-weight: var(--desk-weight-regular); letter-spacing: .4px; }
+    .workspace-tabbar { display: flex; align-items: center; gap: 4px; padding: 8px 12px 0; background: var(--desk-surface-1); flex-shrink: 0; }
+    .browser-tab { min-height: 32px; display: flex; align-items: center; gap: 4px; border-radius: 8px 8px 0 0; padding: 0 4px 0 8px; border: 1px solid var(--desk-hairline); border-bottom: 0; background: var(--desk-surface-3); font-size: var(--desk-type-12); color: var(--desk-text-primary); min-width: 0; }
+    .browser-tab > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }.browser-tab.inactive { background: var(--desk-surface-1); color: var(--desk-text-secondary); }
+    .browser-nav { gap: 0; padding: 8px; background: var(--desk-surface-3); border-bottom: 1px solid var(--desk-hairline-strong); min-height: 48px; flex-shrink: 0; }
+    .url { display: flex; align-items: center; gap: 8px; height: 32px; min-width: 0; flex: 1; padding: 0 8px; border: 1px solid var(--desk-control-border); border-radius: var(--desk-radius-sm); background: var(--desk-surface-2); color: var(--desk-text-secondary); margin: 0 4px; }
+    .url input { width: 100%; min-width: 0; background: transparent; border: 0; min-height: 28px; outline-offset: 0; font-size: var(--desk-type-12); padding: 0; }
+    .url:focus-within { outline: 2px solid var(--desk-focus-ring); outline-offset: 2px; }.url input:focus-visible { outline: 0; }
+    .web-page { background: #eeeeea; color: #283027; flex: 1; min-height: 0; overflow: hidden; position: relative; }
+    .web-site { padding: 28px 32px; height: 100%; }
+    .web-site-nav { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #bdc4b8; padding-bottom: 16px; font-size: 12px; color: #535d4f; }
+    .web-site-nav strong { font-family: Georgia, serif; font-size: 19px; color: #283027; letter-spacing: -.5px; }
+    .web-site-nav span { display: flex; gap: 16px; }
+    .web-eyebrow { color: #56674f; font-size: 11px; letter-spacing: 1.5px; margin-top: 40px; }
+    .web-site h1 { font: 38px/1.12 Georgia, serif; font-weight: 400; letter-spacing: -1px; max-width: 380px; margin: 12px 0 20px; }
+    .web-site .web-deck { font-size: 14px; line-height: 22px; color: #505d49; max-width: 400px; margin: 0; }
+    .web-landscape { height: 148px; margin: 24px 0; background: #d5dbcd; position: relative; overflow: hidden; border-radius: 4px; }
+    .web-landscape .sun { width: 54px; height: 54px; background: #ebeddf; border-radius: 50%; position: absolute; right: 56px; top: 22px; }
+    .web-landscape .hill { position: absolute; width: 110%; height: 170px; border-radius: 50% 50% 0 0; background: #95a589; bottom: -104px; left: -32px; transform: rotate(-8deg); }
+    .web-landscape .hill.two { background: #677e60; bottom: -138px; left: 100px; transform: rotate(10deg); }
+    .web-caption { font-size: 11px; color: #56614f; text-transform: uppercase; letter-spacing: 1px; }
+    .web-section { display: flex; justify-content: space-between; align-items: baseline; padding-top: 16px; border-top: 1px solid #bdc4b8; margin-top: 20px; }
+    .web-section strong { font: 20px Georgia, serif; }.web-section span { font-size: 11px; }
+    .ghost-cursor { position: absolute; right: 28px; top: 40%; display: flex; flex-direction: column; align-items: flex-start; }
+    .ghost-cursor svg { color: var(--desk-agent-accent); filter: drop-shadow(0 1px 1px #0008); }
+    .ghost-cursor span { margin-left: 12px; padding: 2px 8px; border-radius: 4px; background: var(--desk-agent-accent); color: var(--desk-agent-ink); font-size: 11px; line-height: 16px; }
+    .control-banner { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 12px; color: var(--desk-agent-accent); background: var(--desk-agent-surface); border-top: 1px solid var(--desk-hairline); flex-shrink: 0; }
+    .control-banner span { flex: 1; font-size: var(--desk-type-12); }.control-banner .desk-button { font-size: var(--desk-type-12); }
+    .workspace-status { min-height: 32px; padding: 0 12px; display: flex; justify-content: space-between; gap: 8px; align-items: center; border-top: 1px solid var(--desk-hairline); font-size: var(--desk-type-11); color: var(--desk-text-tertiary); flex-shrink: 0; }
+    .workspace-status span { display: flex; gap: 4px; align-items: center; white-space: nowrap; }.workspace-status .desk-status-dot { color: var(--desk-success); width: 4px; height: 4px; }
+
+    .board { max-width: 1440px; margin: 0 auto; padding: 32px; background: var(--desk-surface-0); }
+    .board-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .board-head h1 { margin: 0 0 4px; font-size: var(--desk-type-24); line-height: var(--desk-leading-24); font-weight: var(--desk-weight-semibold); letter-spacing: -.6px; }
+    .board-head p { margin: 0; color: var(--desk-text-secondary); }
+    .board-grid { display: grid; grid-template-columns: 272px minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+    .surface { padding: 16px; background: var(--desk-surface-1); border: 1px solid var(--desk-hairline); border-radius: var(--desk-radius-md); min-width: 0; }
+    .surface-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .surface-label h2 { margin: 0; font-size: var(--desk-type-13); font-weight: var(--desk-weight-semibold); }
+    .surface-label span { color: var(--desk-text-tertiary); font-size: var(--desk-type-11); }
+    .board-side { display: flex; flex-direction: column; gap: 20px; }
+    .surface .roster { padding: 0; overflow: visible; }.surface .roster .desk-list-row { padding-left: 8px; padding-right: 8px; }
+    .surface .sidebar-bottom { padding: 8px 0 0; border: 0; }.surface .sidebar-head { padding: 0; height: 48px; }
+    .surface .connector-strip { margin: 0; gap: 8px; }
+    .surface .bubble { max-width: 100%; }.surface .bubble.outgoing { max-width: 80%; }
+    .surface .chat-header { padding: 0; border-radius: 8px; margin-bottom: 16px; grid-template-columns: 40px minmax(0, 1fr) 72px; height: 48px; border: 0; }
+    .surface .composer { margin: 16px -16px -16px; border-radius: 0 0 12px 12px; padding: 12px 8px 8px; }
+    .surface .workspace { border: 1px solid var(--desk-hairline); border-radius: 8px; overflow: hidden; }
+    .surface .workspace-header { height: 56px; padding: 0 12px; }.surface .workspace-status { min-height: 32px; }.surface .browser-nav { padding: 4px; }
+    .settings-heading { display: flex; gap: 8px; align-items: center; font-size: var(--desk-type-20); font-weight: var(--desk-weight-semibold); margin: 0 0 16px; }
+    .settings-frame { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 16px; }
+    .settings-nav { display: flex; flex-direction: column; gap: 4px; border-right: 1px solid var(--desk-hairline); padding-right: 12px; }
+    .settings-nav .desk-button { justify-content: flex-start; padding: 4px 8px; font-size: var(--desk-type-12); gap: 4px; }
+    .settings-nav .selected { background: var(--desk-agent-surface); color: var(--desk-agent-accent); }
+    .setting-card { padding: 12px; background: var(--desk-surface-2); border: 1px solid var(--desk-hairline); border-radius: var(--desk-radius-sm); margin-bottom: 12px; }
+    .setting-card .desk-section-title { font-size: var(--desk-type-13); }.setting-card .desk-section-header { margin-bottom: 8px; }
+    .setting-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 0; font-size: var(--desk-type-12); min-height: 32px; }
+    .setting-row .value { color: var(--desk-text-secondary); font-size: var(--desk-type-11); }
+    .setting-note { font-size: var(--desk-type-11); line-height: var(--desk-leading-11); color: var(--desk-text-tertiary); margin: 8px 0 0; }
+    .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px 20px 20px; min-height: 184px; }
+    .empty-state h3 { margin: 8px 0 4px; font-size: var(--desk-type-15); line-height: var(--desk-leading-15); font-weight: var(--desk-weight-semibold); }
+    .empty-state p { margin: 0 0 12px; color: var(--desk-text-secondary); font-size: var(--desk-type-12); line-height: var(--desk-leading-12); max-width: 260px; }
+    .error-state { padding: 12px; border-radius: var(--desk-radius-sm); background: var(--desk-danger-surface); }
+    .error-state strong { display: flex; align-items: center; gap: 8px; color: var(--desk-danger); font-size: var(--desk-type-13); font-weight: var(--desk-weight-semibold); }
+    .error-state p { margin: 4px 0 8px; color: var(--desk-text-secondary); font-size: var(--desk-type-12); line-height: var(--desk-leading-12); }
+    .error-actions { display: flex; gap: 8px; }.error-actions .desk-button { font-size: var(--desk-type-12); }
+    .primitives { display: flex; flex-direction: column; gap: 12px; }.primitive-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .swatches { display: flex; gap: 8px; }.swatch { display: flex; flex: 1; flex-direction: column; align-items: center; gap: 4px; color: var(--desk-text-tertiary); font-size: var(--desk-type-11); }
+    .swatch i { width: 32px; height: 32px; border: 1px solid var(--desk-hairline-strong); border-radius: 8px; }
+    .icon-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 12px; color: var(--desk-text-secondary); padding-top: 4px; }.icon-grid > span { display: flex; justify-content: center; }
+    .board-note { display: flex; gap: 8px; align-items: center; color: var(--desk-text-tertiary); font-size: var(--desk-type-11); margin-top: 20px; }
+    .board-note .desk-icon { color: var(--desk-success); }.board-note span:last-child { margin-left: auto; }
+    .tool-samples { padding: 8px 12px; background: var(--desk-surface-3); border-radius: var(--desk-radius-sm); }.tool-samples .tool-row { min-height: 36px; }
+    .system-samples { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 12px 0 0; }
+    .pip { border: 1px solid var(--desk-hairline-strong); border-radius: var(--desk-radius-sm); overflow: hidden; background: var(--desk-surface-2); margin-top: 12px; }
+    .pip-head { display: flex; align-items: center; gap: 8px; padding: 4px 8px; min-height: 40px; }.pip-head strong { flex: 1; font-size: var(--desk-type-12); font-weight: var(--desk-weight-medium); }
+    .pip-preview { display: flex; align-items: center; justify-content: center; gap: 12px; height: 64px; border-top: 1px solid var(--desk-hairline); color: var(--desk-text-secondary); }
+    .pip-preview span { font-size: var(--desk-type-11); }.pip-foot { padding: 4px 8px; border-top: 1px solid var(--desk-hairline); color: var(--desk-text-tertiary); font-size: var(--desk-type-11); }
+    @media (max-width: 1150px) {
+      .app { margin: 12px; height: calc(100vh - 24px); }.columns { grid-template-columns: 212px minmax(0, 1fr) 352px; }
+      .sidebar-head { padding-left: 16px; }.roster .desk-list-row { padding: 8px; gap: 8px; }
+      .transcript { padding: 16px 16px 8px; }.bubble { max-width: 96%; padding: 12px 12px 8px; }.bubble.outgoing { max-width: 82%; }
+      .chat-header { padding: 0 8px; grid-template-columns: 36px minmax(0, 1fr) 72px; }.header-agent { font-size: var(--desk-type-12); padding-right: 8px; gap: 4px; }
+      .composer { padding: 12px 8px 8px; }.composer-controls { gap: 0; }.composer-field { margin: 0 4px; }
+      .workspace-header { padding: 0 12px; }.workspace-heading .eyebrow { font-size: var(--desk-type-11); gap: 4px; flex-direction: column; }.workspace-heading { gap: 0; }
+      .workspace-status { padding: 0 8px; gap: 4px; }.workspace-status .status-detail { display: none; }
+      .browser-nav .optional-action { display: none; }.browser-tab.inactive { display: none; }
+      .web-site { padding: 24px; }.web-site-nav span { gap: 8px; }.web-site h1 { font-size: 32px; }.web-eyebrow { margin-top: 28px; }
+      .web-landscape { height: 112px; margin: 16px 0; }.web-section { margin-top: 12px; }.web-caption { letter-spacing: .4px; font-size: 10px; }
+      .agent-card { padding-left: 0; padding-right: 0; }.sidebar-settings .desk-button { padding-left: 4px; padding-right: 4px; font-size: var(--desk-type-12); }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="module">
+  import React, { useEffect } from 'react'
+  import { createRoot } from 'react-dom/client'
+  import '/src/styles/desk-tokens.css'
+  import { Icon, iconNames } from '/src/components/ui/icons.tsx'
+  import { IconButton } from '/src/components/ui/IconButton.tsx'
+  import { Button } from '/src/components/ui/Button.tsx'
+  import { Pill } from '/src/components/ui/Pill.tsx'
+  import { Badge } from '/src/components/ui/Badge.tsx'
+  import { Tooltip } from '/src/components/ui/Tooltip.tsx'
+  import { Toolbar } from '/src/components/ui/Toolbar.tsx'
+  import { Section } from '/src/components/ui/Section.tsx'
+  import { ListRow } from '/src/components/ui/ListRow.tsx'
+  import { Kbd } from '/src/components/ui/Kbd.tsx'
+  import { Mascot } from '/src/lib/mascot/Mascot.tsx'
+  import { characters } from '/src/lib/mascot/registry.ts'
+  import { ManualFrameClock } from '/src/lib/mascot/frame-clock.ts'
+
+  // Plain createElement keeps this single allowed HTML entry self-contained.
+  const h = React.createElement
+  const clock = new ManualFrameClock()
+  const I = (name, props = {}) => h(Icon, { name, ...props })
+  const IB = (name, label, props = {}) => h(IconButton, { 'aria-label': label, ...props }, I(name))
+  const B = (label, props = {}) => h(Button, props, label)
+  const P = (label, props = {}) => h(Pill, props, label)
+  const Owl = (size = 40, palette = 'maia', state = 'idle') => h(Mascot, {
+    character: 'owl', size, palette: characters.owl.palette.agents[palette], state,
+    reducedMotion: true, seed: 'desk-design', clock,
+  })
+  const dot = () => h('i', { className: 'desk-status-dot', 'aria-hidden': true })
+  const agents = [
+    { name: 'Hermes', preview: 'Your morning brief is ready.', activity: 'Just finished', time: '9:41', palette: 'maia', selected: true },
+    { name: 'Researcher', preview: 'I found three useful sources.', activity: 'Ready for your next question', time: '9:38', palette: 'sage', unread: 3 },
+    { name: 'Chief of Staff', preview: 'All clear for this afternoon.', activity: 'Updated 18 minutes ago', time: '9:23', palette: 'honey', unread: 1 },
+    { name: 'Frontend', preview: 'The layout is looking good.', activity: 'Updated 1 hour ago', time: '8:32', palette: 'iris' },
+    { name: 'Backend', preview: 'Tests passed. Ready to review.', activity: 'Updated 2 hours ago', time: '7:40', palette: 'mint' },
+    { name: 'Scout', preview: 'No new messages yet', activity: 'Ready when you are', time: 'Mon', palette: 'rose' },
+  ]
+  function AgentRow({ agent }) {
+    return h(ListRow, {
+      title: agent.name, description: agent.preview,
+      meta: agent.selected ? h('span', { className: 'row-live' }, I('check', { size: 12 }), agent.activity) : agent.activity,
+      selected: agent.selected, leading: Owl(40, agent.palette),
+      trailing: h(React.Fragment, null, h('span', { className: 'row-time' }, agent.time), h(Badge, { count: agent.unread ?? 0, tone: 'accent' })),
+    })
+  }
+  function Roster({ compact = false }) {
+    const rows = compact ? agents.slice(0, 3) : agents
+    return h('nav', { className: 'roster', 'aria-label': 'Your agents' },
+      h('div', { className: 'roster-label eyebrow' }, 'Your agents', h('span', null, '6')),
+      ...rows.map((agent, i) => h(React.Fragment, { key: agent.name },
+        i === 3 ? h('div', { className: 'roster-label eyebrow' }, 'Also on your Mac') : null,
+        h(AgentRow, { agent }))))
+  }
+  function SidebarBottom() {
+    return h('div', { className: 'sidebar-bottom' },
+      h('button', { className: 'agent-card', type: 'button', 'aria-label': 'Expand Hermes agent details', 'aria-expanded': false },
+        Owl(40), h('span', { className: 'agent-card-text' }, h('strong', null, 'Hermes'), h('span', null, 'Ready · DeepSeek V4')), I('chevron-up', { size: 16 })),
+      h('div', { className: 'sidebar-settings' }, B(h(React.Fragment, null, I('settings', { size: 16 }), 'Settings'), { variant: 'ghost', size: 'sm' }), B('3 hidden', { variant: 'ghost', size: 'sm' })),
+      h('div', { className: 'connector-strip', 'aria-label': 'Local connector status' },
+        h('span', null, dot(), 'Hermes'), h('span', null, dot(), 'Browser'), h('span', null, h('i', { className: 'desk-status-dot unavailable', 'aria-hidden': true }), 'Computer'),
+        h('span', { className: 'desk-sr-only' }, 'Hermes ready, Browser ready, Computer unavailable')))
+  }
+  function Sidebar() {
+    return h('aside', { className: 'sidebar', 'aria-label': 'Agents sidebar' },
+      h('div', { className: 'sidebar-head' }, h('strong', null, 'Hermes Desk'),
+        IB('search', 'Search agents', { shortcut: '⌘K' }), IB('plus', 'New agent')),
+      h(Roster), h(SidebarBottom))
+  }
+  function ChatHeader() {
+    return h('header', { className: 'chat-header' },
+      IB('sidebar', 'Toggle sidebar', { shortcut: '⌘B' }),
+      h('div', { className: 'header-title' }, h('button', { type: 'button', className: 'header-agent', 'aria-label': 'About Hermes' }, Owl(28), 'Hermes', I('chevron-down', { size: 12 }))),
+      h('div', { className: 'header-trailing' }, IB('bell', 'Notifications'), IB('panel', 'Toggle workspace', { active: true })))
+  }
+  function Timestamp({ outgoing = false, time = '9:41' }) {
+    return h('div', { className: 'timestamp' }, h('time', null, time), outgoing ? I('check-double', { size: 16 }) : null,
+      outgoing ? h('span', { className: 'desk-sr-only' }, 'Read by Hermes') : null)
+  }
+  function ToolRow({ name, label, duration, state = 'done' }) {
+    return h('div', { className: 'tool-row' }, I(name, { size: 16 }),
+      h('span', { className: 'tool-label' }, label),
+      h('span', { className: 'duration' }, duration),
+      I(state === 'done' ? 'check' : state === 'running' ? 'reload' : 'x', { size: 14, className: `state-${state}` }),
+      h('span', { className: 'desk-sr-only' }, state === 'done' ? 'Completed' : state === 'running' ? 'Running' : 'Failed'))
+  }
+  function AssistantTurn() {
+    return h('article', { className: 'turn', 'aria-label': 'Hermes assistant turn' },
+      h('div', { className: 'bubble incoming' },
+        h('details', { className: 'reasoning' },
+          h('summary', null, I('chevron-right', { size: 12, className: 'disclosure' }), 'Reasoning', h('span', null, '8s')),
+          h('p', null, 'Compared the three sources and checked what changed since your last brief.')),
+        h('details', { className: 'steps', open: true },
+          h('summary', null, I('chevron-right', { size: 12, className: 'disclosure' }), h('strong', null, '3 steps'), h('span', { className: 'duration' }, '12.4s')),
+          h(ToolRow, { name: 'globe', label: 'Read the latest notes', duration: '2.1s' }),
+          h(ToolRow, { name: 'file', label: 'Checked your workspace', duration: '0.8s' }),
+          h(ToolRow, { name: 'terminal', label: 'Verified the build', duration: '9.5s' })),
+        h('p', { className: 'answer-label' }, 'A quieter desk. A clearer day.'),
+        h('p', null, 'Here’s the short version. Your agents are up to date, and the workspace is ready for you.'),
+        h('ul', null,
+          h('li', null, h('strong', null, 'Research is ready.'), ' Three sources, with the useful parts pulled together.'),
+          h('li', null, h('strong', null, 'The build is healthy.'), ' All checks passed. Nothing needs your attention.')),
+        h('p', null, 'I’ve opened the field notes alongside this chat so you can read them without losing your place.'),
+        h('a', { className: 'source-link', href: '#field-notes' }, I('external', { size: 14 }), 'Open the field notes'),
+        h(Timestamp)),
+      h('div', { className: 'bubble-actions' }, IB('reply', 'Reply to this turn', { size: 'xs', tooltipSide: 'top' }),
+        IB('copy', 'Copy answer', { size: 'xs', tooltipSide: 'top' }), IB('more', 'More turn actions', { size: 'xs', tooltipSide: 'top' }), h('span', { className: 'row-time' }, 'Completed in 21s')))
+  }
+  function UserTurn({ short = false }) {
+    return h('article', { className: 'turn out', 'aria-label': 'Your message' },
+      h('div', { className: 'bubble outgoing' },
+        h('p', null, short ? 'Perfect. Keep the notes open.' : 'Give me a quick morning brief, and open the field notes.'),
+        h(Timestamp, { outgoing: true, time: short ? '9:42' : '9:40' })))
+  }
+  function Composer() {
+    return h('form', { className: 'composer', 'aria-label': 'Message composer', onSubmit: event => event.preventDefault() },
+      h('div', { className: 'composer-controls' },
+        IB('menu', 'Composer menu', { round: true, size: 'md', tooltipSide: 'top' }),
+        IB('paperclip', 'Attach a file', { round: true, size: 'md', tooltipSide: 'top' }),
+        h('div', { className: 'composer-field' },
+          h('textarea', { 'aria-label': 'Message Hermes', placeholder: 'Message Hermes…', rows: 1 }),
+          IB('emoji', 'Emoji', { round: true, tooltipSide: 'top' })),
+        IB('mic', 'Dictate a message', { round: true, size: 'md', tooltipSide: 'top' })),
+      h('div', { className: 'composer-meta' }, I('lock', { size: 12 }), 'Local Hermes · default · DeepSeek V4'))
+  }
+  function Chat() {
+    return h('main', { className: 'chat', 'aria-label': 'Conversation with Hermes' },
+      h(ChatHeader),
+      h('div', { className: 'transcript' }, h('div', { className: 'date' }, P('Today · Tuesday, 6 October')),
+        h(UserTurn), h(AssistantTurn), h(UserTurn, { short: true })),
+      h(Composer))
+  }
+  function WorkspaceChrome() {
+    return h(React.Fragment, null,
+      h('header', { className: 'workspace-header' },
+        h('div', { className: 'workspace-heading' },
+          h('div', { className: 'eyebrow' }, 'Workspace', h('span', null, 'On your Mac')),
+          h('strong', null, 'Hermes’s browser')),
+        B(h(React.Fragment, null, I('workspace', { size: 14 }), 'Agent tabs'), { size: 'sm', variant: 'ghost' })),
+      h('div', { className: 'workspace-tabbar', 'aria-label': 'Browser tabs' },
+        h('div', { className: 'browser-tab' }, I('globe', { size: 14 }), h('span', null, 'Field notes'), IB('x', 'Close Field notes', { size: 'xs' })),
+        h('div', { className: 'browser-tab inactive' }, I('file', { size: 14 }), h('span', null, 'Project overview'), IB('x', 'Close Project overview', { size: 'xs' })),
+        IB('plus', 'New tab', { size: 'xs', shortcut: '⌘T' })),
+      h(Toolbar, { className: 'browser-nav', 'aria-label': 'Browser navigation' },
+        IB('back', 'Back', { size: 'xs' }), IB('forward', 'Forward', { size: 'xs', disabled: true }), IB('reload', 'Reload', { size: 'xs' }),
+        h('label', { className: 'url' }, I('lock', { size: 12 }), h('input', { 'aria-label': 'Workspace address', defaultValue: 'fieldnotes.example/journal' })),
+        h('span', { className: 'optional-action' }, IB('sparkle', 'Ask Hermes about this page', { size: 'xs' })),
+        IB('more', 'More browser actions', { size: 'xs' })))
+  }
+  function WorkspaceStatus() {
+    return h(React.Fragment, null,
+      h('div', { className: 'control-banner' }, I('eye', { size: 16 }), h('span', null, 'Watching Hermes’s lane'),
+        B(h(React.Fragment, null, I('hand', { size: 14 }), 'Take control'), { variant: 'secondary', size: 'sm' })),
+      h('div', { className: 'workspace-status' },
+        h('span', null, I('computer', { size: 12 }), 'On this Mac'),
+        h('span', null, dot(), 'Browser ready', h('span', { className: 'status-detail' }, '· Isolated lane'))))
+  }
+  function WebPage() {
+    return h('div', { className: 'web-page', id: 'field-notes' },
+      h('div', { className: 'web-site' },
+        h('div', { className: 'web-site-nav' }, h('strong', null, 'Fieldnotes'), h('span', null, h('span', null, 'Journal'), h('span', null, 'About'))),
+        h('div', { className: 'web-eyebrow' }, 'LESS NOISE, MORE ROOM'),
+        h('h1', null, 'Good work starts', h('br'), 'with a little space.'),
+        h('p', { className: 'web-deck' }, 'Notes on thoughtful tools, quiet routines, and making room for the work that matters.'),
+        h('div', { className: 'web-landscape', role: 'img', 'aria-label': 'Abstract green rolling hills' },
+          h('i', { className: 'sun' }), h('i', { className: 'hill' }), h('i', { className: 'hill two' })),
+        h('div', { className: 'web-caption' }, 'ISSUE 04 · THE EVERYDAY WORKSPACE'),
+        h('div', { className: 'web-section' }, h('strong', null, 'A calmer way to begin'), h('span', null, '4 min read'))),
+      h('div', { className: 'ghost-cursor', 'aria-hidden': true },
+        h('svg', { viewBox: '0 0 24 28', width: 20, height: 24 }, h('path', { d: 'M2 2v21l6-6 5 9 4-2-5-8h9Z', fill: 'currentColor', stroke: '#102239', strokeWidth: 1.2 })),
+        h('span', null, 'Hermes')))
+  }
+  function Workspace() {
+    return h('aside', { className: 'workspace', 'aria-label': 'Workspace on your Mac' }, h(WorkspaceChrome), h(WebPage), h(WorkspaceStatus))
+  }
+  function FullWindow() {
+    return h('div', { className: 'app desk-theme', 'data-capture': 'full' },
+      h('div', { className: 'window-chrome' }, h('div', { className: 'traffic', 'aria-hidden': true }, h('i'), h('i'), h('i')), 'Hermes Desk'),
+      h('div', { className: 'columns' }, h(Sidebar), h(Chat), h(Workspace)))
+  }
+  function Surface({ title, spec, id, children }) {
+    return h('section', { className: 'surface', 'data-surface': id, 'aria-label': title },
+      h('div', { className: 'surface-label' }, h('h2', null, title), h('span', null, spec)), children)
+  }
+  function Settings() {
+    const entries = [['tool','Hermes'], ['sparkle','Agents'], ['workspace','Workspace'], ['shield','Secrets'], ['computer','Computer'], ['terminal','Diagnostics'], ['settings','Appearance']]
+    return h(React.Fragment, null, h('h3', { className: 'settings-heading' }, 'Settings'),
+      h('div', { className: 'settings-frame' },
+        h('nav', { className: 'settings-nav', 'aria-label': 'Settings sections' },
+          ...entries.map(([icon, label], i) => B(h(React.Fragment, null, I(icon, { size: 14 }), label), { key: label, variant: 'ghost', size: 'sm', className: i === 0 ? 'selected' : undefined, 'aria-current': i === 0 ? 'page' : undefined }))),
+        h('div', null,
+          h(Section, { title: 'Hermes host', description: 'Running locally on this Mac.', headingLevel: 4, className: 'setting-card' },
+            h('div', { className: 'setting-row' }, h('span', null, 'Serve'), P('Ready', { tone: 'success', dot: true })),
+            h('div', { className: 'setting-row' }, h('span', null, 'Mode'), h('span', { className: 'value' }, 'Managed by Desk')),
+            h('div', { className: 'setting-row' }, h('span', null, 'Port'), h('code', { className: 'value' }, '127.0.0.1:9119')),
+            B('Restart serve', { size: 'sm' }),
+            h('p', { className: 'setting-note' }, 'Your transcripts stay available if the host goes offline.')),
+          h(Section, { title: 'Profiles', headingLevel: 4, className: 'setting-card' },
+            h('div', { className: 'setting-row' }, '6 visible agents', B('Manage', { size: 'sm', variant: 'ghost' })),
+            h('p', { className: 'setting-note' }, 'Scratch profiles stay hidden by default.')))))
+  }
+  function EmptyError() {
+    return h(React.Fragment, null,
+      h('div', { className: 'empty-state' }, Owl(64), h('h3', null, 'A little room to explore'),
+        h('p', null, 'Open a tab for yourself or Hermes. Each agent has its own browser lane.'), B('Open a tab', { variant: 'primary' })),
+      h('div', { className: 'error-state', role: 'status' },
+        h('strong', null, I('tool', { size: 16 }), 'Hermes serve is offline'),
+        h('p', null, 'Your conversations are still here. Reconnect to send a message.'),
+        h('div', { className: 'error-actions' }, B('Retry', { size: 'sm' }), B('Diagnostics', { size: 'sm', variant: 'ghost' }))))
+  }
+  function Primitives() {
+    return h('div', { className: 'primitives' },
+      h('div', { className: 'swatches' }, ...[0,1,2,3,4].map(i => h('span', { className: 'swatch', key: i }, h('i', { style: { background: `var(--desk-surface-${i})` } }), `S${i}`))),
+      h('div', { className: 'primitive-row' }, B('Send', { variant: 'primary', size: 'sm' }), B('Cancel', { size: 'sm' }), B('Remove', { variant: 'danger', size: 'sm' }),
+        h(Tooltip, { content: 'Stop all agents', shortcut: '⌘.' }, B('Stop', { variant: 'ghost', size: 'sm' }))),
+      h('div', { className: 'primitive-row' }, P('Running', { tone: 'accent', dot: true }), P('Completed', { tone: 'success' }), P('Failed', { tone: 'danger' }), P('Shared login', { tone: 'warn' })),
+      h('div', { className: 'primitive-row' }, h(Badge, { count: 3, tone: 'accent' }), h(Badge, { count: 124, tone: 'accent' }), h(Kbd, { 'aria-label': 'Command K' }, '⌘K'),
+        IB('paperclip', 'Attach', { size: 'xs' }), IB('mic', 'Dictate', { size: 'xs' }), IB('send', 'Send message', { size: 'xs', variant: 'primary' })),
+      h('div', { className: 'icon-grid', 'aria-label': '45 consistent icons' },
+        ...iconNames.map(name => h('span', { key: name }, I(name, { title: name })))))
+  }
+  function Board() {
+    return h('main', { className: 'board desk-theme', 'data-capture': 'surfaces' },
+      h('div', { className: 'board-head' },
+        h('div', null, h('h1', null, 'A quieter Hermes Desk.'), h('p', null, 'One visual language. More room for the conversation.')),
+        P('Design system · 06 Oct 2026', { tone: 'neutral' })),
+      h('div', { className: 'board-grid' },
+        h('div', { className: 'board-side' },
+          h(Surface, { title: 'Sidebar', spec: '64px agent card', id: 'sidebar' },
+            h('div', { className: 'sidebar-head' }, h('strong', null, 'Hermes Desk'), IB('search', 'Search agents'), IB('plus', 'New agent')), h(Roster, { compact: true }), h(SidebarBottom)),
+          h(Surface, { title: 'Empty & offline', spec: 'Quiet, actionable', id: 'states' }, h(EmptyError))),
+        h('div', { className: 'board-side' },
+          h(Surface, { title: 'Conversation', spec: 'One bubble per turn', id: 'chat' }, h(ChatHeader), h(UserTurn), h(AssistantTurn),
+            h('div', { className: 'system-samples' }, P('Today'), P('Conversation started')), h(Composer)),
+          h(Surface, { title: 'Tool activity', spec: 'Summary + duration', id: 'tools' },
+            h('div', { className: 'tool-samples' },
+              h(ToolRow, { name: 'globe', label: 'Reading field notes', duration: 'Running', state: 'running' }),
+              h(ToolRow, { name: 'terminal', label: 'Build verified', duration: '9.5s' }),
+              h(ToolRow, { name: 'file', label: 'File unavailable', duration: '0.8s', state: 'failed' })),
+            h('div', { className: 'reply-quote', style: { marginTop: 12, marginBottom: 0 } }, h('strong', null, 'You'), 'Keep the notes open.'))),
+        h('div', { className: 'board-side' },
+          h(Surface, { title: 'Workspace', spec: 'Clear control ownership', id: 'workspace' },
+            h('div', { className: 'workspace' }, h(WorkspaceChrome), h(WorkspaceStatus)),
+            h('div', { className: 'pip' }, h('div', { className: 'pip-head' }, I('computer', { size: 16 }), h('strong', null, 'Computer · Hermes'),
+              B('Take control', { size: 'sm' }), IB('external', 'Expand computer preview', { size: 'xs' })),
+              h('div', { className: 'pip-preview' }, I('eye', { size: 20 }), h('span', null, 'Watching · last completed capture')),
+              h('div', { className: 'pip-foot' }, 'On your Mac · never a remote computer'))),
+          h(Surface, { title: 'Settings', spec: 'Local, not an account', id: 'settings' }, h(Settings)),
+          h(Surface, { title: 'Tokens & primitives', spec: '20px · 1.6px stroke', id: 'primitives' }, h(Primitives)))),
+      h('div', { className: 'board-note' }, I('check', { size: 14 }), 'All text colours ≥ 4.5:1 · focus + input borders ≥ 3:1 · no new dependencies',
+        h('span', null, 'Pip belongs to the agents, not the toolbar.')))
+  }
+  function Design() {
+    useEffect(() => {
+      requestAnimationFrame(() => {
+        clock.advance(100)
+        window.deskDesign = { ready: true, iconCount: iconNames.length }
+      })
+    }, [])
+    return new URLSearchParams(location.search).get('view') === 'surfaces' ? h(Board) : h(FullWindow)
+  }
+  createRoot(document.getElementById('root')).render(h(Design))
+</script>
+</body>
+</html>

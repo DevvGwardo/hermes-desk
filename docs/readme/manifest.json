@@ -1,0 +1,194 @@
+{
+  "sources": {
+    "src/lib/mascot/characters/owl/rig.svg": "6b01df5a44828e33440c21e3d91c3a810c2e2c9ddad6fed6a1732574552886d4",
+    "src/lib/mascot/characters/owl/motion.json": "e53c089118aa5d406be8fdde7c1c630ed14105522256faafc21e922ffb2b057c",
+    "src/lib/mascot/characters/owl/palette.json": "ffc21bd020c13ae42b2b2fc9f4a469e91f00c1da6648f4d525f6d95c96a6a6fa"
+  },
+  "captures": [
+    {
+      "file": "hermes-desk-banner.png",
+      "width": 1600,
+      "height": 800,
+      "textOverflow": [],
+      "nativeOwls": [
+        {
+          "state": "idle",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        }
+      ],
+      "previewOwlCount": 0,
+      "previewReady": true,
+      "horizontalOverflow": false,
+      "deterministic": true,
+      "sha256": "39654e223bab15593157d381acbe5ebe53d13336248d0c7229a968f3fea54ba7"
+    },
+    {
+      "file": "hermes-desk-architecture.png",
+      "width": 1600,
+      "height": 1120,
+      "textOverflow": [],
+      "nativeOwls": [
+        {
+          "state": "idle",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        }
+      ],
+      "previewOwlCount": 0,
+      "previewReady": true,
+      "horizontalOverflow": false,
+      "deterministic": true,
+      "sha256": "3c6adae4d6c865635ed303fed151797f7854d42e3523f3dec755442e673a70cc"
+    },
+    {
+      "file": "hermes-desk-workspace.png",
+      "width": 1600,
+      "height": 1200,
+      "textOverflow": [],
+      "nativeOwls": [
+        {
+          "state": "idle",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        }
+      ],
+      "previewOwlCount": 8,
+      "previewReady": true,
+      "horizontalOverflow": false,
+      "deterministic": true,
+      "sha256": "021bab586468a01316c95ba0b0d0d48e7cfecf2e7f9dd1afd6f9368ed2fce0d4"
+    },
+    {
+      "file": "hermes-desk-states.png",
+      "width": 1600,
+      "height": 720,
+      "textOverflow": [],
+      "nativeOwls": [
+        {
+          "state": "idle",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "thinking",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "tool",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "browsing",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "waiting",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "sleep",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        }
+      ],
+      "previewOwlCount": 0,
+      "previewReady": true,
+      "horizontalOverflow": false,
+      "deterministic": true,
+      "sha256": "4120997653ee5c8d29b12aecaf29e6b170baba0d5ba3446d5a79b4efa610a157"
+    },
+    {
+      "file": "hermes-desk-palettes.png",
+      "width": 1600,
+      "height": 720,
+      "textOverflow": [],
+      "nativeOwls": [
+        {
+          "state": "idle",
+          "palette": "maia",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "idle",
+          "palette": "sage",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "idle",
+          "palette": "iris",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "idle",
+          "palette": "honey",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "idle",
+          "palette": "mint",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        },
+        {
+          "state": "idle",
+          "palette": "rose",
+          "parts": 26,
+          "hasHelmet": true,
+          "hasSatchel": true,
+          "profile": "reduced"
+        }
+      ],
+      "previewOwlCount": 0,
+      "previewReady": true,
+      "horizontalOverflow": false,
+      "deterministic": true,
+      "sha256": "626d1cfc73a95e45870fad72e12fdc12cf407e6f3665594f791e88f23a2e15d2"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="_test-shell" x1="0" y1="0" x2=".8" y2="1">
+      <stop stop-color="var(--m-primary, #8ecfff)"/>
+      <stop offset="1" stop-color="var(--m-secondary, #457abb)"/>
+    </linearGradient>
+    <radialGradient id="_test-cheek">
+      <stop stop-color="var(--m-shine, #f4fbff)" stop-opacity=".55"/>
+      <stop offset="1" stop-color="var(--m-primary, #8ecfff)" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g id="part-root" data-pivot="256 400">
+    <ellipse cx="256" cy="435" rx="106" ry="15" fill="var(--m-ink, #14253c)" opacity=".35"/>
+    <g id="part-body" data-pivot="256 410" data-parent="part-root">
+      <g id="part-tail" data-pivot="344 370" data-parent="part-body">
+        <path d="M330 389 Q433 397 409 326 Q394 343 377 341 Q405 374 330 368Z" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="8" stroke-linejoin="round"/>
+      </g>
+      <g id="part-foot-l" data-pivot="207 411" data-parent="part-body"><path d="M188 394 Q169 416 178 431 L226 431 Q228 410 218 398Z" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="7"/></g>
+      <g id="part-foot-r" data-pivot="305 411" data-parent="part-body"><path d="M294 398 Q284 410 286 431 L334 431 Q343 416 324 394Z" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="7"/></g>
+      <path d="M178 271 Q142 333 166 390 Q188 424 256 423 Q324 424 346 390 Q370 333 334 271Z" fill="url(#_test-shell)" stroke="var(--m-ink, #14253c)" stroke-width="9"/>
+      <ellipse cx="256" cy="354" rx="61" ry="55" fill="var(--m-belly, #dceeff)"/>
+      <path d="M225 349 L247 371 L289 328" fill="none" stroke="var(--m-secondary, #457abb)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      <g id="part-hand-l" data-pivot="178 310" data-parent="part-body"><path d="M178 303 Q119 315 132 356 Q141 376 169 349" fill="url(#_test-shell)" stroke="var(--m-ink, #14253c)" stroke-width="8" stroke-linecap="round"/></g>
+      <g id="part-hand-r" data-pivot="334 310" data-parent="part-body"><path d="M334 303 Q393 315 380 356 Q371 376 343 349" fill="url(#_test-shell)" stroke="var(--m-ink, #14253c)" stroke-width="8" stroke-linecap="round"/></g>
+      <g id="part-head" data-pivot="256 271" data-parent="part-body">
+        <g id="part-ear-l" data-pivot="184 151" data-parent="part-head"><path d="M171 164 Q125 139 148 88 Q172 95 193 149Z" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="8"/><path d="M157 108 L174 146" fill="none" stroke="var(--m-shine, #f4fbff)" stroke-width="5" stroke-linecap="round"/></g>
+        <g id="part-ear-r" data-pivot="328 151" data-parent="part-head"><path d="M319 149 Q340 95 364 88 Q387 139 341 164Z" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="8"/><path d="M355 108 L338 146" fill="none" stroke="var(--m-shine, #f4fbff)" stroke-width="5" stroke-linecap="round"/></g>
+        <path d="M142 211 Q141 136 216 129 Q256 119 296 129 Q371 136 370 211 L365 253 Q355 307 256 308 Q157 307 147 253Z" fill="url(#_test-shell)" stroke="var(--m-ink, #14253c)" stroke-width="9"/>
+        <path d="M174 165 Q198 144 226 148" fill="none" stroke="var(--m-shine, #f4fbff)" stroke-width="7" stroke-linecap="round" opacity=".7"/>
+        <ellipse cx="190" cy="260" rx="30" ry="24" fill="url(#_test-cheek)"/>
+        <ellipse cx="322" cy="260" rx="30" ry="24" fill="url(#_test-cheek)"/>
+        <g id="part-eye-l" data-pivot="207 216" data-parent="part-head">
+          <ellipse cx="207" cy="216" rx="34" ry="40" fill="var(--m-eye, #f4fbff)" stroke="var(--m-ink, #14253c)" stroke-width="6"/>
+          <g id="pupil-l" data-pivot="207 217"><ellipse cx="207" cy="217" rx="14" ry="21" fill="var(--m-ink, #14253c)"/><circle cx="212" cy="208" r="5" fill="var(--m-shine, #f4fbff)"/></g>
+        </g>
+        <g id="part-eye-r" data-pivot="305 216" data-parent="part-head">
+          <ellipse cx="305" cy="216" rx="34" ry="40" fill="var(--m-eye, #f4fbff)" stroke="var(--m-ink, #14253c)" stroke-width="6"/>
+          <g id="pupil-r" data-pivot="305 217"><ellipse cx="305" cy="217" rx="14" ry="21" fill="var(--m-ink, #14253c)"/><circle cx="310" cy="208" r="5" fill="var(--m-shine, #f4fbff)"/></g>
+        </g>
+        <g id="part-lid-l" data-pivot="207 216" data-parent="part-head"><ellipse cx="207" cy="216" rx="35" ry="41" fill="var(--m-primary, #8ecfff)"/><path d="M178 217 Q207 229 236 217" stroke="var(--m-ink, #14253c)" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+        <g id="part-lid-r" data-pivot="305 216" data-parent="part-head"><ellipse cx="305" cy="216" rx="35" ry="41" fill="var(--m-primary, #8ecfff)"/><path d="M276 217 Q305 229 334 217" stroke="var(--m-ink, #14253c)" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+        <g id="part-mouth" data-pivot="256 271" data-parent="part-head" stroke="var(--m-ink, #14253c)" stroke-width="6" stroke-linecap="round" fill="none">
+          <g id="mouth-neutral"><path d="M243 272 Q256 278 269 272"/></g>
+          <g id="mouth-smile"><path d="M236 264 Q256 288 276 264"/></g>
+          <g id="mouth-open"><ellipse cx="256" cy="274" rx="16" ry="13" fill="var(--m-ink, #14253c)"/><path d="M247 278 Q256 272 265 278" stroke="var(--m-accent, #ffda85)"/></g>
+          <g id="mouth-o"><ellipse cx="256" cy="273" rx="9" ry="12"/></g>
+          <g id="mouth-flat"><path d="M242 273 L270 273"/></g>
+          <g id="mouth-grin"><path d="M233 265 L279 265 Q274 288 256 288 Q238 288 233 265Z" fill="var(--m-eye, #f4fbff)"/></g>
+        </g>
+        <g id="part-hat" data-pivot="256 137" data-parent="part-head"><path d="M233 132 L256 109 L279 132" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="6" stroke-linejoin="round"/></g>
+      </g>
+      <g id="part-scarf" data-pivot="256 307" data-parent="part-body"><path d="M190 298 Q256 318 322 298 L322 317 Q256 337 190 317Z" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="6"/><path d="M306 316 L327 367 L302 376 L285 322" fill="var(--m-accent, #ffda85)" stroke="var(--m-ink, #14253c)" stroke-width="6"/></g>
+    </g>
+  </g>
+</svg>

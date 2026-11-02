@@ -1,0 +1,95 @@
+/* Shared compact rail geometry. Expanded layouts keep their existing skin styles. */
+.hd-sidebar[data-compact="true"] .hd-agent-roster {
+  padding: 0 4px;
+  scrollbar-width: none;
+}
+.hd-sidebar[data-compact="true"] .hd-agent-roster::-webkit-scrollbar { display: none; }
+.hd-sidebar[data-compact="true"] .hd-row-button {
+  height: 56px;
+  min-height: 56px;
+  justify-content: center;
+  gap: 0;
+  padding: 4px;
+}
+.hd-sidebar[data-compact="true"] .desk-list-row-content { display: none; }
+.hd-sidebar[data-compact="true"] .hd-rail-avatar {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+.hd-sidebar[data-compact="true"] .hd-rail-unread {
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  min-width: 18px;
+  min-height: 18px;
+  padding: 0 4px;
+  font-size: 10px;
+  line-height: 18px;
+  box-shadow: 0 0 0 2px var(--desk-surface-1);
+}
+.hd-sidebar[data-compact="true"] .hd-rail-orchestrator {
+  position: absolute;
+  left: -3px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--desk-surface-1);
+}
+.hd-sidebar[data-compact="true"] .hd-sidebar-header {
+  height: auto;
+  flex-direction: column;
+  padding: 8px 0;
+}
+.hd-sidebar[data-compact="true"] .hd-sidebar-footer { padding: 4px; }
+.hd-sidebar[data-compact="true"] .hd-status-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--desk-text-tertiary);
+}
+.hd-sidebar[data-compact="true"] .hd-status-dot[data-state="ready"] { background: var(--desk-success); }
+.hd-sidebar[data-compact="true"] .hd-status-dot[data-state="pending"] { background: var(--desk-warn); }
+.hd-sidebar[data-compact="true"] .hd-status-dot[data-state="error"] { background: var(--desk-danger); }
+.hd-sidebar[data-compact="true"] .hd-settings {
+  position: relative;
+  justify-content: center;
+  gap: 0;
+  padding: 4px;
+}
+.hd-sidebar[data-compact="true"] .hd-settings .hd-status-dot {
+  position: absolute;
+  right: 4px;
+  margin-left: 0;
+}
+.hd-sidebar[data-compact="true"] .hd-restore-trigger {
+  width: 100%;
+  min-height: 32px;
+  padding: 4px;
+  text-align: center;
+}
+.hd-sidebar[data-compact="true"] .hd-connector-strip {
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+.hd-sidebar[data-compact="true"] .hd-connector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 18px;
+}
+.hd-sidebar[data-compact="true"] .hd-connector .hd-status-dot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

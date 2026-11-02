@@ -1,0 +1,480 @@
+<title>Hermes Desk · Mascot Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #f6f5f3; --surface: #ffffff; --ink: #1d1b19; --muted: #6b665f; --line: #e4e0da;
+  --accent: #c4842a; --accent-soft: #faf2e3; --ok: #2f6b2c; --warn: #9a5b00; --warn-soft: #fbefd9; --bad: #b3261e;
+  --kpi-bg: #1d1b19; --kpi-ink: #f6f5f3; --kpi-sub: #b8b2a9;
+  --display: "IBM Plex Sans", system-ui, sans-serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; --ground: #141312; --surface: #1c1b19; --ink: #efece8; --muted: #a7a198; --line: #2e2c29; --accent: #e0a948; --accent-soft: #2d2415; --ok: #86c77f; --warn: #f0b75c; --warn-soft: #33270f; --bad: #ff8a80; --kpi-bg: #0c0b0a; }
+}
+:root[data-theme="dark"] { color-scheme: dark; --ground: #141312; --surface: #1c1b19; --ink: #efece8; --muted: #a7a198; --line: #2e2c29; --accent: #e0a948; --accent-soft: #2d2415; --ok: #86c77f; --warn: #f0b75c; --warn-soft: #33270f; --bad: #ff8a80; --kpi-bg: #0c0b0a; }
+* { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font: 16px/1.6 var(--body); padding-inline: 16px; padding-block: 0 80px; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 48px; }
+nav.toc { position: sticky; top: 24px; align-self: start; padding-top: 40px; font-size: 14px; }
+nav.toc p { font: 600 12px/1 var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+nav.toc a { color: var(--muted); text-decoration: none; } nav.toc a:hover { color: var(--accent); }
+main { min-width: 0; }
+header.top { padding-block: 40px 8px; }
+.eyebrow { font: 600 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+h1 { font: 700 clamp(32px, 5vw, 52px)/1.05 var(--display); letter-spacing: -.02em; margin: 0 0 18px; text-wrap: balance; }
+h2 { font: 700 28px/1.2 var(--display); margin: 0 0 10px; text-wrap: balance; }
+h3 { font: 600 18px/1.3 var(--display); margin: 28px 0 8px; }
+.lede { font-size: 19px; max-width: 64ch; margin: 0 0 12px; }
+p { max-width: 68ch; margin: 0 0 12px; }
+.muted { color: var(--muted); }
+code { font: .86em var(--mono); background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+section { padding-top: 56px; scroll-margin-top: 16px; }
+section > .intro { color: var(--muted); max-width: 68ch; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 26px 0 8px; }
+.kpi { background: var(--kpi-bg); color: var(--kpi-ink); border-radius: 8px; padding: 12px 14px 10px; }
+.kpi b { display: block; font: 600 30px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.kpi span { display: block; font-size: 12px; line-height: 1.35; color: var(--kpi-sub); margin-top: 6px; }
+figure { margin: 18px 0 0; }
+figure img, video { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); background: #111; }
+figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; max-width: 80ch; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.hero-media { display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr); gap: 18px; align-items: start; margin-top: 18px; }
+.vids { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin-top: 18px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 12px/1.3 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td.num { font: 13px var(--mono); font-variant-numeric: tabular-nums; }
+.table-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-top: 16px; }
+.pill { display: inline-block; font: 600 11px/1 var(--body); letter-spacing: .05em; text-transform: uppercase; padding: 4px 7px; border-radius: 99px; }
+.pill.ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+.pill.bad { background: color-mix(in srgb, var(--bad) 16%, transparent); color: var(--bad); }
+.pill.warn { background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--warn); }
+.pill.fixed { background: var(--accent-soft); color: var(--accent); }
+.pill.pending { background: color-mix(in srgb, var(--muted) 12%, transparent); color: var(--muted); }
+.arch, .module { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.arch { padding: 16px; margin-top: 16px; overflow-x: auto; }
+.modules { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 16px; }
+.module { padding: 14px 16px; } .module h4 { margin: 0 0 4px; font-size: 15px; } .module p { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
+.tier { margin-top: 26px; } .tier > h3 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 4px; } .tier > h3 small { font: 500 13px var(--body); color: var(--muted); }
+.items { display: grid; gap: 10px; margin-top: 12px; }
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.item h4 { margin: 0 0 6px; font-size: 16px; }
+.item dl { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 4px 12px; margin: 0; font-size: 14px; }
+.item dt { color: var(--muted); } .item dd { margin: 0; } .effort { font: 12px var(--mono); color: var(--muted); }
+.callout { background: var(--warn-soft); border-radius: 10px; padding: 14px 16px; margin-top: 16px; max-width: 80ch; } .callout strong { color: var(--warn); }
+ul.clean { padding-left: 20px; margin: 8px 0 0; max-width: 72ch; } ul.clean li { margin-bottom: 6px; }
+pre.cmd { background: var(--kpi-bg); color: var(--kpi-ink); font: 13px/1.6 var(--mono); padding: 14px 16px; border-radius: 10px; overflow-x: auto; margin-top: 14px; }
+.state-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-top: 18px; }
+.state-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.state-card img { width: 100%; display: block; border: none; border-radius: 0; }
+.state-card .label { padding: 8px 12px; font: 600 13px var(--body); border-top: 1px solid var(--line); }
+.state-card .label small { display: block; font: 400 12px var(--mono); color: var(--muted); margin-top: 2px; }
+.palette-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 18px; }
+.palette-swatch { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.palette-swatch .swatch { height: 60px; }
+.palette-swatch .name { padding: 6px 8px; font: 500 12px var(--mono); text-align: center; }
+@media (max-width: 900px) { .wrap { grid-template-columns: 1fr; gap: 0; } nav.toc { display: none; } .hero-media, .two { grid-template-columns: 1fr; } .item dl { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <p>Blueprint</p>
+  <ol>
+    <li><a href="#visual-improvements">Verified visual improvements</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#inventory">Inventory</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#states">States</a></li>
+    <li><a href="#clips">Clips</a></li>
+    <li><a href="#flights">Flights</a></li>
+    <li><a href="#particles">Particles</a></li>
+    <li><a href="#palettes">Palettes</a></li>
+    <li><a href="#tests">Test results</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#run">Run &amp; reproduce</a></li>
+  </ol>
+</nav>
+<main>
+<section id="visual-improvements">
+  <p class="eyebrow">Verified refresh · 2026-10-08 · Blueprint v1.3</p>
+  <h2>Clearer Pip, stronger evidence, preserved capabilities</h2>
+  <p class="lede">Delivery letters now leave the held-letter anchor toward clear space instead of crossing the eyes.
+    Browsing, tool use, talking, and error have stronger coarse poses; talking retains its animated beak.
+    No artwork, palette, state, clip, reaction, or autonomous behavior was removed.</p>
+  <div class="callout"><strong>Preserved, not replaced:</strong> the original report, images, and historical pending
+    matrices below are retained. This section records the current verified scope. The historical generated hero
+    illustration is decorative, not screenshot evidence. Existing strict goldens were not regenerated.</div>
+  <div class="kpis" role="list">
+    <div class="kpi" role="listitem"><b>261</b><span>matched images per run</span></div>
+    <div class="kpi" role="listitem"><b>32/32</b><span>capture and flight checks</span></div>
+    <div class="kpi" role="listitem"><b>130/130</b><span>mascot unit tests</span></div>
+    <div class="kpi" role="listitem"><b>9/9</b><span>native integration checks</span></div>
+    <div class="kpi" role="listitem"><b>10/10</b><span>Blueprint helper tests</span></div>
+    <div class="kpi" role="listitem"><b>443</b><span>prior PNG hashes preserved</span></div>
+  </div>
+  <figure><img src="media/pip-poses-283bcafd.jpg" alt="Actual production Pip poses, before, after, and pixel difference">
+    <figcaption>Left: original. Middle: improved. Right: pixel difference. Browsing opens both wings, talking
+      gestures with one wing, tool keeps its rummaging posture, and error hunches with flared ruffs.
+      These are real production-engine captures at 160/40/24 CSS pixels, not generated artwork.</figcaption></figure>
+  <figure><img src="media/pip-delivery-283bcafd.jpg" alt="Matched production delivery frames showing the letter clearing Pip's eyes">
+    <figcaption>Delivery keeps its toss event, sealed-letter artwork, duration, and particle count.
+      The held prop hides at the existing toss instant, and the emitted envelope travels outward.
+      Dense 60Hz geometry reduced conservative eye/prop overlap cues by 43.6–68.1% across sizes and reactions.
+      Bounding boxes are review cues, not exact pixel-occlusion measurements.</figcaption></figure>
+  <h3>What was verified</h3>
+  <ul>
+    <li>All nine states, seventeen clips, three reactions, nine palettes, and behavior weights remain available.
+      The rig SVG, palette JSON, and sixteen other clip files retain their original hashes.</li>
+    <li>All four production flight paths exercise takeoff, cruise, landing, perching, and home return,
+      with both normal and reduced motion. Landing checks remain within two CSS pixels.</li>
+    <li>The isolated Electron test verifies sidebar animation, reply delivery, background-agent delivery,
+      approval perching, return-home, cadence, and no renderer errors.</li>
+    <li>Both TypeScript checks and Python/Node syntax checks pass. The capture suite reports no
+      native-size pose clipping cues in its flat-background fixtures.</li>
+  </ul>
+  <h3>Blueprint improvements</h3>
+  <p>One command captures, validates, compares, reviews, and tracks findings. Model review is explicit opt-in,
+    runs bounded sequential batches, saves every raw response, and can resume without replacing images.
+    Empty/truncated output and incomplete sheet coverage stay blocked. Missing findings stay unverified;
+    conflicting assessments do not become optimistic resolutions.</p>
+  <p><a href="../../blueprint-out/review/mascot-improved-final-283bcafd-d7d4-41d5-99e4-d0b9df7bed81/index.html">Open all capture and comparison sheets</a>
+    · <a href="../../blueprint-out/review/mascot-improved-final-283bcafd-d7d4-41d5-99e4-d0b9df7bed81/visual-review.html">Image-bound review and finding history</a>
+    · <a href="../../blueprint-out/review/mascot-improved-final-283bcafd-d7d4-41d5-99e4-d0b9df7bed81/preservation-and-results.json">Measured results and preservation audit</a>
+    · <a href="../../blueprint-out/review/mascot-improved-final-283bcafd-d7d4-41d5-99e4-d0b9df7bed81/final-validation.json">Final 130-test validation</a>
+    · <a href="../../tests/e2e/artifacts/mascot-1791508080043/report.json">Native integration results</a></p>
+  <div class="callout"><strong>Honest limits:</strong> the model marked delivery resolved, but its browsing
+    assessments conflicted, so the automatic ledger conservatively keeps that candidate persistent despite
+    the visible silhouette improvement. Small particles, sleep readability, and other model suggestions
+    remain candidates, not verified bugs. No speculative palette changes were made.
+    Sampled GIFs are not full-rate recordings. Windows/Linux, every app-wide sweep, and native Computer PiP
+    capture were not tested in this pass.</div>
+  <h3>Reproduce the current pass</h3>
+  <pre class="cmd">python3 /Users/devgwardo/.agents/skills/blueprint/scripts/visual_blueprint.py \
+  --repo /Users/devgwardo/hermes-desk --label baseline --reviewer agy
+
+# After an authorized change, use the exact printed before-report/review paths:
+python3 /Users/devgwardo/.agents/skills/blueprint/scripts/visual_blueprint.py \
+  --repo /Users/devgwardo/hermes-desk --label after --reviewer agy \
+  --baseline /absolute/before-report.json \
+  --previous-review /absolute/before-review/visual-review.json
+
+# No provider review: omit --reviewer agy; exit 2 means review pending.
+cd /Users/devgwardo/hermes-desk
+npm run test:unit -- src/lib/mascot src/components/__tests__/agent-mascot-flight-lifetime.test.tsx
+npm run typecheck
+node tests/e2e/mascot-stage.mjs</pre>
+</section>
+<header class="top" id="status">
+  <p class="eyebrow">Hermes Desk · Mascot Blueprint · 2026-10-07 · f78711a</p>
+  <h1>Pip, the courier owl — animation system audit</h1>
+  <p class="lede">Pip is the mascot that lives in the sidebar and flies to deliver replies, approvals, and reactions. This blueprint inventories every animation the system can produce — 9 states, 17 clips, 3 reactions, 4 flight paths, 14 particle types, 9 palettes, across 3 characters — and lays out the harness to capture and verify each one.</p>
+  <p class="muted">The harness lives in <code>tools/blueprint/</code>, raw evidence in <code>blueprint-out/</code>, and curated media in <code>docs/blueprint/media/</code>. Every number on this page comes from a harness run against the real mascot engine in headless Chrome.</p>
+  <figure><img src="media/pip-hero.jpg" alt="Pip, the courier owl — generated via Google Gemini through agy" loading="lazy"><figcaption>Pip, the courier owl — illustration generated via Google Gemini through the agy CLI. Gold winged petasos, leather satchel, wax-sealed letter in flight.</figcaption></figure>
+  <div class="kpis" role="list">
+    <div class="kpi" role="listitem"><b>3</b><span>characters (owl, fox, sprite)</span></div>
+    <div class="kpi" role="listitem"><b>9</b><span>states per character</span></div>
+    <div class="kpi" role="listitem"><b>17</b><span>owl clips</span></div>
+    <div class="kpi" role="listitem"><b>4</b><span>flight paths</span></div>
+    <div class="kpi" role="listitem"><b>14</b><span>particle types</span></div>
+    <div class="kpi" role="listitem"><b>9</b><span>palettes (owl)</span></div>
+    <div class="kpi" role="listitem"><b>—</b><span>harness: pending</span></div>
+  </div>
+</header>
+
+<section id="inventory">
+  <h2>Animation inventory</h2>
+  <p class="intro">Every animatable surface in the mascot system, with file locations and counts.</p>
+  <div class="table-box"><table>
+    <thead><tr><th>Category</th><th>Source</th><th>Items</th><th>Count</th></tr></thead>
+    <tbody>
+      <tr><td>Characters</td><td><code>src/lib/mascot/characters/{owl,fox,sprite}/</code></td><td>owl, fox, sprite</td><td class="num">3</td></tr>
+      <tr><td>States</td><td><code>motion.json</code> → <code>states</code></td><td>idle, thinking, tool, browsing, waiting, talking, happy, error, sleep</td><td class="num">9</td></tr>
+      <tr><td>Reactions</td><td><code>motion.json</code> → <code>reactions</code></td><td>pulse, message, approval</td><td class="num">3</td></tr>
+      <tr><td>Behaviors</td><td><code>motion.json</code> → <code>behaviors</code></td><td>head-swivel, preen, stretch, shake-off, hop, walk, peek, blink-double, hoot, look</td><td class="num">10</td></tr>
+      <tr><td>Clips (owl)</td><td><code>characters/owl/clips/*.json</code></td><td>fly, glide, takeoff, land, hover, deliver, celebrate, dizzy, hop, peek, preen, shake-off, stretch, walk, head-swivel, hoot, blink-double</td><td class="num">17</td></tr>
+      <tr><td>Flight paths</td><td><code>flight.ts</code> → <code>pathOffsets</code></td><td>arc, swoop, direct, loop</td><td class="num">4</td></tr>
+      <tr><td>Particle types</td><td><code>types.ts</code> → <code>PARTICLE_TYPES</code></td><td>feather, dust, wind, sparkle, trail, letter, zzz, note, heart, sweat, ring, confetti, star</td><td class="num">14</td></tr>
+      <tr><td>Palettes (owl)</td><td><code>palette.json</code> → <code>agents</code></td><td>default + maia, sage, iris, coral, mint, honey, rose, slate</td><td class="num">9</td></tr>
+      <tr><td><strong>Total assets</strong></td><td></td><td></td><td class="num"><strong>69</strong></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="architecture">
+  <h2>Architecture</h2>
+  <p class="intro">The mascot engine is data-driven: SVG rigs + JSON motion specs + a spring/oscillator runtime. The engine is correct; the data drives every animation.</p>
+  <div class="arch">
+<pre class="mermaid">
+flowchart LR
+  R["rig.svg<br/>SVG parts + pivots"] --> E["engine.ts<br/>spring + oscillator runtime"]
+  M["motion.json<br/>states + reactions + behaviors"] --> E
+  C["clips/*.json<br/>keyframed choreography"] --> E
+  P["palette.json<br/>CSS variables per agent"] --> E
+  E --> S["stage.ts<br/>full-window overlay"]
+  E --> H["cues.ts<br/>app event → flight/reaction"]
+  F["flight.ts<br/>bezier paths + hermite"] --> S
+  S --> O["mascot-lab.html<br/>test page"]
+  H --> A["App.tsx<br/>sidebar → reply delivery"]
+</pre>
+  </div>
+  <div class="modules">
+    <div class="module"><h4>Engine</h4><code>src/lib/mascot/engine.ts</code><p>Spring physics, oscillators, clip player, state machine. Renders SVG parts with transforms from motion data.</p></div>
+    <div class="module"><h4>Flight system</h4><code>src/lib/mascot/flight.ts</code><p>Bezier arc paths, arc-length parameterization for constant velocity, hermite progress for re-targeting. 4 path styles.</p></div>
+    <div class="module"><h4>Stage overlay</h4><code>src/lib/mascot/fx/stage.ts</code><p>One full-window, pointer-transparent overlay. Z-index 45 (above app, below modals). Particle cap: 200.</p></div>
+    <div class="module"><h4>Cue system</h4><code>src/lib/mascot/cues.ts</code><p>App events → Pip choreography. <code>deliver</code> = fly to reply, toss letter, fly home. <code>await-approval</code> = perch on approval card. <code>react</code> = pulse in place.</p></div>
+    <div class="module"><h4>Cue trigger</h4><code>src/App.tsx</code><p>On turn end with happy presence: <code>cueMascot(id, {type:'deliver', key:turn.id})</code> after 260ms. On waiting state: <code>await-approval</code>. On resolved: <code>home</code>.</p></div>
+    <div class="module"><h4>Mascot lab</h4><code>mascot-lab.html?mode=stage</code><p>Interactive test page. Exposes <code>window.mascotStage</code> API: play, flyTo, flyToPoint, goHome, emit, location, particles.</p></div>
+  </div>
+</section>
+
+<section id="states">
+  <h2>States</h2>
+  <p class="intro">Nine states per character, each with a pose (part transforms), oscillators (continuous motion), eyes (look direction, blink), and optional FX. The harness captures 150 frames (5s @ 30fps) per state and checks oscillator smoothness, spring settle, eye direction, and art clipping.</p>
+  <figure><img src="media/mascot-gallery.jpg" alt="Mascot lab gallery mode showing the owl character" loading="lazy"><figcaption>Mascot lab gallery mode — the owl character in its default state. Captured at 2× device scale in headless Chrome. agy review flagged excessive empty space below the card and cramped control layout.</figcaption></figure>
+  <div class="state-grid">
+    <div class="state-card"><div class="label">idle<small>breathing + ear lag + head tilt</small></div></div>
+    <div class="state-card"><div class="label">thinking<small>head tipped, wing on chin, gaze up-left</small></div></div>
+    <div class="state-card"><div class="label">tool<small>rummaging in satchel, flap open</small></div></div>
+    <div class="state-card"><div class="label">browsing<small>scanning side-to-side, helmet wings flutter</small></div></div>
+    <div class="state-card"><div class="label">waiting<small>letter raised in wing, attentive gaze</small></div></div>
+    <div class="state-card"><div class="label">talking<small>beak cycles, head nods, wing gesture</small></div></div>
+    <div class="state-card"><div class="label">happy<small>hop, flap, grin, optional sparkles</small></div></div>
+    <div class="state-card"><div class="label">error<small>ruffled feathers, ear tufts flare, helmet slips</small></div></div>
+    <div class="state-card"><div class="label">sleep<small>eyes shut, head sunk, slow breathing, zzz</small></div></div>
+  </div>
+  <h3>State checks</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>State</th><th>Check</th><th>How measured</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>idle</td><td>Oscillator runs (breathing visible)</td><td>Pixel delta between frames 0 and 30</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>thinking</td><td>Head tilted, wing on chin</td><td>Part transform: head rotate > 0, wing-l tx > 0</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>tool</td><td>Satchel flap open</td><td>Part transform: flap sy < 0</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>browsing</td><td>Pupils oscillate horizontally</td><td>Pupil x position delta over 1s</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>waiting</td><td>Letter visible (scale > 0)</td><td>Letter part sx, sy > 0</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>talking</td><td>Beak cycles in height</td><td>Beak part sy varies over time</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>happy</td><td>Hop visible (body ty changes)</td><td>Root ty delta over clip duration</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>error</td><td>Ears flare, helmet slips</td><td>Ear-tuft + helmet part transforms</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>sleep</td><td>Eyes fully shut (lid = 1)</td><td>Lid part sy = 1 for full duration</td><td><span class="pill pending">pending</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="clips">
+  <h2>Clips</h2>
+  <p class="intro">Seventeen keyframed choreographies. Each clip has a duration, blend in/out, spring scale, and keyframed part/eye/mouth/fx tracks. Clips can be override mode (replace state pose) or additive (layer on top).</p>
+  <div class="table-box"><table>
+    <thead><tr><th>Clip</th><th>File</th><th>Duration</th><th>Mode</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>takeoff</td><td><code>clips/takeoff.json</code></td><td class="num">—</td><td>—</td><td>Wing flap + body lift</td></tr>
+      <tr><td>land</td><td><code>clips/land.json</code></td><td class="num">—</td><td>—</td><td>Body settle + wing fold</td></tr>
+      <tr><td>fly</td><td><code>clips/fly.json</code></td><td class="num">—</td><td>—</td><td>Stable flight pose + wing oscillation</td></tr>
+      <tr><td>glide</td><td><code>clips/glide.json</code></td><td class="num">—</td><td>—</td><td>Flat glide, minimal wing motion</td></tr>
+      <tr><td>hover</td><td><code>clips/hover.json</code></td><td class="num">—</td><td>—</td><td>Hovering bob + wing flutter</td></tr>
+      <tr><td>deliver</td><td><code>clips/deliver.json</code></td><td class="num">—</td><td>—</td><td>Letter toss from wing</td></tr>
+      <tr><td>celebrate</td><td><code>clips/celebrate.json</code></td><td class="num">—</td><td>—</td><td>Hop + sparkle emission</td></tr>
+      <tr><td>dizzy</td><td><code>clips/dizzy.json</code></td><td class="num">—</td><td>—</td><td>Spiral eye/ear effect</td></tr>
+      <tr><td>hop</td><td><code>clips/hop.json</code></td><td class="num">—</td><td>—</td><td>Squash-and-stretch: anticipation → launch → land</td></tr>
+      <tr><td>peek</td><td><code>clips/peek.json</code></td><td class="num">—</td><td>—</td><td>Frame clip: peeks up from below</td></tr>
+      <tr><td>preen</td><td><code>clips/preen.json</code></td><td class="num">—</td><td>—</td><td>Feather preening idle act</td></tr>
+      <tr><td>shake-off</td><td><code>clips/shake-off.json</code></td><td class="num">—</td><td>—</td><td>Full-body shake</td></tr>
+      <tr><td>stretch</td><td><code>clips/stretch.json</code></td><td class="num">—</td><td>—</td><td>Wing stretch</td></tr>
+      <tr><td>walk</td><td><code>clips/walk.json</code></td><td class="num">—</td><td>—</td><td>Waddle walk</td></tr>
+      <tr><td>head-swivel</td><td><code>clips/head-swivel.json</code></td><td class="num">—</td><td>—</td><td>Head turn idle act</td></tr>
+      <tr><td>hoot</td><td><code>clips/hoot.json</code></td><td class="num">—</td><td>—</td><td>Beak open + body puff</td></tr>
+      <tr><td>blink-double</td><td><code>clips/blink-double.json</code></td><td class="num">—</td><td>—</td><td>Double blink</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Durations and modes will be filled from the clip JSON files on the first harness run.</p>
+</section>
+
+<section id="flights">
+  <h2>Flights</h2>
+  <p class="intro">Pip flies from the sidebar home slot to a target (reply bubble, approval card, arbitrary point) via a bezier path, plays the takeoff clip at launch and the land clip on arrival, then returns home. Four path styles with arc-length parameterization for constant velocity.</p>
+  <figure><img src="media/mascot-stage.jpg" alt="Mascot lab stage mode with flight controls and perches" loading="lazy"><figcaption>Mascot lab stage mode — flight test lab with perches (Inbox, Approval, Shelf), clip selectors, particle controls, and performance readout. Captured at 2× in headless Chrome. agy review flagged: mascot sprite missing from the stage, Approval perch clipped at bottom edge, and 4 FPS readout suggesting the animation loop stalled in capture.</figcaption></figure>
+  <div class="table-box"><table>
+    <thead><tr><th>Path</th><th>Control points</th><th>Shape</th><th>Check</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>arc</td><td><code>v(dx*0.12, -h), v(-dx*0.12, -h*0.75)</code></td><td>Classic up-and-over arc, h = clamp(dist*0.45, 60, 320)</td><td>Path peaks above start/end midpoint</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>swoop</td><td><code>v(dx*0.45, h*0.55), v(-dx*0.2, -h*0.85)</code></td><td>Dives down then up — a sweeping swoop</td><td>Path dips below start before rising</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>direct</td><td><code>v(dx/3, dy/3-18), v(-dx/3, -dy/3-18)</code></td><td>Near-linear with a slight upward bow</td><td>Path is approximately linear</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>loop</td><td><code>v(dx+sign*h*0.9, -h*1.1), v(-(dx+sign*h*0.9), -h*1.1)</code></td><td>Loops up and around — the show-off path</td><td>Path crosses over itself</td><td><span class="pill pending">pending</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Flight checks</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Check</th><th>How measured</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Takeoff clip plays at flight start</td><td>Check <code>api.location()</code> transitions to 'flying' + clip name in play history</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>Land clip plays on arrival</td><td>Check clip play history at arrival timestamp</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>Velocity is constant (arc-length)</td><td>Sample position at t=0.25, 0.5, 0.75; compare deltas</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>Return home flies back (no teleport)</td><td>Track position over return frames; no discontinuity > 50px</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>Re-target mid-flight smoothly redirects</td><td>Call flyTo mid-flight; check no position jump > 50px</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>Edge perching positions correctly</td><td>Check perch element bounds vs mascot bounds on arrival</td><td><span class="pill pending">pending</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="particles">
+  <h2>Particles</h2>
+  <p class="intro">Fourteen particle types spawn from anchor points on the rig. The stage caps at 200 live particles. Each type has its own trajectory, lifetime, and fade. The harness emits 20 particles and tracks spawn position, trajectory shape, despawn, and count cap.</p>
+  <div class="table-box"><table>
+    <thead><tr><th>Type</th><th>Typical use</th><th>Check</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>sparkle</td><td>celebrate, happy</td><td>Spawns at head, floats up, fades</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>feather</td><td>shake-off, ruffle</td><td>Spawns at body, falls with drift</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>dust</td><td>landing, rummaging</td><td>Spawns at feet, puffs outward</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>wind</td><td>flight trail</td><td>Trails behind flight path</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>trail</td><td>flight motion line</td><td>Follows mascot position</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>letter</td><td>deliver clip</td><td>Tossed from wing, arcs to target</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>zzz</td><td>sleep state</td><td>Floats up from head, fades</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>note</td><td>talking, hoot</td><td>Floats up from beak</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>heart</td><td>happy reaction</td><td>Floats up, pulses</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>sweat</td><td>error, stress</td><td>Drips from head</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>ring</td><td>pulse reaction</td><td>Expands outward, fades</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>confetti</td><td>celebrate</td><td>Bursts outward, falls</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>star</td><td>happy, celebrate</td><td>Twinkle at anchor, fades</td><td><span class="pill pending">pending</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Particle checks</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Check</th><th>How measured</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Particles spawn at correct anchor</td><td>Compare spawn position to rig part bounds</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>Particles despawn within 4s</td><td>Track particle count over time; must reach 0</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>Cap holds at 200</td><td>Emit 300; count never exceeds 200</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>No particle leak after idle</td><td>Check count 2s after emit; must be 0</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>No frame drops during emission</td><td>FPS during 20-particle emit stays > 55</td><td><span class="pill pending">pending</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="palettes">
+  <h2>Palettes</h2>
+  <p class="intro">Nine palettes (default + 8 agent variants) recolor the owl via CSS variables. Pale eye discs and dark ink must preserve expression contrast in every palette — the harness checks WCAG contrast between eye-disc and ink colors.</p>
+  <div class="palette-strip">
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #c4842a, #f6e7c8);"></div><div class="name">default</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #6b8e9e, #d4e3ea);"></div><div class="name">maia</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #8a9a7b, #dde6d0);"></div><div class="name">sage</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #7b6b9e, #ddd0ea);"></div><div class="name">iris</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #c97064, #f0d5d0);"></div><div class="name">coral</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #5fa382, #cde8d8);"></div><div class="name">mint</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #c4a050, #f5e8c8);"></div><div class="name">honey</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #b06870, #eed0d3);"></div><div class="name">rose</div></div>
+    <div class="palette-swatch"><div class="swatch" style="background: linear-gradient(135deg, #5a5f6a, #c0c4ca);"></div><div class="name">slate</div></div>
+  </div>
+  <h3>Palette checks</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Palette</th><th>Eye-disc vs ink contrast</th><th>WCAG</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>default</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>maia</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>sage</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>iris</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>coral</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>mint</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>honey</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>rose</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>slate (dark)</td><td>—</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="tests">
+  <h2>Test results</h2>
+  <p class="intro">The harness drives the real mascot engine in headless Chrome via the mascot-lab stage page. Each check is a promise the animation makes, measured geometrically where possible.</p>
+  <div class="table-box"><table>
+    <thead><tr><th>Area</th><th>Check</th><th>Measured</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>states</td><td>Every state shows motion (not frozen)</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>states</td><td>No state clips outside the viewport</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>clips</td><td>Every clip plays to completion</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>clips</td><td>Clips blend back to state pose cleanly</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>flights</td><td>Flight velocity is constant (arc-length)</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>flights</td><td>No position discontinuity > 50px</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>particles</td><td>No particle leak after idle</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>perf</td><td>13 mascots: FPS stays above 55</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>perf</td><td>p95 frame time under 3ms</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+      <tr><td>console</td><td>No console errors across every run</td><td>—</td><td><span class="pill pending">pending</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Performance</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Measure</th><th>Value</th><th>How it was measured</th></tr></thead>
+    <tbody>
+      <tr><td>FPS (1 hero mascot, idle)</td><td class="num">—</td><td><code>mascotFrameClock.stats().fps</code> over 5s</td></tr>
+      <tr><td>FPS (13 mascots, autonomous idle)</td><td class="num">—</td><td>Same, stage mode with 12 small + 1 hero</td></tr>
+      <tr><td>p95 frame time</td><td class="num">—</td><td><code>stats.p95Ms</code> over 10s flock stress test</td></tr>
+      <tr><td>Max frame time</td><td class="num">—</td><td><code>stats.maxMs</code> over 10s flock stress test</td></tr>
+      <tr><td>JS heap</td><td class="num">—</td><td><code>performance.memory.usedJSHeapSize</code></td></tr>
+      <tr><td>Particle cap</td><td class="num">200</td><td><code>STAGE_PARTICLE_CAP</code> in fx/stage.ts</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="roadmap">
+  <h2>Roadmap</h2>
+  <p class="intro">Ranked by impact on animation quality. Size: S under half a day, M 1–2 days, L most of a week.</p>
+  <div class="tier">
+    <h3>P1 · Build the harness <small>do next</small></h3>
+    <div class="items">
+      <div class="item"><h4>P1-1 · Patch stage.tsx to expose full API</h4><dl><dt>Evidence</dt><dd>Stage mode only exposes play/flyTo/emit — no setState/react/setPalette</dd><dt>Approach</dt><dd>Add <code>setState</code>, <code>react</code>, <code>setPalette</code> to <code>window.mascotStage</code> in stage.tsx (~10 lines)</dd><dt>Size</dt><dd class="effort">S</dd></dl></div>
+      <div class="item"><h4>P1-2 · Write mascot sweep script</h4><dl><dt>Evidence</dt><dd>No harness exists — every check is pending</dd><dt>Approach</dt><dd>Write <code>tools/blueprint/mascot-sweep.mjs</code> from the sweep template: states, clips, flights, particles, palettes, perf</dd><dt>Size</dt><dd class="effort">L</dd></dl></div>
+      <div class="item"><h4>P1-3 · Run sweep and fill results</h4><dl><dt>Evidence</dt><dd>All 40+ checks show <span class="pill pending">pending</span></dd><dt>Approach</dt><dd>Run the sweep, capture contact sheets, fill every table on this page with real numbers</dd><dt>Size</dt><dd class="effort">M</dd></dl></div>
+    </div>
+  </div>
+  <div class="tier">
+    <h3>P2 · Fix what the harness finds <small>after sweep</small></h3>
+    <div class="items">
+      <div class="item"><h4>P2-1 · Fix clip blend hard cuts</h4><dl><dt>Evidence</dt><dd>Known risk: clips may hard-cut back to state pose instead of easing</dd><dt>Approach</dt><dd>Adjust <code>blendIn</code>/<code>blendOut</code> in clip JSON files</dd><dt>Size</dt><dd class="effort">M</dd></dl></div>
+      <div class="item"><h4>P2-2 · Verify flight path shapes</h4><dl><dt>Evidence</dt><dd>Bezier control points are computed but paths haven't been visually verified</dd><dt>Approach</dt><dd>Capture all 4 paths, overlay traced trajectory, fix <code>pathOffsets</code> if shapes are wrong</dd><dt>Size</dt><dd class="effort">S</dd></dl></div>
+      <div class="item"><h4>P2-3 · Particle leak audit</h4><dl><dt>Evidence</dt><dd>No verification that particles despawn cleanly</dd><dt>Approach</dt><dd>Run particle pass, check count returns to 0, fix lifetime/spawn logic if leaking</dd><dt>Size</dt><dd class="effort">S</dd></dl></div>
+    </div>
+  </div>
+  <div class="tier">
+    <h3>P3 · Polish <small>when stable</small></h3>
+    <div class="items">
+      <div class="item"><h4>P3-1 · Palette contrast verification</h4><dl><dt>Evidence</dt><dd>9 palettes, none verified for WCAG eye-disc/ink contrast</dd><dt>Approach</dt><dd>Compute contrast ratio for each palette, fix <code>palette.json</code> if any fail AA</dd><dt>Size</dt><dd class="effort">S</dd></dl></div>
+      <div class="item"><h4>P3-2 · Fox and sprite clip coverage</h4><dl><dt>Evidence</dt><dd>Only owl has a <code>clips/</code> directory</dd><dt>Approach</dt><dd>Port owl clips to fox and sprite, or document them as clip-less</dd><dt>Size</dt><dd class="effort">L</dd></dl></div>
+      <div class="item"><h4>P3-3 · Sidebar integration test</h4><dl><dt>Evidence</dt><dd>Lab tests the engine in isolation, not the real app's sidebar→reply flight</dd><dt>Approach</dt><dd>Drive the full hermes-desk app, send a message, verify Pip flies from sidebar to reply</dd><dt>Size</dt><dd class="effort">M</dd></dl></div>
+    </div>
+  </div>
+  <div class="callout"><strong>Not yet tested:</strong> sidebar integration (real app flight), fox/sprite clips (may not exist), cross-platform rendering (Windows/Linux SVG), mobile viewport, prefers-reduced-motion behavior, real-app timing (lab is isolated).</div>
+</section>
+
+<section id="run">
+  <h2>Run &amp; reproduce</h2>
+  <p class="intro">The harness is not yet built. When it is, the commands will be:</p>
+  <pre class="cmd"># Start the dev server
+npm run dev
+
+# Run the mascot sweep (all passes)
+node tools/blueprint/mascot-sweep.mjs
+
+# Or run a single pass
+node tools/blueprint/mascot-sweep.mjs --pass states
+node tools/blueprint/mascot-sweep.mjs --pass clips
+node tools/blueprint/mascot-sweep.mjs --pass flights
+node tools/blueprint/mascot-sweep.mjs --pass particles
+node tools/blueprint/mascot-sweep.mjs --pass palettes
+node tools/blueprint/mascot-sweep.mjs --pass flock
+
+# Build contact sheets from raw captures
+python3 ~/.agents/skills/blueprint/scripts/media.py sheet \
+  docs/blueprint/media/states-contact.jpg \
+  blueprint-out/states/owl/idle/f_0000.png \
+  blueprint-out/states/owl/thinking/f_0030.png \
+  blueprint-out/states/owl/happy/f_0075.png \
+  --cols 3 --h 400 --labels "idle|thinking|happy"
+
+# View the mascot lab interactively
+open http://localhost:5173/mascot-lab.html?mode=stage</pre>
+</section>
+</main>
+</div>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
+</script>

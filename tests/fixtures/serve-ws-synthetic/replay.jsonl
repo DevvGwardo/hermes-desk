@@ -1,0 +1,2 @@
+{"type":"message.delta","session_id":"runtime-runner","seq":2,"payload":{"text":"world"}}
+{"type":"message.complete","session_id":"runtime-runner","seq":3,"payload":{"text":"Hello world","status":"complete"}}

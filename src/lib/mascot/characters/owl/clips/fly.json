@@ -1,0 +1,65 @@
+{
+  "duration": 0.42,
+  "loop": true,
+  "blendIn": 0.14,
+  "blendOut": 0.2,
+  "springScale": 7,
+  "tracks": {
+    "parts": {
+      "wing-l": [
+        {"t": 0, "rotate": 122},
+        {"t": 0.17, "rotate": 14, "ease": "inQuad"},
+        {"t": 0.42, "rotate": 122, "ease": "outSine"}
+      ],
+      "wing-r": [
+        {"t": 0, "rotate": -122},
+        {"t": 0.17, "rotate": -14, "ease": "inQuad"},
+        {"t": 0.42, "rotate": -122, "ease": "outSine"}
+      ],
+      "body": [
+        {"t": 0, "ty": 5, "rotate": 0},
+        {"t": 0.2, "ty": -5, "ease": "outQuad"},
+        {"t": 0.42, "ty": 5, "ease": "inOutSine"}
+      ],
+      "head": [
+        {"t": 0, "ty": 2, "rotate": -2},
+        {"t": 0.22, "ty": -2},
+        {"t": 0.42, "ty": 2}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -16},
+        {"t": 0.21, "rotate": -22},
+        {"t": 0.42, "rotate": -16}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 16},
+        {"t": 0.21, "rotate": 22},
+        {"t": 0.42, "rotate": 16}
+      ],
+      "helmet-wing-l": [
+        {"t": 0, "rotate": -16},
+        {"t": 0.21, "rotate": 8},
+        {"t": 0.42, "rotate": -16}
+      ],
+      "helmet-wing-r": [
+        {"t": 0, "rotate": 16},
+        {"t": 0.21, "rotate": -8},
+        {"t": 0.42, "rotate": 16}
+      ],
+      "satchel": [
+        {"t": 0, "rotate": 7},
+        {"t": 0.21, "rotate": -5},
+        {"t": 0.42, "rotate": 7}
+      ],
+      "foot-l": [
+        {"t": 0, "rotate": 14, "ty": -12, "sy": 0.72}
+      ],
+      "foot-r": [
+        {"t": 0, "rotate": -14, "ty": -12, "sy": 0.72}
+      ]
+    },
+    "root": [
+      {"t": 0, "y": -20, "rotate": 0}
+    ]
+  }
+}

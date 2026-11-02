@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Fake local 2FA fixture</title></head>
+<body>
+  <h1 data-ref="e1">Two-factor verification</h1>
+  <form>
+    <label data-ref="e2" for="challenge">Verification code</label>
+    <input data-ref="e3" id="challenge" autocomplete="one-time-code" value="{{FAKE_OTP}}">
+    <label data-ref="e4" for="numeric">OTP entry</label>
+    <input data-ref="e5" id="numeric" inputmode="numeric" maxlength="8" value="{{FAKE_NUMERIC_OTP}}">
+    <button data-ref="e6" type="submit">Verify</button>
+  </form>
+  <p data-ref="e7">Your 2fa code is {{FAKE_TEXT_OTP}}.</p>
+  <p data-ref="e8">{{FAKE_REVERSE_OTP}} is your verification code.</p>
+</body>
+</html>

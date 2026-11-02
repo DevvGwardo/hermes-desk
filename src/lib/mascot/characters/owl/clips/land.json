@@ -1,0 +1,73 @@
+{
+  "duration": 0.72,
+  "blendIn": 0.06,
+  "blendOut": 0.25,
+  "springScale": 5,
+  "tracks": {
+    "parts": {
+      "wing-l": [
+        {"t": 0, "rotate": 122},
+        {"t": 0.12, "rotate": 66, "ease": "inQuad"},
+        {"t": 0.22, "rotate": 112, "ease": "outCubic"},
+        {"t": 0.42, "rotate": 36, "ease": "inOutSine"},
+        {"t": 0.72, "rotate": 0, "ease": "outBack"}
+      ],
+      "wing-r": [
+        {"t": 0, "rotate": -122},
+        {"t": 0.12, "rotate": -66, "ease": "inQuad"},
+        {"t": 0.22, "rotate": -112, "ease": "outCubic"},
+        {"t": 0.42, "rotate": -36, "ease": "inOutSine"},
+        {"t": 0.72, "rotate": 0, "ease": "outBack"}
+      ],
+      "body": [
+        {"t": 0, "sy": 1, "sx": 1},
+        {"t": 0.22, "sy": 0.9, "sx": 1.06, "ease": "inQuad"},
+        {"t": 0.38, "sy": 1.04, "sx": 0.98, "ease": "outQuad"},
+        {"t": 0.72, "sy": 1, "sx": 1, "ease": "outBack"}
+      ],
+      "head": [
+        {"t": 0, "ty": 0},
+        {"t": 0.22, "ty": 9, "ease": "inQuad"},
+        {"t": 0.42, "ty": -3},
+        {"t": 0.72, "ty": 0}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -14},
+        {"t": 0.22, "rotate": 6},
+        {"t": 0.45, "rotate": -8},
+        {"t": 0.72, "rotate": -3}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 14},
+        {"t": 0.22, "rotate": -6},
+        {"t": 0.45, "rotate": 8},
+        {"t": 0.72, "rotate": 3}
+      ],
+      "foot-l": [
+        {"t": 0, "rotate": 0, "ty": 5, "sy": 1.04},
+        {"t": 0.22, "rotate": 0, "ty": 0, "sy": 1, "ease": "inQuad"}
+      ],
+      "foot-r": [
+        {"t": 0, "rotate": 0, "ty": 5, "sy": 1.04},
+        {"t": 0.22, "rotate": 0, "ty": 0, "sy": 1, "ease": "inQuad"}
+      ]
+    },
+    "root": [
+      {"t": 0, "y": -20, "sy": 1, "sx": 1},
+      {"t": 0.22, "y": 0, "sy": 0.88, "sx": 1.07, "ease": "inQuad"},
+      {"t": 0.38, "y": -5, "sy": 1.04, "sx": 0.98, "ease": "outQuad"},
+      {"t": 0.52, "y": 0, "sy": 1, "sx": 1, "ease": "inQuad"}
+    ],
+    "fx": [
+      {
+        "t": 0.22,
+        "type": "dust",
+        "anchor": "feet",
+        "params": {"count": 8}
+      }
+    ],
+    "events": [
+      {"t": 0.22, "name": "touchdown"}
+    ]
+  }
+}

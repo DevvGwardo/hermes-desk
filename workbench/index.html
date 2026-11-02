@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nubcat Mark Workbench</title>
+<style>
+  :root {
+    --ink: #0d1117; --panel: #161b22; --line: rgba(240,246,252,0.1);
+    --paper: #e6edf3; --muted: #7d8590;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--ink); color: var(--paper); font: 13px/1.45 -apple-system, "SF Mono", Menlo, monospace; padding: 20px; }
+  h1 { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .sub { color: var(--muted); font-size: 11px; margin-bottom: 16px; }
+
+  #stage {
+    width: 420px; height: 420px; border-radius: 18px;
+    background: radial-gradient(circle at 50% 40%, #1c2330, #0d1117 75%);
+    display: grid; place-items: center; position: relative;
+  }
+  #stage.light { background: radial-gradient(circle at 50% 40%, #ffffff, #e8edf4 75%); }
+  #stage-label { position: absolute; top: 10px; left: 14px; font-size: 11px; color: var(--muted); letter-spacing: .08em; }
+
+  #sheet { display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; margin-top: 12px; max-width: 1200px; }
+  .cell { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px 6px; text-align: center; }
+  .cell[data-theme="light"] { background: #f2f5fa; }
+  .cell span { display: block; font-size: 9.5px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cell[data-theme="light"] span { color: #57606a; }
+
+  #shapes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; max-width: 1100px; }
+  .shape-chip { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px 4px; width: 108px; text-align: center; }
+  .shape-chip span { font-size: 9.5px; color: var(--muted); }
+
+  section { margin-top: 28px; }
+  section > h2 { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+  #perf { font-size: 12px; color: var(--muted); margin-top: 10px; white-space: pre-line; }
+  canvas#chart { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin-top: 10px; }
+  label { margin-right: 10px; color: var(--paper); }
+  select, input, button { background: var(--panel); color: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; font: inherit; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>nubcat mark workbench</h1>
+<div class="sub">verbatim grok-bot engine · src/lib/grok-orb/core.js — states / shapes / fx / perf</div>
+
+<section id="sec-single">
+  <h2>stage</h2>
+  <div id="stage"><div id="stage-label">idle</div></div>
+  <div style="margin-top:8px">
+    <label>state <select id="state-sel"></select></label>
+    <label>shape <select id="shape-sel"></select></label>
+    <label>size <input id="size-inp" type="number" value="220" min="24" max="400" style="width:56px"></label>
+    <button id="btn-burst">burst</button>
+    <button id="btn-spin">spin</button>
+    <button id="btn-bounce">bounce</button>
+    <button id="btn-pause">pause</button>
+    <button id="btn-light">light bg</button>
+  </div>
+</section>
+
+<section>
+  <h2>all 39 states × light/dark (contact sheet)</h2>
+  <div id="sheet"></div>
+</section>
+
+<section>
+  <h2>19 shape morphs</h2>
+  <div id="shapes"></div>
+</section>
+
+<section id="sec-fx">
+  <h2>all 14 particle patterns (fx gallery)</h2>
+  <div id="fxfloor" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"></div>
+</section>
+
+<section id="sec-gaze">
+  <h2>gaze tracking — move your mouse over this box</h2>
+  <div id="gaze-box" style="width:100%;max-width:640px;height:260px;border:1px solid var(--line);border-radius:12px;background:var(--panel);display:flex;align-items:center;justify-content:center;position:relative">
+    <div id="gaze-holder" style="display:inline-block;line-height:0;--fg:#b7d9ff;--bg:#1a3d6b"></div>
+    <div style="position:absolute;bottom:8px;left:12px;font-size:10px;color:var(--muted)">gazeTarget = cursor position · eyes + head tilt follow</div>
+  </div>
+</section>
+
+<section id="sec-themes">
+  <h2>theme matrix — brand palettes × idle cat</h2>
+  <div id="themegrid" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px"></div>
+</section>
+
+<section id="sec-data">
+  <h2>state data — timing tables from the engine (Aqe / tzt / dzt / rpe) · click headers to sort</h2>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+    <table id="data-table" style="border-collapse:collapse;font-size:11px"></table>
+    <canvas id="timing-chart" width="620" height="260" style="background:var(--panel);border:1px solid var(--line);border-radius:10px"></canvas>
+  </div>
+</section>
+
+<section id="sec-perf">
+  <h2>perf — frame time vs orb count</h2>
+  <canvas id="chart" width="900" height="180"></canvas>
+  <div id="perf">running…</div>
+</section>
+
+<script src="./engine.iife.js"></script>
+<script>
+const STATES = ["sleeping","waking","idle","listening","thinking","searching","working",
+ "excited","surprised","suspicious","angry","drowsy","happy","curious","confused","bored",
+ "proud","shy","sad","laughing","scared","playful","celebrate","orbit","radar","progress",
+ "spawning","humming","loading","dictating","writing","sending","receiving","uploading",
+ "notifying","alerting","dragging","bouncing","powering-down","error"];
+const SHAPES = ["blob","pebble","bean","egg","squircle","tablet","capsule","cylinder","hex",
+ "gem","crystal","wedge","shield","dome","arch","cloud","teardrop","leaf","cat"];
+const DARK = '--fg:#b7d9ff;--bg:#1a3d6b;display:inline-block;line-height:0';
+const LIGHT = '--fg:#1a3d6b;--bg:#f5f8fc;display:inline-block;line-height:0';
+
+/* stage */
+const stage = document.getElementById('stage');
+let m = GrokEngine.mount({ state: 'idle', size: 220 }, stage);
+function relabel() { document.getElementById('stage-label').textContent = (m.state||'idle') + ' · ' + (m.shape||'cat'); }
+const _set = m.setState.bind(m), _shape = m.setShape.bind(m);
+m.setState = s => { _set(s); m.state = s; window.__stateLabel && (document.getElementById('stage-label').textContent = s + ' · ' + (m.shape||'cat')); };
+m.setShape = s => { _shape(s); m.shape = s; window.__stateLabel && (document.getElementById('stage-label').textContent = (m.state||'idle') + ' · ' + s); };
+
+const stateSel = document.getElementById('state-sel'), shapeSel = document.getElementById('shape-sel');
+STATES.forEach(s => stateSel.add(new Option(s, s)));
+SHAPES.forEach(s => shapeSel.add(new Option(s, s)));
+stateSel.onchange = () => m.setState(stateSel.value);
+shapeSel.onchange = () => m.setShape(shapeSel.value);
+document.getElementById('size-inp').onchange = e => { m.unmount(); m = GrokEngine.mount({ state: stateSel.value, shape: shapeSel.value, size: +e.target.value }, stage); wire(); };
+document.getElementById('btn-burst').onclick = () => m.api.current?.burst?.();
+document.getElementById('btn-spin').onclick = () => m.api.current?.spin?.();
+document.getElementById('btn-bounce').onclick = () => m.api.current?.bounce?.();
+document.getElementById('btn-pause').onclick = e => { const p = e.target.textContent === 'pause'; m.setPaused(p); e.target.textContent = p ? 'resume' : 'pause'; };
+document.getElementById('btn-light').onclick = e => { stage.classList.toggle('light'); };
+
+window.__setStage = s => { stateSel.value = s; m.setState(s); };
+window.__setShape = s => { shapeSel.value = s; m.setShape(s); };
+window.__spin = () => m.api.current?.spin?.();
+window.__bounce = () => m.api.current?.bounce?.();
+window.__burst = () => m.api.current?.burst?.();
+
+/* contact sheet */
+const sheet = document.getElementById('sheet');
+for (const theme of ['dark','light']) {
+  for (const s of STATES) {
+    const cell = document.createElement('div');
+    cell.className = 'cell'; cell.dataset.theme = theme; cell.dataset.state = s;
+    const holder = document.createElement('div'); cell.appendChild(holder);
+    const lbl = document.createElement('span'); lbl.textContent = s; cell.appendChild(lbl);
+    sheet.appendChild(cell);
+    GrokEngine.mount({ state: s, size: 64 }, holder).wrap?.();
+    holder.firstChild.style.cssText = theme === 'light' ? LIGHT : DARK;
+  }
+}
+
+/* shape strip */
+const shapesRow = document.getElementById('shapes');
+for (const sh of SHAPES) {
+  const chip = document.createElement('div'); chip.className = 'shape-chip'; chip.dataset.shape = sh;
+  const holder = document.createElement('div'); chip.appendChild(holder);
+  const lbl = document.createElement('span'); lbl.textContent = sh; chip.appendChild(lbl);
+  shapesRow.appendChild(chip);
+  const inst = GrokEngine.mount({ state: 'idle', shape: sh, size: 72 }, holder);
+  inst.wrap?.(); if (holder.firstChild) holder.firstChild.style.cssText = DARK;
+}
+
+/* ── state data panel: engine timing tables + timing chart ── */
+const GROUPS = [
+  {label:'Lifecycle', states:['sleeping','waking','idle','listening','thinking','searching','working']},
+  {label:'Reactions', states:['excited','surprised','suspicious','angry','drowsy','happy','curious','confused','bored','proud','shy','sad','laughing','scared','playful','celebrate']},
+  {label:'Agent morphs', states:['orbit','radar','progress']},
+  {label:'Product lifecycle', states:['spawning','humming','loading','dictating','writing','sending','receiving','uploading','notifying','alerting','dragging','bouncing','powering-down']},
+];
+// engine tables (verbatim, from core.js)
+const AQE = GrokEngine.Aqe;   // eye-pose cadence [min,max] ms
+const TZT = GrokEngine.tzt;   // blink/antic schedule [min,max] ms or null
+const DZT = GrokEngine.dzt;   // state -> particle pattern
+const UZT = GrokEngine.uzt;   // all 14 patterns
+const RPE = GrokEngine.rpe;   // state -> eye pose sequence indices
+const FX_CYCLE = new Set(['progress','spawning','orbit','radar','thinking','dictating','writing','sending','receiving','uploading']); // effect→mascot cycler (nubcat fork)
+const PATTERN_LABEL = {
+  dots:'dots', orbit:'orbit', radar:'radar', progress:'progress', gather:'gather',
+  wave:'wave', send:'send', receive:'receive', dock:'dock', ball:'ball',
+  whirl:'whirl', pencil:'pencil', bang:'bang', standby:'standby'
+};
+function fmtRange(r){ return r ? `${r[0]/1000}–${r[1]/1000}s` : '—'; }
+
+const dataTable = document.getElementById('data-table');
+const TABLE_COLS = [
+  {key:'state',   label:'state',      get: s => s},
+  {key:'group',   label:'group',      get: s => GROUPS.find(g=>g.states.includes(s)).label},
+  {key:'cycle',   label:'pose cycle', get: s => fmtRange(AQE[s])},
+  {key:'blink',   label:'blink',      get: s => fmtRange(TZT[s])},
+  {key:'poses',   label:'eye poses',  get: s => (RPE[s]||[]).length + ' poses'},
+  {key:'pattern', label:'pattern',    get: s => DZT[s] ? PATTERN_LABEL[DZT[s]] : '—'},
+  {key:'fxloop',  label:'fx loop',    get: s => FX_CYCLE.has(s) ? 'effect→mascot' : 'continuous'},
+];
+let sortKey = null, sortDir = 1;
+(function buildTable(){
+  const thead = document.createElement('tr');
+  TABLE_COLS.forEach(col=>{
+    const th=document.createElement('th');
+    th.textContent = col.label + (col.key==='state'?' ▾':'');
+    th.dataset.col = col.key;
+    th.style.cssText='text-align:left;padding:3px 10px 3px 0;color:#7d8590;border-bottom:1px solid rgba(240,246,252,.15);font-weight:normal;letter-spacing:.06em;cursor:pointer;user-select:none';
+    th.title='click to sort';
+    th.onclick = () => {
+      if (sortKey === col.key) sortDir *= -1; else { sortKey = col.key; sortDir = 1; }
+      renderRows();
+      dataTable.querySelectorAll('th').forEach(t=>{
+        const base = t.textContent.replace(/ [▾▴]$/,'');
+        t.textContent = base + (t.dataset.col===sortKey ? (sortDir>0?' ▾':' ▴') : '');
+      });
+    };
+    thead.appendChild(th);
+  });
+  dataTable.appendChild(thead);
+  const body = document.createElement('tbody'); body.id='data-tbody';
+  dataTable.appendChild(body);
+  renderRows();
+})();
+function renderRows(){
+  const body = document.getElementById('data-tbody');
+  let states = GROUPS.flatMap(g=>g.states).filter(s=>s!=='error');
+  if (sortKey) {
+    const col = TABLE_COLS.find(c=>c.key===sortKey);
+    states.sort((a,b)=>{
+      const va=col.get(a), vb=col.get(b);
+      // numeric-aware compare (pulls leading numbers from ranges)
+      const na=parseFloat(va)||va, nb=parseFloat(vb)||vb;
+      return (na<nb?-1:na>nb?1:0)*sortDir;
+    });
+  }
+  body.innerHTML='';
+  for (const s of states) {
+    const tr = document.createElement('tr');
+    tr.style.borderBottom='1px solid rgba(240,246,252,.05)';
+    tr.dataset.rowState = s;
+    TABLE_COLS.forEach((col,i)=>{
+      const td=document.createElement('td');
+      td.textContent=col.get(s);
+      td.style.cssText=`padding:2px 10px 2px 0;${i===0?'color:#e6edf3':'color:#8b949e'}${col.key==='fxloop'&&FX_CYCLE.has(s)?';color:#f5b13f':''}`;
+      if(i===0) td.style.cursor='pointer', td.onclick=()=>window.__setStage(s);
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  }
+}
+
+/* timing chart: eye-pose cadence ranges per state, sorted */
+(function(){
+  const cv = document.getElementById('timing-chart'), c = cv.getContext('2d');
+  c.clearRect(0,0,cv.width,cv.height);
+  const rows = STATES.filter(s=>AQE[s]).map(s=>({s, lo:AQE[s][0], hi:AQE[s][1]})).sort((a,b)=>a.hi-b.hi);
+  const maxT = Math.max(...rows.map(r=>r.hi));
+  const L=90, R=cv.width-30, top=18, rowH=(cv.height-top-14)/rows.length;
+  // axis ticks
+  c.fillStyle='#7d8590'; c.font='9px monospace';
+  [0,.25,.5,.75,1].forEach(f=>{ const x=L+f*(R-L);
+    c.strokeStyle='rgba(240,246,252,.07)'; c.beginPath(); c.moveTo(x,top); c.lineTo(x,cv.height-12); c.stroke();
+    c.fillText(((maxT*f)/1000).toFixed(1)+'s', x-8, cv.height-2); });
+  rows.forEach((r,i)=>{
+    const y=top+i*rowH+rowH/2;
+    const x1=L+(r.lo/maxT)*(R-L), x2=L+(r.hi/maxT)*(R-L);
+    c.fillStyle='#7d8590'; c.font='9px monospace';
+    c.fillText(r.s, 4, y+3);
+    c.fillStyle=FX_CYCLE.has(r.s)?'#f5b13f':'#b7d9ff';
+    c.fillRect(x1, y-3, Math.max(2,x2-x1), 6);
+  });
+  c.fillStyle='#7d8590'; c.fillText('■ blue = continuous · gold = fx-cycle states · bar = eye-pose cadence range (Aqe)', 4, 12);
+})();
+
+/* ── FX pattern gallery: one orb per particle pattern ── */
+const PATTERN_STATE = Object.fromEntries(Object.entries(GrokEngine.dzt).map(([s,p])=>[p,s]));
+const fxRow = document.getElementById('fxfloor');
+for (const pat of GrokEngine.uzt) {
+  const st = PATTERN_STATE[pat];
+  if (!st) continue;
+  const chip = document.createElement('div');
+  chip.className = 'shape-chip'; chip.dataset.pattern = pat;
+  const holder = document.createElement('div'); chip.appendChild(holder);
+  const lbl = document.createElement('span'); lbl.textContent = `${pat} ← ${st}`; chip.appendChild(lbl);
+  fxRow.appendChild(chip);
+  const w = document.createElement('span');
+  w.style.cssText = DARK; holder.appendChild(w);
+  GrokEngine.mount({ state: st, size: 72, title: pat }, holder);
+}
+
+/* ── gaze tracking demo ── */
+(function(){
+  const box = document.getElementById('gaze-box'), holder = document.getElementById('gaze-holder');
+  const gz = GrokEngine.mount({ state: 'listening', size: 140, gazeTarget: null }, holder);
+  let pending = null, scheduled = false;
+  box.addEventListener('mousemove', e => {
+    pending = { x: e.clientX, y: e.clientY };
+    if (scheduled) return; scheduled = true;
+    requestAnimationFrame(() => { scheduled = false; gz.setGaze(pending); });
+  });
+  box.addEventListener('mouseleave', () => {
+    pending = null;
+    if (scheduled) return; scheduled = true;
+    requestAnimationFrame(() => { scheduled = false; gz.setGaze(null); });
+  });
+  window.__setGaze = (x,y) => gz.setGaze(x==null?null:{x,y});
+})();
+
+/* ── theme matrix ── */
+const THEMES = [
+  ['Maia light', '#b7d9ff', '#1a3d6b'],
+  ['Nubcat gold', '#f5b13f', '#3a2a08'],
+  ['Acid bull', '#c8f542', '#1c2408'],
+  ['Mint', '#3fbe86', '#0b2419'],
+  ['Coral', '#f9705c', '#3a120c'],
+  ['Violet', '#9a72ee', '#1e1240'],
+  ['Teal', '#35c3bd', '#072725'],
+  ['Mono dark', '#e6edf3', '#0d1117'],
+];
+const themeGrid = document.getElementById('themegrid');
+for (const [name, fg, bg] of THEMES) {
+  const chip = document.createElement('div');
+  chip.className = 'shape-chip'; chip.dataset.themeName = name;
+  chip.style.background = bg;
+  const holder = document.createElement('div'); chip.appendChild(holder);
+  const lbl = document.createElement('span'); lbl.textContent = name;
+  lbl.style.color = fg; chip.appendChild(lbl);
+  themeGrid.appendChild(chip);
+  const w = document.createElement('span');
+  w.style.cssText = `--fg:${fg};--bg:${bg};display:inline-block;line-height:0`;
+  holder.appendChild(w);
+  GrokEngine.mount({ state: 'idle', size: 72, title: name }, holder);
+}
+
+/* perf harness */
+const perfBox = document.getElementById('perf');
+const chart = document.getElementById('chart'), ctx = chart.getContext('2d');
+function drawChart(samples, fpsAvg) {
+  ctx.clearRect(0,0,900,180);
+  ctx.strokeStyle = 'rgba(240,246,252,.12)';
+  [66.7,33.3,16.7].forEach((ms,i)=>{ const y=150-i*50;
+    ctx.beginPath(); ctx.moveTo(30,y); ctx.lineTo(890,y); ctx.stroke();
+    ctx.fillStyle='#7d8590'; ctx.font='10px monospace';
+    ctx.fillText(Math.round(1000/ms)+'fps',34,y-3); });
+  ctx.strokeStyle='#b7d9ff'; ctx.lineWidth=1.4; ctx.beginPath();
+  samples.forEach((v,i)=>{ const x=30+i*(860/Math.max(1,samples.length-1)), y=150-Math.min(v,66)/66*140;
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+  ctx.stroke();
+  ctx.fillStyle='#e6edf3'; ctx.font='12px monospace';
+  ctx.fillText('avg '+fpsAvg+' fps @25 orbs', 740, 20);
+}
+async function runPerf(nOrbs, opts = {}) {
+  const host = document.createElement('div');
+  host.style.cssText='display:flex;flex-wrap:wrap;max-width:620px;margin-top:8px';
+  perfBox.parentNode.insertBefore(host, perfBox);
+  const insts=[];
+  for (let i=0;i<nOrbs;i++){
+    const w=document.createElement('span'); host.appendChild(w);
+    const st=['thinking','working','celebrate','orbit'][i%4];
+    if (opts.gated) {
+      // render offscreen-equivalent: mount then force the gate by pausing
+      // (mirrors what IntersectionObserver does for scrolled-away rows)
+      insts.push(GrokEngine.mount({state:st,size:56,paused:true}, w));
+    } else {
+      insts.push(GrokEngine.mount({state:st,size:56}, w));
+    }
+  }
+  await new Promise(r=>setTimeout(r,300));
+  const samples=[]; let last=performance.now(), t0=last;
+  await new Promise(res=>{
+    const tick=(t)=>{ const dt=t-last; last=t;
+      if(dt<100&&t-t0>200) samples.push(dt);
+      if(t-t0<3000) requestAnimationFrame(tick); else res(); };
+    requestAnimationFrame(tick);
+  });
+  const avg=samples.reduce((a,b)=>a+b,0)/samples.length;
+  const p95=samples.slice().sort((a,b)=>a-b)[Math.floor(samples.length*.95)];
+  return {n:nOrbs, gated:!!opts.gated, avg:+avg.toFixed(2), p95:+p95.toFixed(2), fps:+(1000/avg).toFixed(1)};
+}
+(async ()=>{
+  const results=[];
+  for (const n of [1,10,25,50]) results.push(await runPerf(n));
+  // gated comparison at the two heaviest counts
+  results.push(await runPerf(50, {gated:true}));
+  results.push(await runPerf(100,{gated:true}));
+  results.push(await runPerf(200,{gated:true}));
+  const samples=[]; let last=performance.now(), t0=last;
+  await new Promise(res=>{ const tick=t=>{const dt=t-last;last=t;if(dt<100)samples.push(dt);
+    if(t-t0<2500)requestAnimationFrame(tick);else res();}; requestAnimationFrame(tick);});
+  const avg=samples.reduce((a,b)=>a+b,0)/samples.length;
+  drawChart(samples.slice(-160), Math.round(1000/avg*10)/10);
+  document.getElementById('perf').textContent =
+    results.map(r=>`${String(r.n).padStart(3)} orbs${r.gated?' (gated/paused)':''}: avg ${r.avg}ms/frame (${r.fps} fps) · p95 ${r.p95}ms`).join('\n')
+    + '\n\nchart: sustained frame time at 25 animated orbs (lower is better; 60fps = 16.7ms)\n'
+    + 'gated rows = what the app actually pays for scrolled-away marks (IntersectionObserver pause)';
+  window.__PERF_RESULTS = results;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pip · Courier owl rig preview</title>
+    <style>
+      :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0e0e0f; color: #f3efe7; }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 40px; }
+      main { max-width: 1240px; margin: auto; }
+      .eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #e8b96e; }
+      h1 { font-size: 38px; letter-spacing: -.04em; margin: 10px 0; }
+      h2 { font-size: 16px; margin: 30px 0 14px; }
+      p { color: #b9b5af; line-height: 1.6; font-size: 14px; }
+      .intro { display: flex; align-items: center; justify-content: space-between; gap: 36px; border-bottom: 1px solid #ffffff12; padding-bottom: 25px; }
+      .intro-copy { max-width: 620px; }
+      .hero-stage { width: 360px; height: 360px; display: grid; place-items: center; background: #1c1c1e; border-radius: 28px; flex-shrink: 0; }
+      .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+      button, select { background: #242426; border: 1px solid #ffffff1b; padding: 9px 12px; border-radius: 8px; color: #e9e5df; font: inherit; font-size: 12px; }
+      button { cursor: pointer; }
+      button.active { border-color: #e8b96e; color: #e8b96e; }
+      button:focus-visible, select:focus-visible { outline: 2px solid #e8b96e; outline-offset: 3px; }
+      label { font-size: 12px; display: inline-flex; align-items: center; gap: 8px; color: #c6c2bc; }
+      .states { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+      .card { background: #161617; border: 1px solid #ffffff0b; border-radius: 16px; padding: 18px 12px; }
+      .card-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px; }
+      .card-head strong { font-size: 13px; font-weight: 600; }
+      .card-head small, .sizes { color: #96928c; font-size: 10px; }
+      .render { display: grid; place-items: center; min-height: 172px; }
+      .small-row { display: flex; gap: 14px; align-items: center; justify-content: center; min-height: 55px; border-top: 1px solid #ffffff0b; margin-top: 9px; padding-top: 9px; }
+      .small-stage { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 8px; background: #1c1c1e; }
+      .palettes { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px; }
+      .palette-card { text-align: center; background: #1c1c1e; padding: 12px 8px; border-radius: 12px; }
+      .palette-card .render { min-height: 110px; }
+      .palette-card span { font-size: 11px; color: #b9b5af; }
+      .mascot { display: block; }
+      .mascot svg { width: 100%; height: 100%; display: block; overflow: visible; }
+      #status { font-size: 11px; color: #96928c; margin-top: 18px; }
+      @media (max-width: 900px) { body { padding: 20px; } .intro { flex-direction: column; align-items: start; } .states { grid-template-columns: repeat(3, minmax(0, 1fr)); } .palettes { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="intro">
+        <div class="intro-copy">
+          <div class="eyebrow">Hermes Desk / Character study 02</div>
+          <h1>Pip, the courier owl.</h1>
+          <p>A very small messenger with a very important job. Plush layered feathers, bright attentive eyes, a winged petasos, and a well-loved mail satchel.</p>
+          <div class="controls" id="state-controls" aria-label="Character states"></div>
+          <div class="controls">
+            <label>Palette <select id="palette" aria-label="Agent palette"></select></label>
+            <label><input type="checkbox" id="reduced"> Reduced motion</label>
+            <button id="pause" type="button">Pause</button>
+          </div>
+          <div class="controls" id="reaction-controls" aria-label="Character reactions"></div>
+          <div id="status" role="status">Loading the local rig…</div>
+        </div>
+        <div class="hero-stage"><div class="mascot" id="hero" style="width: 320px; height: 320px"></div></div>
+      </div>
+      <h2>Nine states. One earnest little messenger.</h2>
+      <div class="states" id="states"></div>
+      <h2>Eight agent palettes / dark messenger backgrounds</h2>
+      <div class="palettes" id="palettes"></div>
+      <p class="sizes">Hero 320px · state studies 160px · actual sidebar size 40px. This is a standalone contract preview, not the shared production engine.</p>
+    </main>
+    <script type="module">
+      const base = "../../src/lib/mascot/characters/owl/";
+      const [rig, motion, palettes] = await Promise.all([
+        fetch(base + "rig.svg").then(r => { if (!r.ok) throw Error("Rig unavailable"); return r.text(); }),
+        fetch(base + "motion.json").then(r => r.json()),
+        fetch(base + "palette.json").then(r => r.json()),
+      ]);
+      const props = ["tx", "ty", "rotate", "sx", "sy"];
+      const home = { tx: 0, ty: 0, rotate: 0, sx: 1, sy: 1 };
+      const instances = [];
+      let selected = "idle", paused = false, reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let cursor = null, previous = 0, seconds = 0, reaction = null;
+      const reducedInput = document.querySelector("#reduced");
+      reducedInput.checked = reduced;
+
+      function mount(el, state, palette, small = false) {
+        // Keep each inline rig's paint-server and accessibility references local.
+        const prefix = "preview-" + instances.length + "-";
+        el.innerHTML = rig.replace(/id="([^"]+)"/g, (_, id) => `id="${prefix}${id}"`)
+          .replace(/url\(#([^)]+)\)/g, (_, id) => `url(#${prefix}${id})`)
+          .replace(/aria-labelledby="([^"]+)"/g, (_, ids) => `aria-labelledby="${ids.split(" ").map(id => prefix + id).join(" ")}"`);
+        for (const [key, value] of Object.entries(palette)) el.style.setProperty(key, value);
+        const parts = new Map();
+        el.querySelectorAll("[data-pivot]").forEach(node => {
+          const name = node.id.slice(prefix.length).replace(/^part-/, "");
+          parts.set(name, { node, pivot: node.dataset.pivot.split(" ").map(Number), value: { ...home }, velocity: { tx: 0, ty: 0, rotate: 0, sx: 0, sy: 0 } });
+        });
+        const expressions = [...el.querySelectorAll(`[id^="${prefix}mouth-"]`)];
+        const instance = { el, state, small, parts, expressions, prefix };
+        instances.push(instance);
+        return instance;
+      }
+
+      const hero = mount(document.querySelector("#hero"), "idle", palettes.default);
+      for (const [state, spec] of Object.entries(motion.states)) {
+        const card = document.createElement("section");
+        card.className = "card";
+        card.dataset.state = state;
+        card.innerHTML = `<div class="card-head"><strong>${state}</strong><small>160 / 40</small></div><div class="render"><div class="mascot large" style="width:160px;height:160px"></div></div><div class="small-row"><div class="small-stage"><div class="mascot small" style="width:40px;height:40px"></div></div><span class="sizes">${spec.mouth} · ${spec.eyes.look}</span></div>`;
+        document.querySelector("#states").append(card);
+        mount(card.querySelector(".large"), state, palettes.default);
+        mount(card.querySelector(".small"), state, palettes.default, true);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = state;
+        button.dataset.state = state;
+        button.onclick = () => setState(state);
+        document.querySelector("#state-controls").append(button);
+      }
+      for (const [name, palette] of Object.entries(palettes.agents)) {
+        const card = document.createElement("div");
+        card.className = "palette-card";
+        card.dataset.palette = name;
+        card.innerHTML = `<div class="render"><div class="mascot" style="width:100px;height:100px"></div></div><span>${name}</span>`;
+        document.querySelector("#palettes").append(card);
+        mount(card.querySelector(".mascot"), "idle", palette);
+      }
+      const paletteSelect = document.querySelector("#palette");
+      for (const name of ["default", ...Object.keys(palettes.agents)]) {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        paletteSelect.append(option);
+      }
+      paletteSelect.onchange = () => {
+        const palette = paletteSelect.value === "default" ? palettes.default : palettes.agents[paletteSelect.value];
+        for (const instance of instances.slice(0, 19)) {
+          for (const [key, value] of Object.entries(palette)) instance.el.style.setProperty(key, value);
+        }
+      };
+      for (const name of Object.keys(motion.reactions)) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = name;
+        button.onclick = () => { reaction = { name, started: seconds }; };
+        document.querySelector("#reaction-controls").append(button);
+      }
+      function setState(state) {
+        if (!motion.states[state]) throw Error("Unknown owl state: " + state);
+        selected = state;
+        hero.state = state;
+        document.querySelectorAll("#state-controls button").forEach(button => {
+          button.classList.toggle("active", button.dataset.state === state);
+          button.setAttribute("aria-pressed", String(button.dataset.state === state));
+        });
+        document.querySelector("#status").textContent = `${selected} · ${instances.length} rigs · ${reduced ? "static reduced profile" : "spring preview"} · local SVG + JSON`;
+      }
+      reducedInput.onchange = () => { reduced = reducedInput.checked; setState(selected); paint(seconds, 0, true); };
+      document.querySelector("#pause").onclick = () => {
+        paused = !paused;
+        document.querySelector("#pause").textContent = paused ? "Resume" : "Pause";
+      };
+      addEventListener("pointermove", event => { cursor = { x: event.clientX, y: event.clientY }; });
+      addEventListener("pointerout", event => { if (!event.relatedTarget) cursor = null; });
+
+      function paint(time, dt = 0, snap = false) {
+        for (const [index, instance] of instances.entries()) {
+          const spec = motion.states[instance.state];
+          const activeReaction = instance === hero && reaction && !reduced ? motion.reactions[reaction.name] : null;
+          const elapsed = reaction ? time - reaction.started : 0;
+          const envelope = activeReaction && elapsed >= 0 && elapsed < activeReaction.duration
+            ? Math.sin(Math.PI * elapsed / activeReaction.duration) : 0;
+          let gaze = [0, 0];
+          if (spec.eyes.look === "up-left") gaze = [-6, -7];
+          if (spec.eyes.look === "down") gaze = [2, 8];
+          if (spec.eyes.look === "cursor" && cursor) {
+            const rect = instance.el.getBoundingClientRect();
+            gaze = [Math.max(-8, Math.min(8, (cursor.x - rect.x - rect.width / 2) / rect.width * 14)),
+              Math.max(-7, Math.min(7, (cursor.y - rect.y - rect.height / 2) / rect.height * 12))];
+          }
+          // Seeded per-instance cadence; screenshots never depend on Math.random().
+          const blinkPeriod = spec.eyes.blinkEvery[0] + (spec.eyes.blinkEvery[1] - spec.eyes.blinkEvery[0]) * ((index * 0.618034 + 0.37) % 1);
+          const blinkPhase = (time + index * 0.29) % blinkPeriod;
+          const blink = !snap && instance.state !== "sleep" && blinkPhase < 0.17 ? Math.sin(Math.PI * blinkPhase / 0.17) : 0;
+          for (const [name, part] of instance.parts) {
+            const target = { ...home, ...spec.pose[name] };
+            if (!reduced) {
+              for (const osc of spec.osc ?? []) {
+                if (osc.part !== name || (instance.small && !(name === "body" && osc.prop === "sy"))) continue;
+                target[osc.prop] += osc.amp * Math.sin(time * Math.PI * 2 * osc.freq + osc.phase);
+              }
+              if (envelope) {
+                for (const prop of props) target[prop] += (activeReaction.pose[name]?.[prop] ?? 0) * envelope;
+                for (const osc of activeReaction.osc ?? []) {
+                  if (osc.part === name) target[osc.prop] += osc.amp * Math.sin(elapsed * Math.PI * 2 * osc.freq + osc.phase) * envelope;
+                }
+              }
+            }
+            if (name.startsWith("pupil-")) {
+              target.tx += gaze[0]; target.ty += gaze[1];
+              target.sx = target.sy = spec.eyes.pupilScale;
+            }
+            if (name.startsWith("lid-") && instance.state !== "sleep") target.sy = Math.max(target.sy, blink);
+            const spring = motion.springs.parts[name] ?? motion.springs.default;
+            for (const prop of props) {
+              if (snap || reduced) { part.value[prop] = target[prop]; part.velocity[prop] = 0; continue; }
+              const steps = Math.max(1, Math.ceil(dt / (1 / 120)));
+              for (let step = 0; step < steps; step++) {
+                const h = dt / steps;
+                part.velocity[prop] += (spring.stiffness * (target[prop] - part.value[prop]) - spring.damping * part.velocity[prop]) * h;
+                part.value[prop] += part.velocity[prop] * h;
+              }
+            }
+            const v = part.value, [x, y] = part.pivot;
+            part.node.setAttribute("transform", `translate(${v.tx} ${v.ty}) translate(${x} ${y}) rotate(${v.rotate}) scale(${v.sx} ${v.sy}) translate(${-x} ${-y})`);
+          }
+          instance.expressions.forEach(node => node.setAttribute("display", node.id === instance.prefix + "mouth-" + spec.mouth ? "inline" : "none"));
+        }
+      }
+      function frame(now) {
+        const dt = previous ? Math.min((now - previous) / 1000, 0.05) : 0;
+        previous = now;
+        if (!paused && !document.hidden) { seconds += dt; paint(seconds, dt); }
+        requestAnimationFrame(frame);
+      }
+      // Fixed-time screenshots and motion inspection without a production-engine dependency.
+      window.owlPreview = {
+        ready: true,
+        setState,
+        seek(time) { paused = true; seconds = time; paint(time, 0, true); },
+        react(name, time = seconds) {
+          if (!motion.reactions[name]) throw Error("Unknown owl reaction: " + name);
+          reaction = { name, started: time };
+        },
+        get instances() { return instances; },
+        get motion() { return motion; },
+      };
+      setState("idle");
+      paint(1.25, 0, true);
+      requestAnimationFrame(frame);
+    </script>
+  </body>
+</html>

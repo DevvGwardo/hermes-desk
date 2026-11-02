@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Fake local signup fixture</title></head>
+<body>
+  <h1 data-ref="e1">Create a fixture account</h1>
+  <form>
+    <label data-ref="e2" for="email">Email</label>
+    <input data-ref="e3" id="email" type="email" value="new-reader@example.invalid">
+    <label data-ref="e4" for="chosen">Choose a password</label>
+    <input data-ref="e5" id="chosen" autocomplete="section-signup new-password" value="{{FAKE_SIGNUP}}">
+    <label data-ref="e6" for="confirmation">Password confirmation</label>
+    <input data-ref="e7" id="confirmation" autocomplete="new-password" value="{{FAKE_SIGNUP}}">
+    <button data-ref="e8" type="submit">Create account</button>
+  </form>
+</body>
+</html>

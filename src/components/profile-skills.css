@@ -1,0 +1,26 @@
+.profile-memory-command { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.profile-memory-command code { font-size: 12px; user-select: text; overflow-wrap: anywhere; }
+.desk-skill-search {
+  display: block; width: 100%; margin-top: 6px; padding: 8px 10px;
+  border: 1px solid var(--desk-border, var(--ca-border)); border-radius: 8px;
+  color: var(--desk-text-primary); background: var(--desk-surface-2);
+}
+.desk-skill-list {
+  max-height: 224px; overflow: auto; margin-top: 12px; padding: 0; list-style: none;
+}
+.desk-skill-list button {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; padding: 10px;
+  text-align: left; border-bottom: 1px solid var(--ca-border); font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.desk-skill-list button span { color: var(--desk-text-secondary); font-size: 11px; }
+.desk-skill-list button[aria-pressed="true"] { background: var(--ca-primary-soft); }
+.desk-skill-detail {
+  display: flex; flex-direction: column; gap: 10px; margin-top: 14px;
+  padding: 12px; border: 1px solid var(--ca-border); border-radius: 10px; font-size: 12px;
+}
+.desk-skill-detail pre {
+  max-height: 220px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  margin-top: 8px; padding: 8px; background: var(--desk-surface-2); font-size: 11px;
+}
+.desk-skill-detail summary { cursor: pointer; }

@@ -1,0 +1,19 @@
+{
+  "states": {
+    "idle": { "pose": {}, "osc": [{"part":"body","prop":"sy","amp":0.012,"freq":0.25},{"part":"tail","prop":"rotate","amp":6,"freq":0.35}], "mouth":"neutral", "eyes":{"blinkEvery":[2.5,6],"look":"cursor","pupilScale":1} },
+    "thinking": { "pose":{"head":{"rotate":-9},"ear-l":{"rotate":-12},"hand-l":{"rotate":-30}}, "osc":[{"part":"ear-r","prop":"rotate","amp":8,"freq":0.8}], "mouth":"o", "eyes":{"blinkEvery":[3,5],"look":"up-left","pupilScale":0.9}, "fx":[{"type":"dots","anchor":"part-head","y":-172}] },
+    "tool": { "pose":{"head":{"rotate":5},"body":{"rotate":-4},"hand-r":{"rotate":-30}}, "osc":[{"part":"hand-r","prop":"rotate","amp":18,"freq":1.2}], "mouth":"flat", "eyes":{"look":"down"}, "fx":[{"type":"ring","anchor":"part-hand-r","y":0}] },
+    "browsing": { "pose":{"head":{"tx":8},"ear-r":{"rotate":10}}, "osc":[{"part":"head","prop":"rotate","amp":5,"freq":0.4}], "mouth":"neutral", "eyes":{"look":"wander"}, "fx":[{"type":"dots","anchor":"part-head","y":-170}] },
+    "waiting": { "pose":{"head":{"rotate":6},"body":{"sy":0.97}}, "osc":[{"part":"foot-r","prop":"rotate","amp":8,"freq":0.8}], "mouth":"flat", "eyes":{"blinkEvery":[4,7],"look":"center"} },
+    "talking": { "pose":{"head":{"rotate":-3},"hand-l":{"rotate":-12}}, "osc":[{"part":"head","prop":"ty","amp":3,"freq":2},{"part":"mouth","prop":"sy","amp":0.22,"freq":3}], "mouth":"open", "eyes":{"look":"cursor"} },
+    "happy": { "pose":{"body":{"ty":-9},"head":{"rotate":-5},"hand-l":{"rotate":25},"hand-r":{"rotate":-25},"ear-l":{"rotate":-10},"ear-r":{"rotate":10}}, "osc":[{"part":"body","prop":"ty","amp":4,"freq":1.2}], "mouth":"grin", "eyes":{"pupilScale":1.1,"look":"center"}, "fx":[{"type":"sparkle","anchor":"part-head","y":-80,"count":4}] },
+    "error": { "pose":{"head":{"rotate":10},"ear-l":{"rotate":25},"ear-r":{"rotate":-25}}, "osc":[{"part":"head","prop":"tx","amp":2,"freq":3}], "mouth":"o", "eyes":{"look":"center","pupilScale":0.75}, "fx":[{"type":"sweat","anchor":"part-head","x":65,"y":-110,"count":1}] },
+    "sleep": { "pose":{"body":{"sy":0.94,"ty":10},"head":{"rotate":12,"ty":8}}, "osc":[{"part":"body","prop":"sy","amp":0.02,"freq":0.18}], "mouth":"neutral", "eyes":{"look":"down","pupilScale":0.8}, "fx":[{"type":"zzz","anchor":"part-head","y":-150,"count":3}] }
+  },
+  "springs": { "default":{"stiffness":170}, "parts":{"ear-l":{"stiffness":90,"damping":8},"ear-r":{"stiffness":90,"damping":8},"tail":{"stiffness":70,"damping":9},"scarf":{"stiffness":80,"damping":10}} },
+  "reactions": {
+    "pulse":{"duration":0.6,"pose":{"body":{"sx":1.07,"sy":1.07}},"fx":[{"type":"ring","anchor":"part-body","size":30,"y":-90}]},
+    "message":{"duration":0.75,"pose":{"body":{"ty":-25},"hand-r":{"rotate":-40}},"mouth":"smile","fx":[{"type":"sparkle","anchor":"part-head","y":-110}]},
+    "approval":{"duration":0.9,"pose":{"head":{"rotate":-12},"hand-l":{"rotate":25},"hand-r":{"rotate":-25}},"osc":[{"part":"ear-r","prop":"rotate","amp":12,"freq":3}],"mouth":"grin","fx":[{"type":"sparkle","anchor":"part-head","y":-100,"count":4}]}
+  }
+}

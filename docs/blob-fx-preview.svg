@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-15 -15 259 259" width="320" height="320">
+  <rect x="-15" y="-15" width="259" height="259" rx="48" fill="#1a3d6b"/>
+  <ellipse cx="114.2705" cy="66.2705" rx="90.0" ry="34.2" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<ellipse cx="114.2705" cy="162.2705" rx="90.0" ry="34.2" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<ellipse cx="114.2705" cy="86.2705" rx="98.1" ry="37.3" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<ellipse cx="114.2705" cy="142.2705" rx="98.1" ry="37.3" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<ellipse cx="114.2705" cy="100.2705" rx="101.0" ry="38.4" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<ellipse cx="114.2705" cy="128.2705" rx="101.0" ry="38.4" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<ellipse cx="114.2705" cy="108.2705" rx="101.8" ry="38.7" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<ellipse cx="114.2705" cy="120.2705" rx="101.8" ry="38.7" fill="none" stroke="#e8f0fa" stroke-width="2.4" opacity="0.45" stroke-dasharray="18 12" stroke-dashoffset="-35.0"/>
+<circle cx="47.4" cy="92.5" r="3.8" fill="#fff" opacity="0.36"/>
+<circle cx="20.0" cy="121.2" r="3.8" fill="#fff" opacity="0.53"/>
+<circle cx="66.0" cy="149.3" r="3.8" fill="#fff" opacity="0.68"/>
+<path d="M228.541 114.228C228.541 130.133 225.184 145.994 218.738 160.534C212.674 174.217 203.904 186.669 193.065 196.988C155.933 232.34 99.497 238.596 55.5255 212.24C45.097 205.99 35.6851 198.072 27.7451 188.866C19.1926 178.953 12.3686 167.569 7.65781 155.351C2.60712 142.264 0 128.257 0 114.228C0 98.3219 3.35751 82.4611 9.80315 67.9215C15.8672 54.2382 24.6377 41.7862 35.4767 31.4668C72.6081 -3.88483 129.044 -10.1413 173.016 16.2153C183.444 22.4653 192.856 30.3829 200.796 39.5896C209.349 49.5018 216.173 60.8859 220.883 73.1037C225.934 86.1906 228.541 100.198 228.541 114.228Z" fill="#9ecdff"/>
+<circle cx="199.4" cy="122.8" r="3.8" fill="#fff" opacity="0.78"/>
+<circle cx="191.3" cy="92.5" r="3.8" fill="#fff" opacity="0.53"/>
+<circle cx="117.8" cy="74.8" r="3.8" fill="#fff" opacity="0.42"/>
+<circle cx="47.4" cy="92.5" r="3.8" fill="#fff" opacity="0.52"/>
+<circle cx="20.0" cy="121.2" r="3.8" fill="#fff" opacity="0.76"/>
+<circle cx="66.0" cy="149.3" r="3.8" fill="#fff" opacity="0.97"/>
+<circle cx="149.7" cy="144.9" r="3.8" fill="#fff" opacity="0.98"/>
+<ellipse cx="90" cy="118" rx="10" ry="16" fill="#1a3d6b" transform="rotate(-8 90 118)"/>
+<ellipse cx="138" cy="118" rx="10" ry="16" fill="#1a3d6b" transform="rotate(8 138 118)"/>
+
+</svg>

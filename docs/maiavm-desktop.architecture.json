@@ -1,0 +1,370 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Maia Desktop \u2014 Agent Companion",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "user-to-agent",
+        "label": "User \u2192 Agent",
+        "focus": [
+          "users",
+          "vercel",
+          "api",
+          "hermes",
+          "cube"
+        ],
+        "note": "Dashboard click provisions a personal Cube; chat hits the live hermes-agent."
+      },
+      {
+        "id": "desktop-shell",
+        "label": "Desktop shell",
+        "focus": [
+          "electron",
+          "web",
+          "api",
+          "vnc"
+        ],
+        "note": "Same Vite UI in Electron, web, and Android WebView \u2014 one codebase."
+      },
+      {
+        "id": "deploy-and-update",
+        "label": "Ship & update",
+        "focus": [
+          "ci",
+          "vercel",
+          "api",
+          "cube"
+        ],
+        "note": "GitHub \u2192 Vercel \u2192 MaiaVM API \u2192 IONOS; Electron auto-updates per arch channel."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "users",
+      "type": "external",
+      "label": "Users",
+      "sublabel": "Browser / Desktop",
+      "pos": [
+        40,
+        300
+      ],
+      "size": [
+        120,
+        60
+      ]
+    },
+    {
+      "id": "vercel",
+      "type": "cloud",
+      "label": "Vercel",
+      "sublabel": "Hosted web",
+      "pos": [
+        250,
+        300
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "web",
+      "type": "frontend",
+      "label": "Vite UI",
+      "sublabel": "React + Tailwind",
+      "pos": [
+        460,
+        150
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "electron",
+      "type": "frontend",
+      "label": "Electron Shell",
+      "sublabel": "main + preload",
+      "pos": [
+        460,
+        300
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "android",
+      "type": "frontend",
+      "label": "Android",
+      "sublabel": "Capacitor",
+      "pos": [
+        460,
+        440
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "MaiaVM API",
+      "sublabel": "www.maiavm.com",
+      "pos": [
+        670,
+        300
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Postgres",
+      "sublabel": "Railway",
+      "pos": [
+        670,
+        150
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "hermes",
+      "type": "backend",
+      "label": "Hermes Agent",
+      "sublabel": "hermes-agent",
+      "pos": [
+        880,
+        300
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "cube",
+      "type": "cloud",
+      "label": "IONOS Cube",
+      "sublabel": "Agent VM \u2014 IONOS Cloud",
+      "pos": [
+        880,
+        440
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "vnc",
+      "type": "cloud",
+      "label": "noVNC",
+      "sublabel": "Computer view",
+      "pos": [
+        670,
+        440
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "ci",
+      "type": "external",
+      "label": "GitHub Actions",
+      "sublabel": "CI / Releases",
+      "pos": [
+        250,
+        440
+      ],
+      "size": [
+        130,
+        60
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Vercel",
+      "wraps": [
+        "vercel",
+        "web"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Desktop",
+      "wraps": [
+        "electron",
+        "android"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "MaiaVM Backend",
+      "wraps": [
+        "api",
+        "db",
+        "hermes",
+        "cube",
+        "vnc"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "users-to-vercel",
+      "from": "users",
+      "to": "vercel",
+      "label": "HTTPS"
+    },
+    {
+      "id": "vercel-to-web",
+      "from": "vercel",
+      "to": "web"
+    },
+    {
+      "id": "web-to-api",
+      "from": "web",
+      "to": "api",
+      "label": "REST",
+      "labelAt": [
+        620,
+        210
+      ]
+    },
+    {
+      "id": "electron-to-api",
+      "from": "electron",
+      "to": "api",
+      "label": "REST + WS",
+      "labelAt": [
+        580,
+        285
+      ]
+    },
+    {
+      "id": "android-to-api",
+      "from": "android",
+      "to": "api",
+      "label": "pairing"
+    },
+    {
+      "id": "api-to-db",
+      "from": "api",
+      "to": "db",
+      "label": "Prisma"
+    },
+    {
+      "id": "api-to-hermes",
+      "from": "api",
+      "to": "hermes",
+      "label": "deploy"
+    },
+    {
+      "id": "hermes-to-cube",
+      "from": "hermes",
+      "to": "cube",
+      "label": "provision",
+      "labelAt": [
+        945,
+        374
+      ]
+    },
+    {
+      "id": "cube-to-vnc",
+      "from": "cube",
+      "to": "vnc",
+      "label": "desktop",
+      "variant": "dashed",
+      "labelAt": [
+        800,
+        430
+      ]
+    },
+    {
+      "id": "vnc-to-api",
+      "from": "vnc",
+      "to": "api",
+      "label": "tunnel",
+      "variant": "dashed",
+      "labelAt": [
+        750,
+        380
+      ]
+    },
+    {
+      "id": "ci-to-vercel",
+      "from": "ci",
+      "to": "vercel",
+      "label": "deploy"
+    },
+    {
+      "id": "ci-to-cube",
+      "from": "ci",
+      "to": "cube",
+      "label": "release",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "via": [
+        [
+          315,
+          540
+        ],
+        [
+          945,
+          540
+        ]
+      ],
+      "labelAt": [
+        630,
+        550
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "One UI, three shells",
+      "items": [
+        "Vite + React drives web, Electron, and Android",
+        "Electron preload bridges to hermes serve locally",
+        "Capacitor wraps the same dist for Play Store"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Live VM",
+      "items": [
+        "MaiaVM API on Vercel/Railway fronting Postgres",
+        "Hermes agent provisions a dedicated IONOS Cube per user",
+        "Computer panel is the Cube desktop via noVNC"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Ship",
+      "items": [
+        "GitHub Actions \u2192 Vercel for web, Electron auto-update per arch",
+        "Mock mode (VITE_MAIAVM_MOCK) for offline demos",
+        "Same API base (www.maiavm.com) for all shells"
+      ]
+    }
+  ]
+}

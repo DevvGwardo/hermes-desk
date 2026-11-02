@@ -1,0 +1,94 @@
+{
+  "comparison": "Third-pass code versus immutable second-pass source snapshot",
+  "method": "Synthetic temporary ASCII JSONL logs; no models. Three fresh cheap builds per case; separate tracemalloc build for Python allocation peak (not RSS). Sixty uncached eight-record zooms and thirty warm leaf counts. Fixture creation excluded; build fsync included.",
+  "sources": {
+    "before": "/private/tmp/uniichat-pass-three-ld014hre/store.py",
+    "after": "/Users/devgwardo/.hermes/plugins/uniichat/store.py"
+  },
+  "cases": [
+    {
+      "records": 1000,
+      "body_chars": 2000,
+      "before": {
+        "cold_build_median_ms": 14.437,
+        "cold_build_samples_ms": [
+          14.437,
+          15.928,
+          14.236
+        ],
+        "cold_build_python_peak_mib": 6.893,
+        "uncached_narrow_zoom_median_ms": 0.0544,
+        "warm_leaf_count_median_ms": 0.0395,
+        "nodes": 2001
+      },
+      "after": {
+        "cold_build_median_ms": 14.771,
+        "cold_build_samples_ms": [
+          14.453,
+          14.771,
+          14.891
+        ],
+        "cold_build_python_peak_mib": 2.175,
+        "uncached_narrow_zoom_median_ms": 0.0102,
+        "warm_leaf_count_median_ms": 0.004,
+        "nodes": 2001
+      }
+    },
+    {
+      "records": 10000,
+      "body_chars": 2000,
+      "before": {
+        "cold_build_median_ms": 150.307,
+        "cold_build_samples_ms": [
+          161.544,
+          150.307,
+          146.448
+        ],
+        "cold_build_python_peak_mib": 67.234,
+        "uncached_narrow_zoom_median_ms": 0.451,
+        "warm_leaf_count_median_ms": 0.3529,
+        "nodes": 20005
+      },
+      "after": {
+        "cold_build_median_ms": 142.297,
+        "cold_build_samples_ms": [
+          145.405,
+          142.297,
+          142.089
+        ],
+        "cold_build_python_peak_mib": 19.14,
+        "uncached_narrow_zoom_median_ms": 0.0108,
+        "warm_leaf_count_median_ms": 0.004,
+        "nodes": 20005
+      }
+    },
+    {
+      "records": 1000,
+      "body_chars": 20000,
+      "before": {
+        "cold_build_median_ms": 26.497,
+        "cold_build_samples_ms": [
+          26.747,
+          26.497,
+          25.872
+        ],
+        "cold_build_python_peak_mib": 24.059,
+        "uncached_narrow_zoom_median_ms": 0.0567,
+        "warm_leaf_count_median_ms": 0.0411,
+        "nodes": 2001
+      },
+      "after": {
+        "cold_build_median_ms": 25.707,
+        "cold_build_samples_ms": [
+          25.707,
+          29.557,
+          25.56
+        ],
+        "cold_build_python_peak_mib": 2.175,
+        "uncached_narrow_zoom_median_ms": 0.0101,
+        "warm_leaf_count_median_ms": 0.0041,
+        "nodes": 2001
+      }
+    }
+  ]
+}

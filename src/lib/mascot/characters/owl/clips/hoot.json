@@ -1,0 +1,67 @@
+{
+  "duration": 1.35,
+  "blendIn": 0.1,
+  "blendOut": 0.2,
+  "springScale": 3,
+  "tracks": {
+    "parts": {
+      "body": [
+        {"t": 0, "sy": 1, "sx": 1},
+        {"t": 0.25, "sy": 1.07, "sx": 1.05, "ease": "outQuad"},
+        {"t": 0.5, "sy": 0.97, "sx": 1},
+        {"t": 0.68, "sy": 1.06, "sx": 1.04},
+        {"t": 0.95, "sy": 0.98, "sx": 1},
+        {"t": 1.35, "sy": 1, "sx": 1}
+      ],
+      "head": [
+        {"t": 0, "ty": 0, "rotate": -2},
+        {"t": 0.25, "ty": -7, "rotate": -6},
+        {"t": 0.5, "ty": 2},
+        {"t": 0.68, "ty": -7, "rotate": 4},
+        {"t": 0.95, "ty": 2},
+        {"t": 1.35, "ty": 0, "rotate": -2}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -3},
+        {"t": 0.25, "rotate": -10},
+        {"t": 0.68, "rotate": -10},
+        {"t": 1.2, "rotate": -3}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 3},
+        {"t": 0.25, "rotate": 10},
+        {"t": 0.68, "rotate": 10},
+        {"t": 1.2, "rotate": 3}
+      ]
+    },
+    "mouth": [
+      {"t": 0.18, "expr": "o"},
+      {"t": 0.5, "expr": "neutral"},
+      {"t": 0.62, "expr": "o"},
+      {"t": 0.98, "expr": "smile"}
+    ],
+    "eyes": [
+      {"t": 0, "lid": 0},
+      {"t": 0.2, "lid": 0.35},
+      {"t": 1.1, "lid": 0.35},
+      {"t": 1.3, "lid": 0}
+    ],
+    "fx": [
+      {
+        "t": 0.3,
+        "type": "note",
+        "anchor": "head",
+        "params": {"count": 1, "angle": -110, "spread": 20}
+      },
+      {
+        "t": 0.74,
+        "type": "note",
+        "anchor": "head",
+        "params": {"count": 1, "angle": -70, "spread": 20}
+      }
+    ]
+  },
+  "procedural": {
+    "blink": false
+  }
+}

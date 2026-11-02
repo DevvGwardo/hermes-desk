@@ -1,0 +1,152 @@
+{
+  "description": "Local-only synthetic pages. All credentials are explicitly fake; card numbers are standard test PANs.",
+  "pages": [
+    {
+      "file": "adjacent.html",
+      "secrets": ["{{FAKE_OPENAI}}"],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Split token fixture"},
+        {"ref": "e2", "role": "staticText", "name": "[secret]", "sensitive": true},
+        {"ref": "e3", "role": "staticText", "name": "[secret]", "sensitive": true},
+        {"ref": "e4", "role": "staticText", "name": "[secret]", "sensitive": true}
+      ]
+    },
+    {
+      "file": "login.html",
+      "secrets": ["{{FAKE_PASSWORD}}"],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Sign in to the fixture"},
+        {"ref": "e2", "role": "staticText", "name": "Email"},
+        {"ref": "e3", "role": "textbox", "name": "Email", "value": "reader@example.invalid"},
+        {"ref": "e4", "role": "staticText", "name": "Password"},
+        {"ref": "e5", "role": "textbox", "name": "Password", "sensitive": true},
+        {"ref": "e6", "role": "button", "name": "Sign in"},
+        {"ref": "e7", "role": "staticText", "name": "Debug echo: [secret]", "sensitive": true}
+      ]
+    },
+    {
+      "file": "signup.html",
+      "secrets": ["{{FAKE_SIGNUP}}"],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Create a fixture account"},
+        {"ref": "e2", "role": "staticText", "name": "Email"},
+        {"ref": "e3", "role": "textbox", "name": "Email", "value": "new-reader@example.invalid"},
+        {"ref": "e4", "role": "staticText", "name": "Choose a password"},
+        {"ref": "e5", "role": "textbox", "name": "Choose a password", "sensitive": true},
+        {"ref": "e6", "role": "staticText", "name": "Password confirmation"},
+        {"ref": "e7", "role": "textbox", "name": "Password confirmation", "sensitive": true},
+        {"ref": "e8", "role": "button", "name": "Create account"}
+      ]
+    },
+    {
+      "file": "checkout.html",
+      "secrets": ["{{FAKE_CARD}}", "{{FAKE_EXPIRY}}", "{{FAKE_CSC}}", "{{FAKE_OTHER_CARD}}"],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Test card checkout, no real payment"},
+        {"ref": "e2", "role": "staticText", "name": "Card number"},
+        {"ref": "e3", "role": "textbox", "name": "Card number", "sensitive": true},
+        {"ref": "e4", "role": "staticText", "name": "Expiry"},
+        {"ref": "e5", "role": "textbox", "name": "Expiry", "sensitive": true},
+        {"ref": "e6", "role": "staticText", "name": "Security digits"},
+        {"ref": "e7", "role": "textbox", "name": "Security digits", "sensitive": true},
+        {"ref": "e8", "role": "button", "name": "Confirm test order"},
+        {"ref": "e9", "role": "staticText", "name": "Another test card: [card ••••4444].", "sensitive": true}
+      ]
+    },
+    {
+      "file": "otp.html",
+      "secrets": ["{{FAKE_OTP}}", "{{FAKE_NUMERIC_OTP}}", "{{FAKE_TEXT_OTP}}", "{{FAKE_REVERSE_OTP}}"],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Two-factor verification"},
+        {"ref": "e2", "role": "staticText", "name": "Verification code"},
+        {"ref": "e3", "role": "textbox", "name": "Verification code", "sensitive": true},
+        {"ref": "e4", "role": "staticText", "name": "OTP entry"},
+        {"ref": "e5", "role": "textbox", "name": "OTP entry", "sensitive": true},
+        {"ref": "e6", "role": "button", "name": "Verify"},
+        {"ref": "e7", "role": "staticText", "name": "Your 2fa code is [code].", "sensitive": true},
+        {"ref": "e8", "role": "staticText", "name": "[code] is your verification code.", "sensitive": true}
+      ]
+    },
+    {
+      "file": "banking.html",
+      "secrets": ["{{FAKE_IBAN}}", "{{FAKE_ROUTING}}", "{{FAKE_SSN}}", "{{FAKE_EDITABLE}}"],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Demo transfer, not a real bank"},
+        {"ref": "e2", "role": "staticText", "name": "Destination account"},
+        {"ref": "e3", "role": "textbox", "name": "Destination account", "sensitive": true},
+        {"ref": "e4", "role": "staticText", "name": "Bank routing"},
+        {"ref": "e5", "role": "textbox", "name": "Bank routing", "sensitive": true},
+        {"ref": "e6", "role": "staticText", "name": "Tax identity"},
+        {"ref": "e7", "role": "textbox", "name": "Tax identity", "sensitive": true},
+        {"ref": "e8", "role": "textbox", "name": "Routing number", "sensitive": true},
+        {"ref": "e9", "role": "staticText", "name": "Routing number", "sensitive": true},
+        {"ref": "e10", "role": "staticText", "name": "Amount"},
+        {"ref": "e11", "role": "textbox", "name": "Amount", "value": "250"},
+        {"ref": "e12", "role": "button", "name": "Transfer demo funds"}
+      ]
+    },
+    {
+      "file": "settings.html",
+      "secrets": [
+        "{{FAKE_OPENAI}}",
+        "{{FAKE_GITHUB}}",
+        "{{FAKE_OAUTH}}",
+        "{{FAKE_PAT}}",
+        "{{FAKE_SLACK}}",
+        "{{FAKE_AWS}}"
+      ],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Fixture API settings"},
+        {"ref": "e2", "role": "staticText", "name": "API key"},
+        {"ref": "e3", "role": "textbox", "name": "API key", "sensitive": true},
+        {"ref": "e4", "role": "staticText", "name": "GitHub: [secret]", "sensitive": true},
+        {"ref": "e5", "role": "staticText", "name": "OAuth: [secret]", "sensitive": true},
+        {"ref": "e6", "role": "staticText", "name": "Fine-grained: [secret]", "sensitive": true},
+        {"ref": "e7", "role": "staticText", "name": "Slack bot: [secret]", "sensitive": true},
+        {"ref": "e8", "role": "staticText", "name": "AWS test access ID: [secret]", "sensitive": true}
+      ]
+    },
+    {
+      "file": "jwt.html",
+      "secrets": ["{{FAKE_JWT}}"],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Demo diagnostic output"},
+        {"ref": "e2", "role": "staticText", "name": "Bearer [secret]", "sensitive": true},
+        {"ref": "e3", "role": "staticText", "name": "This token is an inert fixture, never an actual credential."}
+      ]
+    },
+    {
+      "file": "pem.html",
+      "secrets": [
+        "{{FAKE_PEM}}",
+        "{{FAKE_PEM_BODY}}",
+        "{{FAKE_SPLIT_BODY}}"
+      ],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "Inert key-shaped fixture"},
+        {"ref": "e2", "role": "staticText", "name": "[secret]", "sensitive": true},
+        {"ref": "e3", "role": "staticText", "name": "[secret]", "sensitive": true},
+        {"ref": "e4", "role": "staticText", "name": "[secret]", "sensitive": true},
+        {"ref": "e5", "role": "staticText", "name": "[secret]", "sensitive": true},
+        {"ref": "e6", "role": "staticText", "name": "Ordinary text after the key."}
+      ]
+    },
+    {
+      "file": "article.html",
+      "benign": true,
+      "secrets": [],
+      "expectedNodes": [
+        {"ref": "e1", "role": "heading", "name": "A numerical history"},
+        {"ref": "e2", "role": "staticText", "name": "Published 2026-10-06. Revised 10/05/2025."},
+        {"ref": "e3", "role": "staticText", "name": "Call +1 (202) 555-0198 or +44 20 7946 0958."},
+        {"ref": "e4", "role": "staticText", "name": "Order 1234567890123456 and reference 9876543210123456789 both fail Luhn."},
+        {"ref": "e5", "role": "staticText", "name": "In 1999 there were 12000 visitors; in 2024 there were 45000."},
+        {"ref": "e6", "role": "staticText", "name": "Price 19.95, latitude 51.5074, longitude 0.1278, postal district 90210."},
+        {"ref": "e7", "role": "staticText", "name": "The code of conduct was adopted in 2026-10-06. Version 2fa is a chapter heading."},
+        {"ref": "e8", "role": "staticText", "name": "Quantity"},
+        {"ref": "e9", "role": "textbox", "name": "Quantity", "value": "123456"},
+        {"ref": "e10", "role": "button", "name": "Search the archive"}
+      ]
+    }
+  ]
+}

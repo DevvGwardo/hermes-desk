@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: hd-avatar: https:; media-src 'self' blob: data: hd-media:; connect-src 'self' ws://127.0.0.1:* http://127.0.0.1:*; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';"
+    />
+    <title>Hermes Desk</title>
+    <meta name="description" content="A local-only desktop app for your Hermes agents." />
+    <!-- Theme before first paint (see public/theme-boot.js). Relative path:
+         web serves from '/', Electron loads dist/index.html over file://. -->
+    <script src="./theme-boot.js"></script>
+    <!-- Local static Pip asset paints before React's animated AgentMascot. -->
+    <style>
+      html { background: #0e0e10; }
+      html[data-theme='dark'] { background: #0e0e10; }
+      .nub-splash {
+        position: fixed; inset: 0; display: grid; place-items: center;
+        background: #0e0e10;
+      }
+      html[data-theme='dark'] .nub-splash { background: #0e0e10; }
+      .nub-splash__mark {
+        display: block; overflow: hidden;
+        width: 96px; height: 96px; opacity: 0;
+        /* Appear only if boot is slow enough to notice (140ms), then breathe. */
+        animation:
+          nub-splash-in 160ms ease-out 140ms forwards;
+      }
+      .nub-splash__mark img { display: block; width: 100%; height: 100%; }
+      html[data-theme='dark'] .nub-splash__mark { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+      @keyframes nub-splash-in {
+        from { opacity: 0; transform: scale(0.92); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .nub-splash__mark { animation: none; opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="nub-root"><div class="nub-splash" role="status" aria-label="Loading Hermes Desk"><span class="nub-splash__mark" aria-hidden="true"><img src="./src/lib/mascot/characters/owl/rig.svg" alt="" width="96" height="96" /></span></div></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+    <!-- REQUIRED for ad-hoc signing — do not remove. The bundle is signed
+      with `codesign -s -` (no Apple Developer ID), so the app binary and
+      Electron Framework.framework carry no Team ID. Under the hardened
+      runtime, library validation then makes dyld refuse to load the
+      framework ("mapping process and mapped file have different Team IDs")
+      and macOS shows "Nub Agent cannot be opened because of a problem".
+      The 2026-09-17 audit dropped this key as hardening; every Mac build
+      from 0.1.18 to 0.1.20 failed to launch until 0.1.21 restored it.
+      scripts/build-desktop.mjs refuses to ship an ad-hoc build without it. -->
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
+    <!-- Still dropped (audit 2026-09-17): allow-unsigned-executable-memory
+      (allow-jit covers V8) and network.server (the app never listens). -->
+    <!-- osascript verification: act backends pin /usr/bin/osascript (see
+      electron/screen-act.cjs OSA_PATH) and cliclick resolves through
+      bin-guard trust checks — no entitlement grants executable-memory or
+      library-validation exceptions to cover them. -->
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+  </dict>
+</plist>

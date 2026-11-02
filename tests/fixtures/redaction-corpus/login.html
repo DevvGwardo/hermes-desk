@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Fake local login fixture</title></head>
+<body>
+  <h1 data-ref="e1">Sign in to the fixture</h1>
+  <form>
+    <label data-ref="e2" for="email">Email</label>
+    <input data-ref="e3" id="email" type="email" value="reader@example.invalid">
+    <label data-ref="e4" for="password">Password</label>
+    <input data-ref="e5" id="password" type="{{FAKE_PASSWORD_TYPE}}" autocomplete="current-password" value="{{FAKE_PASSWORD}}">
+    <button data-ref="e6" type="submit">Sign in</button>
+  </form>
+  <p data-ref="e7">Debug echo: {{FAKE_PASSWORD}}</p>
+</body>
+</html>

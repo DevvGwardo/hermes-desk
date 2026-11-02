@@ -1,0 +1,91 @@
+{
+  "duration": 0.62,
+  "blendIn": 0.08,
+  "blendOut": 0.12,
+  "springScale": 5,
+  "procedural": {
+    "blink": false
+  },
+  "tracks": {
+    "parts": {
+      "wing-l": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.18, "rotate": 28, "ease": "outQuad"},
+        {"t": 0.3, "rotate": 124, "ease": "outCubic"},
+        {"t": 0.4, "rotate": 26, "ease": "inQuad"},
+        {"t": 0.5, "rotate": 120, "ease": "outCubic"},
+        {"t": 0.62, "rotate": 70}
+      ],
+      "wing-r": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.18, "rotate": -28, "ease": "outQuad"},
+        {"t": 0.3, "rotate": -124, "ease": "outCubic"},
+        {"t": 0.4, "rotate": -26, "ease": "inQuad"},
+        {"t": 0.5, "rotate": -120, "ease": "outCubic"},
+        {"t": 0.62, "rotate": -70}
+      ],
+      "body": [
+        {"t": 0, "sy": 1, "sx": 1},
+        {"t": 0.18, "sy": 0.92, "sx": 1.05, "ease": "outQuad"},
+        {"t": 0.34, "sy": 1.05, "sx": 0.97, "ease": "outCubic"},
+        {"t": 0.62, "sy": 1, "sx": 1}
+      ],
+      "head": [
+        {"t": 0, "ty": 0},
+        {"t": 0.18, "ty": 7},
+        {"t": 0.34, "ty": -5, "ease": "outBack"},
+        {"t": 0.62, "ty": 0}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -3},
+        {"t": 0.18, "rotate": -12},
+        {"t": 0.4, "rotate": -20},
+        {"t": 0.62, "rotate": -14}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 3},
+        {"t": 0.18, "rotate": 12},
+        {"t": 0.4, "rotate": 20},
+        {"t": 0.62, "rotate": 14}
+      ],
+      "foot-l": [
+        {"t": 0, "rotate": 0, "ty": 0, "sy": 1},
+        {"t": 0.3, "rotate": 0, "ty": 0, "sy": 1},
+        {"t": 0.45, "rotate": 14, "ty": -12, "sy": 0.72}
+      ],
+      "foot-r": [
+        {"t": 0, "rotate": 0, "ty": 0, "sy": 1},
+        {"t": 0.3, "rotate": 0, "ty": 0, "sy": 1},
+        {"t": 0.45, "rotate": -14, "ty": -12, "sy": 0.72}
+      ]
+    },
+    "root": [
+      {"t": 0, "y": 0, "sy": 1, "sx": 1},
+      {"t": 0.18, "y": 6, "sy": 0.93, "sx": 1.05, "ease": "outQuad"},
+      {"t": 0.34, "y": -28, "sy": 1.06, "sx": 0.96, "ease": "outCubic"},
+      {"t": 0.62, "y": -20, "sy": 1, "sx": 1, "ease": "inOutSine"}
+    ],
+    "eyes": [
+      {"t": 0, "lid": 0},
+      {"t": 0.16, "lid": 0.35},
+      {"t": 0.3, "lid": 0}
+    ],
+    "fx": [
+      {
+        "t": 0.3,
+        "type": "dust",
+        "anchor": "feet",
+        "params": {"count": 7}
+      },
+      {
+        "t": 0.42,
+        "type": "feather",
+        "anchor": "wing-l",
+        "params": {"count": 1}
+      }
+    ],
+    "events": [
+      {"t": 0.38, "name": "airborne"}
+    ]
+  }
+}

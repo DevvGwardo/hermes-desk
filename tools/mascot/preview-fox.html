@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dash · courier fox rig preview</title>
+  <style>
+    :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #f8eee3; background: #0e0e0f; }
+    * { box-sizing: border-box; }
+    body { margin: 0 auto; padding: 36px; max-width: 1380px; }
+    header { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
+    h1 { font-size: 42px; letter-spacing: -1.6px; margin: 8px 0; }
+    h2 { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; margin: 28px 0 14px; color: #b2aaa4; }
+    p { color: #b2aaa4; font-size: 14px; margin: 0; line-height: 1.6; }
+    .eyebrow { font-size: 11px; letter-spacing: 0.18em; color: #75d6d0; text-transform: uppercase; }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 16px 0; }
+    label { display: flex; gap: 8px; align-items: center; color: #b2aaa4; font-size: 12px; }
+    select, button { border: 1px solid #ffffff24; background: #242426; padding: 9px 12px; color: #f8eee3; border-radius: 8px; font: inherit; font-size: 12px; }
+    button { cursor: pointer; }
+    .hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+    .panel, .state-card, .palette-card { background: #161617; border: 1px solid #ffffff0c; border-radius: 18px; }
+    .panel { padding: 20px; }
+    .large { display: flex; align-items: center; justify-content: center; min-height: 324px; }
+    .detail { display: flex; flex-direction: column; justify-content: center; gap: 20px; background: #1c1c1e; }
+    .sizes { display: flex; align-items: center; justify-content: center; gap: 35px; }
+    figure { margin: 0; text-align: center; }
+    figcaption { font-size: 10px; color: #888388; margin-top: 4px; }
+    .sidebar-chip { display: flex; align-items: center; gap: 10px; background: #161617; border-radius: 10px; padding: 12px; max-width: 250px; margin: 0 auto; }
+    .sidebar-chip strong { font-size: 13px; font-weight: 550; }
+    .sidebar-chip p { font-size: 11px; }
+    .rig { line-height: 0; flex: 0 0 auto; }
+    .rig svg { display: block; width: 100%; height: 100%; overflow: hidden; }
+    .states { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .state-card { padding: 16px 20px; }
+    .card-title { display: flex; justify-content: space-between; color: #f8eee3; font-size: 13px; font-weight: 550; text-transform: capitalize; }
+    .card-title span { color: #75d6d0; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .state-art { display: flex; align-items: center; justify-content: center; gap: 28px; min-height: 165px; }
+    .state-card p { font-size: 11px; text-align: center; }
+    .palettes { display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; }
+    .palette-card { padding: 12px; text-align: center; }
+    .palette-card .rig { margin: auto; }
+    .palette-card p { font-size: 10px; }
+    .swatches { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
+    .swatches i { width: 10px; height: 10px; border-radius: 50%; }
+    .footer { margin-top: 24px; font-size: 11px; color: #888388; }
+    @media (max-width: 800px) { body { padding: 20px; } header { display: block; } .hero { grid-template-columns: 1fr; } .states { grid-template-columns: repeat(2, 1fr); } .palettes { grid-template-columns: repeat(4, 1fr); } }
+  </style>
+</head>
+<body>
+  <header>
+    <div><div class="eyebrow">Hermes Desk · character study 02</div><h1>Dash, the courier fox.</h1><p>Swift feet. Warm heart. Always ready for the next delivery.</p></div>
+    <p>Original vector rig<br>160px hero · 40px sidebar</p>
+  </header>
+  <div class="controls">
+    <label>State <select id="state"></select></label>
+    <label>Palette <select id="palette"><option value="-1">Dash · amber / sea glass</option></select></label>
+    <label><input id="reduced" type="checkbox"> Reduced motion</label>
+    <button id="pause">Pause</button>
+    <button data-reaction="pulse">Pulse</button><button data-reaction="message">Message</button><button data-reaction="approval">Approval</button>
+  </div>
+  <section class="hero">
+    <div class="panel large" id="hero"></div>
+    <div class="panel detail">
+      <div class="sizes"><figure><div id="medium"></div><figcaption>160px · app hero</figcaption></figure><figure><div id="small"></div><figcaption>40px</figcaption></figure></div>
+      <div class="sidebar-chip"><div id="sidebar"></div><div><strong>Dash</strong><p>Local courier · ready</p></div></div>
+      <p style="text-align:center">Tall ears, cream cheeks, a generous tail.<br>A woven scarf and feather-winged talaria.</p>
+    </div>
+  </section>
+  <h2>Nine states · one layered rig</h2><section class="states" id="states"></section>
+  <h2>Eight agent palettes · dark chrome</h2><section class="palettes" id="palettes"></section>
+  <p class="footer">Standalone contract preview. Static screenshot seeking uses the same poses and oscillators as motion.json; the shared app engine owns spring transitions, reactions, fidgets, and visibility scheduling.</p>
+  <script type="module">
+    const base = '../../src/lib/mascot/characters/fox/'
+    const [svgSource, motion, palettes] = await Promise.all([
+      fetch(`${base}rig.svg`).then(r => { if (!r.ok) throw new Error('Cannot load rig'); return r.text() }),
+      fetch(`${base}motion.json`).then(r => r.json()),
+      fetch(`${base}palette.json`).then(r => r.json()),
+    ])
+    const defaults = { rotate: 0, tx: 0, ty: 0, sx: 1, sy: 1 }
+    const descriptions = {
+      idle: 'An eager stance, breathing, drifting scarf.',
+      thinking: 'Paw to chin; ears tune in to an idea.',
+      tool: 'Busy paws and a sweeping tail.',
+      browsing: 'Alert ears, darting eyes, fluttering talaria.',
+      waiting: 'Sitting patiently, with a tucked tail.',
+      talking: 'A conversational nod and cycling mouth.',
+      happy: 'A joyful bounce, raised paws, a tail wag.',
+      error: 'Ears fold flat; a sheepish little frown.',
+      sleep: 'Curled up, nose tucked under the tail.',
+    }
+    const paletteNames = ['Sky', 'Grove', 'Lilac', 'Rose', 'Lagoon', 'Honey', 'Dusk', 'Peach']
+    const instances = []
+    let selectedState = 'idle', selectedPalette = palettes.default, paused = false, fixedTime = null
+    let reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+    let reaction = null, reactionStart = 0, cursor = null, sequence = 0
+    document.querySelector('#reduced').checked = reduced
+
+    function mount(container, size, state = null, palette = null) {
+      const el = document.createElement('div')
+      el.className = 'rig'
+      el.style.width = `${size}px`
+      el.style.height = `${size}px`
+      el.innerHTML = svgSource
+      container.append(el)
+      const svg = el.querySelector('svg')
+      // Each inline copy needs local paint-server IDs so agent tinting never leaks.
+      const namespace = `fox-preview-${++sequence}-`
+      for (const node of svg.querySelectorAll('defs [id], title[id], desc[id]')) {
+        const id = node.id, nextId = namespace + id
+        for (const target of svg.querySelectorAll('*')) {
+          for (const attr of [...target.attributes]) {
+            if (attr.value.includes(`url(#${id})`)) target.setAttribute(attr.name, attr.value.replaceAll(`url(#${id})`, `url(#${nextId})`))
+          }
+        }
+        svg.setAttribute('aria-labelledby', svg.getAttribute('aria-labelledby').split(' ').map(value => value === id ? nextId : value).join(' '))
+        node.id = nextId
+      }
+      const parts = new Map([...svg.querySelectorAll('[id^="part-"]')].map(node => [
+        node.id.slice(5), { node, pivot: node.dataset.pivot.split(/\s+/).map(Number) },
+      ]))
+      const fx = document.createElementNS(svg.namespaceURI, 'g')
+      fx.setAttribute('aria-hidden', 'true')
+      fx.setAttribute('fill', 'var(--m-accent, #75d6d0)')
+      svg.append(fx)
+      const instance = { el, svg, parts, fx, size, state, palette }
+      instances.push(instance)
+      return instance
+    }
+    mount(document.querySelector('#hero'), 320)
+    mount(document.querySelector('#medium'), 160)
+    mount(document.querySelector('#small'), 40)
+    mount(document.querySelector('#sidebar'), 40)
+    for (const state of Object.keys(motion.states)) {
+      document.querySelector('#state').add(new Option(state, state))
+      const card = document.createElement('article')
+      card.className = 'state-card'
+      card.dataset.state = state
+      card.innerHTML = `<div class="card-title">${state}<span>fox / ${String(Object.keys(motion.states).indexOf(state) + 1).padStart(2, '0')}</span></div><div class="state-art"><figure class="hero-rig"></figure><figure class="small-rig"></figure></div><p>${descriptions[state]}</p>`
+      document.querySelector('#states').append(card)
+      mount(card.querySelector('.hero-rig'), 160, state)
+      mount(card.querySelector('.small-rig'), 40, state)
+    }
+    palettes.agents.forEach((palette, index) => {
+      document.querySelector('#palette').add(new Option(paletteNames[index], String(index)))
+      const card = document.createElement('article')
+      card.className = 'palette-card'
+      card.dataset.palette = index
+      card.innerHTML = `<div class="art"></div><p>${paletteNames[index]}</p><div class="swatches"></div>`
+      document.querySelector('#palettes').append(card)
+      mount(card.querySelector('.art'), 96, 'idle', palette)
+      for (const key of ['primary', 'secondary', 'accent', 'belly']) {
+        const swatch = document.createElement('i')
+        swatch.style.background = palette[key]
+        card.querySelector('.swatches').append(swatch)
+      }
+    })
+
+    function render(instance, time) {
+      const state = instance.state ?? selectedState
+      const spec = motion.states[state]
+      const palette = instance.palette ?? selectedPalette
+      for (const [key, value] of Object.entries(palette)) instance.el.style.setProperty(`--m-${key}`, value)
+      const small = instance.size <= 48
+      for (const [name, { node, pivot: [x, y] }] of instance.parts) {
+        const pose = { ...defaults, ...spec.pose[name] }
+        if (!reduced) {
+          for (const osc of spec.osc ?? []) {
+            if (osc.part === name && (!small || name === 'body' && osc.prop === 'sy')) {
+              pose[osc.prop] += osc.amp * Math.sin(time * Math.PI * 2 * osc.freq + osc.phase)
+            }
+          }
+        }
+        // One-shot poses are additive deltas, with sx/sy measured from 1.
+        if (!instance.state && reaction && !reduced && !small) {
+          const overlay = motion.reactions[reaction]
+          const elapsed = time - reactionStart
+          if (elapsed >= 0 && elapsed < overlay.duration) {
+            const envelope = Math.sin(Math.PI * elapsed / overlay.duration) ** 2
+            for (const [prop, value] of Object.entries(overlay.pose[name] ?? {})) pose[prop] += (value - defaults[prop]) * envelope
+          }
+        }
+        if (name.startsWith('lid-') && state !== 'sleep') {
+          const [low, high] = spec.eyes.blinkEvery
+          const cycle = time % ((low + high) / 2)
+          if (cycle < 0.17) pose.sy = Math.max(pose.sy, Math.sin(cycle / 0.17 * Math.PI))
+        }
+        node.setAttribute('transform', `translate(${x + pose.tx} ${y + pose.ty}) rotate(${pose.rotate}) scale(${pose.sx} ${pose.sy}) translate(${-x} ${-y})`)
+      }
+      let look = [0, 0]
+      if (!reduced) {
+        if (spec.eyes.look === 'down') look = [0, 5]
+        if (spec.eyes.look === 'up-left') look = [-5, -4]
+        if (spec.eyes.look === 'wander' && !small) look = [Math.sin(Math.floor(time * 3) * 2.3) * 6, Math.cos(Math.floor(time * 3) * 1.7) * 3]
+        if (spec.eyes.look === 'cursor' && cursor && !small) {
+          const rect = instance.el.getBoundingClientRect()
+          look = [Math.max(-6, Math.min(6, (cursor[0] - rect.x - rect.width / 2) / 45)), Math.max(-4, Math.min(4, (cursor[1] - rect.y - rect.height / 2) / 45))]
+        }
+      }
+      for (const [id, cx] of [['pupil-l', 224], ['pupil-r', 287]]) {
+        const scale = spec.eyes.pupilScale
+        instance.svg.querySelector(`#${id}`).setAttribute('transform', `translate(${cx + look[0]} ${202 + look[1]}) scale(${scale}) translate(${-cx} -202)`)
+      }
+      let mouth = spec.mouth
+      if (state === 'talking' && !reduced && !small) mouth = ['open', 'smile', 'o', 'open', 'neutral'][Math.floor(time * 7) % 5]
+      for (const node of instance.svg.querySelectorAll('[id^="mouth-"]')) node.setAttribute('display', node.id === `mouth-${mouth}` ? 'inline' : 'none')
+      instance.fx.replaceChildren()
+      if (!reduced && !small && spec.fx?.length) {
+        const { type, anchor } = spec.fx[0]
+        const rect = instance.svg.querySelector(`#${anchor}`).getBoundingClientRect()
+        const svgRect = instance.svg.getBoundingClientRect()
+        const x = Math.min(460, (rect.right - svgRect.left) / svgRect.width * 512 - 15)
+        const y = Math.max(33, (rect.top - svgRect.top) / svgRect.height * 512 + 20)
+        const text = document.createElementNS(instance.svg.namespaceURI, 'text')
+        text.setAttribute('x', x)
+        text.setAttribute('y', y)
+        text.setAttribute('font-size', type === 'zzz' ? '27' : '32')
+        text.setAttribute('font-family', 'sans-serif')
+        text.setAttribute('font-weight', '600')
+        text.textContent = { dots: '···', sparkle: '✧', zzz: 'z z', sweat: '′' }[type] ?? ''
+        instance.fx.append(text)
+      }
+    }
+    function draw(time) { instances.forEach(instance => render(instance, time)) }
+    const origin = performance.now()
+    function frame(now) {
+      if (!paused && fixedTime === null) draw((now - origin) / 1000)
+      requestAnimationFrame(frame)
+    }
+    requestAnimationFrame(frame)
+    document.querySelector('#state').onchange = event => { selectedState = event.target.value; draw(fixedTime ?? 1.25) }
+    document.querySelector('#palette').onchange = event => { selectedPalette = Number(event.target.value) < 0 ? palettes.default : palettes.agents[Number(event.target.value)]; draw(fixedTime ?? 1.25) }
+    document.querySelector('#reduced').onchange = event => { reduced = event.target.checked; draw(fixedTime ?? 1.25) }
+    document.querySelector('#pause').onclick = event => { paused = !paused; event.target.textContent = paused ? 'Resume' : 'Pause' }
+    document.querySelectorAll('[data-reaction]').forEach(button => { button.onclick = () => { reaction = button.dataset.reaction; reactionStart = (performance.now() - origin) / 1000 } })
+    document.addEventListener('pointermove', event => { cursor = [event.clientX, event.clientY] })
+    document.addEventListener('pointerleave', () => { cursor = null })
+    window.foxPreview = {
+      states: Object.keys(motion.states),
+      setState(state) { if (!motion.states[state]) throw new Error(`Unknown state: ${state}`); selectedState = state; document.querySelector('#state').value = state; draw(fixedTime ?? 1.25) },
+      seek(time) { fixedTime = time; draw(time) },
+      setReduced(value) { reduced = value; document.querySelector('#reduced').checked = value; draw(fixedTime ?? 1.25) },
+      setPalette(index) { selectedPalette = index < 0 ? palettes.default : palettes.agents[index]; document.querySelector('#palette').value = index; draw(fixedTime ?? 1.25) },
+      ready: true,
+    }
+    draw(1.25)
+  </script>
+</body>
+</html>

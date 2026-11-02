@@ -1,0 +1,54 @@
+{
+  "duration": 2.0,
+  "blendIn": 0.08,
+  "blendOut": 0.4,
+  "springScale": 2,
+  "tracks": {
+    "parts": {
+      "head": [
+        {"t": 0, "rotate": -2},
+        {"t": 0.3, "rotate": 14},
+        {"t": 0.6, "rotate": -12},
+        {"t": 0.9, "rotate": 10},
+        {"t": 1.2, "rotate": -8},
+        {"t": 1.5, "rotate": 5},
+        {"t": 2.0, "rotate": 4}
+      ],
+      "body": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.3, "rotate": -4},
+        {"t": 0.6, "rotate": 4},
+        {"t": 0.9, "rotate": -3},
+        {"t": 1.2, "rotate": 2},
+        {"t": 1.5, "rotate": 0}
+      ],
+      "helmet": [
+        {"t": 0, "rotate": 0, "tx": 0},
+        {"t": 0.3, "rotate": -14, "tx": -6},
+        {"t": 0.9, "rotate": -10, "tx": -5},
+        {"t": 2.0, "rotate": -9, "tx": -4}
+      ]
+    },
+    "mouth": [
+      {"t": 0.1, "expr": "flat"}
+    ],
+    "eyes": [
+      {"t": 0.1, "look": [0.7, -0.5]},
+      {"t": 0.45, "look": [-0.7, -0.3]},
+      {"t": 0.8, "look": [0.7, -0.5]},
+      {"t": 1.15, "look": [-0.7, -0.3]},
+      {"t": 1.6, "look": [0, 0]}
+    ],
+    "fx": [
+      {
+        "t": 0.1,
+        "type": "star",
+        "anchor": "helmet",
+        "params": {"count": 3}
+      }
+    ]
+  },
+  "procedural": {
+    "lookAt": false
+  }
+}

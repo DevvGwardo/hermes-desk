@@ -1,0 +1,92 @@
+.computer-pip {
+  --pip-agent-color: #8bb8e8;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 440px);
+  min-width: 260px;
+  overflow: hidden;
+  color: #e9e9ed;
+  background: #1c1c1e;
+  border: 1px solid #ffffff22;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px #00000030;
+  font: 12px/1.45 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.computer-pip-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+}
+
+.computer-pip-header h3 {
+  flex: 1;
+  min-width: 100px;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.computer-pip-dot { color: var(--pip-agent-color); }
+.computer-pip-controls { display: flex; gap: 5px; }
+
+.computer-pip button,
+.computer-pip-launcher button {
+  padding: 5px 7px;
+  color: inherit;
+  background: #2a2a2c;
+  border: 1px solid #ffffff1a;
+  border-radius: 7px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.computer-pip button:hover:not(:disabled),
+.computer-pip-launcher button:hover:not(:disabled) { background: #3a3a3d; }
+.computer-pip button:disabled,
+.computer-pip-launcher button:disabled { opacity: .45; cursor: default; }
+.computer-pip button:focus-visible,
+.computer-pip-launcher button:focus-visible { outline: 2px solid #8bb8e8; outline-offset: 2px; }
+
+.computer-pip-preview {
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+  background: #101012;
+}
+
+.computer-pip-surface { position: relative; width: 100%; }
+.computer-pip-surface img { display: block; width: 100%; height: 100%; pointer-events: none; }
+.computer-pip-point {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  pointer-events: none;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #ffffff26;
+  transform: translate(-50%, -50%);
+}
+.computer-pip-empty { margin: 0; padding: 24px; color: #a0a0a8; text-align: center; }
+.computer-pip-footer { padding: 8px 10px; color: #a0a0a8; font-size: 10px; overflow-wrap: anywhere; }
+.computer-pip-age { color: #d5d5db; }
+.computer-pip-launcher { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; }
+.computer-pip-launcher [role='status'] { max-width: 160px; color: #a0a0a8; }
+
+/* Separate layout space keeps native browser pixels out of the preview. */
+.workspace-computer-preview {
+  display: flex;
+  flex: 0 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px;
+  overflow: auto;
+}
+.workspace-computer-preview[hidden] { display: none; }

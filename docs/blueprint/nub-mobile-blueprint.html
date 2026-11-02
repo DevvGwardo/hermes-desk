@@ -1,0 +1,878 @@
+<title>Nub Agent Mobile Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a phone-first report — a narrow reading column beside a sticky contents rail,
+   with the app's own Nub sky, ink and pink; KPI tiles are rounded like the phone's pills. */
+:root {
+  --sky: #eaf4ff; --surface: #ffffff; --ink: #1a3d6b; --muted: #557092; --line: #d3e3f6;
+  --accent: #2f7ed8; --accent-soft: #dcecff; --pink: #ffc0d8; --pink-ink: #9b2c5a;
+  --ok: #1f7a46; --bad: #b3261e; --warn: #8a5600; --warn-soft: #fff1d6;
+  --tile: #1a3d6b; --tile-ink: #ffffff; --tile-sub: #b9d4f3;
+  --display: "Poppins", "Avenir Next", system-ui, sans-serif;
+  --body: "Nunito Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; --sky: #0d1726; --surface: #142236; --ink: #e3eeff; --muted: #9db4d3; --line: #23395a; --accent: #7db6ff; --accent-soft: #1c3253; --pink: #5a2a40; --pink-ink: #ffb3d1; --ok: #74d39a; --bad: #ff8a80; --warn: #f2bd61; --warn-soft: #33270f; --tile: #0a1220; --tile-ink: #e3eeff; --tile-sub: #8fb0d8; }
+}
+:root[data-theme="dark"] { color-scheme: dark; --sky: #0d1726; --surface: #142236; --ink: #e3eeff; --muted: #9db4d3; --line: #23395a; --accent: #7db6ff; --accent-soft: #1c3253; --pink: #5a2a40; --pink-ink: #ffb3d1; --ok: #74d39a; --bad: #ff8a80; --warn: #f2bd61; --warn-soft: #33270f; --tile: #0a1220; --tile-ink: #e3eeff; --tile-sub: #8fb0d8; }
+* { box-sizing: border-box; }
+body { background: var(--sky); color: var(--ink); font: 16px/1.6 var(--body); padding-inline: 16px; padding-block: 0 80px; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 48px; }
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; padding-top: 44px; font-size: 14px; }
+nav.toc p { font: 600 12px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+nav.toc a { color: var(--muted); text-decoration: none; } nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); }
+main { min-width: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+header.top { padding-block: 44px 8px; }
+.eyebrow { font: 600 12px/1.4 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+h1 { font: 700 clamp(30px, 5vw, 48px)/1.08 var(--display); letter-spacing: -.02em; margin: 0 0 18px; text-wrap: balance; }
+h2 { font: 600 26px/1.2 var(--display); margin: 0 0 10px; text-wrap: balance; }
+h3 { font: 600 17px/1.3 var(--display); margin: 28px 0 8px; }
+.lede { font-size: 19px; max-width: 62ch; margin: 0 0 12px; }
+p { max-width: 68ch; margin: 0 0 12px; }
+.muted { color: var(--muted); }
+code { font: .85em var(--mono); background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+section { padding-top: 56px; scroll-margin-top: 16px; }
+section > .intro { color: var(--muted); max-width: 68ch; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 26px 0 8px; }
+.kpi { background: var(--tile); color: var(--tile-ink); border-radius: 22px; padding: 14px 16px 12px; }
+.kpi b { display: block; font: 600 28px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.kpi span { display: block; font-size: 12.5px; line-height: 1.35; color: var(--tile-sub); margin-top: 7px; }
+.kpi.was b small { font: 500 13px var(--mono); color: var(--tile-sub); margin-left: 6px; }
+figure { margin: 18px 0 0; }
+figure img, video { display: block; max-width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); }
+figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; max-width: 80ch; }
+.hero-media { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 18px; }
+.hero-media video { width: 100%; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+th { font: 600 11.5px/1.3 var(--display); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+td.num { font: 12.5px var(--mono); font-variant-numeric: tabular-nums; }
+.table-box { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin-top: 16px; }
+.pill { display: inline-block; font: 600 11px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; padding: 4px 8px; border-radius: 99px; white-space: nowrap; }
+.pill.ok { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); }
+.pill.bad { background: color-mix(in srgb, var(--bad) 15%, transparent); color: var(--bad); }
+.pill.close { background: var(--warn-soft); color: var(--warn); }
+.pill.fixed { background: var(--accent-soft); color: var(--accent); }
+.pill.new { background: var(--pink); color: var(--pink-ink); }
+.arch, .module { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.arch { padding: 16px; margin-top: 16px; overflow-x: auto; }
+.modules { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 16px; }
+.module { padding: 14px 16px; min-width: 0; } .module h4 { margin: 0 0 4px; font: 600 15px/1.3 var(--display); } .module p { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
+.tier { margin-top: 26px; } .tier > h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin: 0 0 4px; } .tier > h3 small { font: 500 13px var(--body); color: var(--muted); }
+.items { display: grid; gap: 10px; margin-top: 12px; }
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.item h4 { margin: 0 0 6px; font: 600 15.5px/1.35 var(--display); }
+.item dl { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 4px 12px; margin: 0; font-size: 14px; }
+.item dt { color: var(--muted); } .item dd { margin: 0; min-width: 0; } .effort { font: 12px var(--mono); color: var(--muted); }
+.callout { background: var(--warn-soft); border-radius: 14px; padding: 14px 16px; margin-top: 16px; max-width: 80ch; } .callout strong { color: var(--warn); }
+ul.clean { padding-left: 20px; margin: 8px 0 0; max-width: 72ch; } ul.clean li { margin-bottom: 6px; }
+pre.cmd { background: var(--tile); color: var(--tile-ink); font: 13px/1.6 var(--mono); padding: 14px 16px; border-radius: 14px; overflow-x: auto; margin-top: 14px; }
+@media (max-width: 900px) { .wrap { grid-template-columns: 1fr; gap: 0; } nav.toc { display: none; } .hero-media, .two { grid-template-columns: 1fr; } .hero-media video { max-width: 320px; } .item dl { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <p>Blueprint</p>
+  <ol>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#overnight">Overnight loop</a></li>
+    <li><a href="#watch">Watch it</a></li>
+    <li><a href="#new">New in this pass</a></li>
+    <li><a href="#parity">Parity table</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#tour">Tour</a></li>
+    <li><a href="#tests">Test results</a></li>
+    <li><a href="#fixed">Fixed</a></li>
+    <li><a href="#loop">Gap loop</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#run">Run &amp; reproduce</a></li>
+  </ol>
+</nav>
+<main>
+<header class="top" id="status">
+  <p class="eyebrow">maiavm-desktop · mobile blueprint · 2026-10-06 · fix/host-modal-note (#269, top of a stack of thirty-five PRs from #226, on main @ f2e7382) · pass 3 + gap loop + morning follow-up</p>
+  <h1>The phone app now reaches what the web app does</h1>
+  <p class="lede">Nub Agent ships one React app in two shells. Desktop-width browsers and Electron get the full app; phones (and the Android app) get a lighter phone shell. Before these two passes the phone had no Routines, search only found agents, shared links landed on the home list, and most of Settings, chat history and the task board were desktop-only.</p>
+  <p class="muted">Every number and screenshot below comes from a local run in Chrome against the app's offline demo mode, driven by the harness in <code>tools/blueprint/</code>. Requests to anything other than the local dev server were blocked, so no account, VM or pairing was involved.</p>
+  <div class="kpis" role="list">
+    <div class="kpi was" role="listitem"><b>30/30<small>was 8/27</small></b><span>core parity checks at 390 × 844</span></div>
+    <div class="kpi" role="listitem"><b>26/26</b><span>pass 2: search, history, tasks, recipes, files, invites, keys</span></div>
+    <div class="kpi" role="listitem"><b>23/23</b><span>pass 3: dark-mode contrast, tablet column, keyboard</span></div>
+    <div class="kpi" role="listitem"><b>21/21</b><span>regression sweep: desktop + phones at 360, 390, 430px</span></div>
+    <div class="kpi was" role="listitem"><b>7/7<small>was 1/7</small></b><span>gap loop: web shortcuts and links never leave a hidden panel</span></div>
+    <div class="kpi was" role="listitem"><b>7/7<small>was 3/7</small></b><span>gap loop: a delete question never carries to the next routine</span></div>
+    <div class="kpi was" role="listitem"><b>6/6<small>was 3/6</small></b><span>gap loop: phone "Sign in with Telegram" stays on the link screen</span></div>
+    <div class="kpi was" role="listitem"><b>6/6<small>was 2/6</small></b><span>gap loop: phone Back closes a file preview first</span></div>
+    <div class="kpi was" role="listitem"><b>15/15<small>3 passes</small></b><span>gap loop: 44px touch targets on phone Routines, Files and chat file cards</span></div>
+    <div class="kpi was" role="listitem"><b>7/7<small>was 4/7</small></b><span>gap loop: Esc on phone Routines and Files</span></div>
+    <div class="kpi was" role="listitem"><b>4/4<small>was 3/4</small></b><span>gap loop: Esc closes a modal before the panel behind it</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 3/5</small></b><span>gap loop: the Settings tab on screen matches the URL</span></div>
+    <div class="kpi was" role="listitem"><b>8/8<small>was 4/8</small></b><span>gap loop: Esc closes the notifications list</span></div>
+    <div class="kpi was" role="listitem"><b>9/9<small>was 7/9</small></b><span>gap loop: a closed file preview never asks about edits already discarded</span></div>
+    <div class="kpi was" role="listitem"><b>10/10<small>2 passes</small></b><span>gap loop: the delete question names the right chat, and Enter on Cancel no longer deletes it</span></div>
+    <div class="kpi was" role="listitem"><b>6/6<small>was 2/6</small></b><span>gap loop: a fast ⌘K Enter opens what was typed</span></div>
+    <div class="kpi was" role="listitem"><b>8/8<small>was 2/8</small></b><span>gap loop: closing ⌘K gives focus back; Tab stays inside</span></div>
+    <div class="kpi was" role="listitem"><b>4/4<small>was 2/4</small></b><span>gap loop: the app toast is readable in dark mode (1.09 → 17.32:1)</span></div>
+    <div class="kpi was" role="listitem"><b>21/21<small>was 11/15</small></b><span>gap loop: desktop text contrast in light and dark, nine screens</span></div>
+    <div class="kpi was" role="listitem"><b>6/6<small>was 3/6</small></b><span>gap loop: a second save after "Save &amp; run now" reaches the agent</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 2/5</small></b><span>gap loop: Esc closes the bell list or profile card before the panel under it</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 1/5</small></b><span>gap loop: pausing a routine from the keyboard keeps focus</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 3/5</small></b><span>gap loop: Refresh in Files keeps the search</span></div>
+    <div class="kpi was" role="listitem"><b>8/8<small>was 3/8</small></b><span>gap loop: the desktop bell list is visible, and the count is announced</span></div>
+    <div class="kpi" role="listitem"><b>15/15</b><span>gap loop: every floating layer is really on top (hit-tested, desktop + phone)</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 3/5</small></b><span>gap loop: "/new" + Enter starts a conversation, not an agent</span></div>
+    <div class="kpi was" role="listitem"><b>4/4<small>was 2/4</small></b><span>gap loop: message toolbars hide again after keyboard focus</span></div>
+    <div class="kpi was" role="listitem"><b>6/6<small>was 1/6</small></b><span>gap loop: the right-click message menu works from the keyboard</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 2/5</small></b><span>gap loop: the phone's row menu works with a keyboard</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 1/5</small></b><span>gap loop: "Connect with Telegram" takes and keeps focus</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 1/5</small></b><span>gap loop: sign-in speaks plainly and lets you type a code</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 1/5</small></b><span>gap loop: a pasted sign-in code isn't replaced by a slow request</span></div>
+    <div class="kpi was" role="listitem"><b>5/5<small>was 1/5</small></b><span>gap loop: a picked quick reply shows its words and retires its chips</span></div>
+    <div class="kpi was" role="listitem"><b>15/15<small>2 passes</small></b><span>privacy: replays carry no words, console output or request addresses (production build)</span></div>
+    <div class="kpi was" role="listitem"><b>4/4<small>was 2/4</small></b><span>follow-up: the demo's Agent info counts its agent's routines</span></div>
+    <div class="kpi" role="listitem"><b>3,643</b><span>unit tests passing (391 files), plus 435 Electron tests</span></div>
+    <div class="kpi" role="listitem"><b>0</b><span>console errors across every harness run</span></div>
+    <div class="kpi" role="listitem"><b>+15.0 KB</b><span>phone boot chunk over three passes (46.1 → 61.2 KB raw, 17.4 KB gzipped)</span></div>
+  </div>
+</header>
+
+<section id="overnight">
+  <h2>Overnight gap loop <span class="pill new">2026-10-06</span></h2>
+  <p class="intro">From 00:22 to 06:00 ET a self-paced loop found one provable gap at a time and fixed it on its own branch. Each fix has a harness check that failed before and passes after, or a unit test that fails without the fix where the demo can't show the bug. The full regression run (TypeScript, the unit suite and every harness script, one after another) was green before each PR. Nothing was merged. The 29 PRs form one stack from <code>main</code> @ f2e7382 and merge in the order below. A separate Settings loop ran alongside (PRs #224 to #253), and it noted that #224 with #234 and #238 with #250 need a small rebase when the second of each pair lands.</p>
+  <div class="kpis" role="list">
+    <div class="kpi was" role="listitem"><b>35<small>was 29</small></b><span>PRs, stacked #226 → #269</span></div>
+    <div class="kpi was" role="listitem"><b>36<small>was 15</small></b><span>harness scripts (plus the walkthrough recorder)</span></div>
+    <div class="kpi was" role="listitem"><b>334<small>was 187</small></b><span>harness checks, all passing</span></div>
+    <div class="kpi was" role="listitem"><b>3,643<small>was 3,589</small></b><span>unit tests on the stack's top branch</span></div>
+  </div>
+  <h3>The worst five</h3>
+  <ul class="clean">
+    <li><strong>The desktop notifications list was invisible</strong> (#248). The glass header formed its own stacking context, so the chat painted over the open list. Every earlier check passed, because none hit-tested the list. <code>layers-on-top.mjs</code> now hit-tests 14 floating layers.</li>
+    <li><strong>Enter on Cancel deleted the chat</strong> (#229), synced to every device with no undo.</li>
+    <li><strong>"Save &amp; run now" then Save could silently drop the second save</strong> (#240). The routine stayed paused on the agent.</li>
+    <li><strong>Any Esc denied the agent's pending request</strong> (#249), including the one used to close a menu.</li>
+    <li><strong>A slow file read could land in the wrong preview</strong> (#230), and Save would then write it into the wrong file.</li>
+  </ul>
+  <h3>Merge order</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>PR</th><th>Branch</th><th>What it fixes</th></tr></thead>
+    <tbody>
+      <tr><td>#226</td><td><code>fix/preview-stale-guard</code></td><td>A closed file preview stopped asking about edits that were already discarded.</td></tr>
+      <tr><td>#227</td><td><code>fix/teardown-flake</code></td><td>Test-only: removed the CI teardown flake that failed #223's first run.</td></tr>
+      <tr><td>#229</td><td><code>fix/delete-dialog-enter</code></td><td><strong>Enter on Cancel no longer deletes the chat.</strong> Esc also closes the dialog before the panel behind it.</td></tr>
+      <tr><td>#230</td><td><code>fix/preview-load-race</code></td><td>A slow read can no longer show file A under B's name, or let Save write A's text into B.</td></tr>
+      <tr><td>#232</td><td><code>fix/palette-enter-debounce</code></td><td>⌘K Enter typed fast opens what you typed, not a create flow.</td></tr>
+      <tr><td>#233</td><td><code>fix/palette-focus</code></td><td>Closing ⌘K gives focus back, and Tab stays inside it.</td></tr>
+      <tr><td>#235</td><td><code>fix/delete-dialog-title</code></td><td>"Delete conversation?" names the chat as its row does.</td></tr>
+      <tr><td>#236</td><td><code>fix/group-editor-reset</code></td><td>A roster refresh no longer wipes a half-made group.</td></tr>
+      <tr><td>#237</td><td><code>fix/dark-toast</code></td><td>The app toast is readable in dark mode (1.09 → 17.32:1) and is announced.</td></tr>
+      <tr><td>#239</td><td><code>fix/desktop-dark-contrast</code></td><td>Agent and @mention chips are readable in dark mode. Adds the desktop contrast sweep.</td></tr>
+      <tr><td>#240</td><td><code>fix/routine-save-baseline</code></td><td><strong>A second save after "Save &amp; run now" reaches the agent.</strong> It used to leave the routine paused.</td></tr>
+      <tr><td>#242</td><td><code>fix/esc-layers</code></td><td>Esc closes the bell list or profile card before the panel under it.</td></tr>
+      <tr><td>#243</td><td><code>fix/routine-switch-focus</code></td><td>Pausing a routine from the keyboard keeps focus.</td></tr>
+      <tr><td>#245</td><td><code>fix/files-refresh-query</code></td><td>Refresh in Files keeps the search.</td></tr>
+      <tr><td>#246</td><td><code>fix/mark-read-race</code></td><td>A refresh already in flight can't undo "Mark all read".</td></tr>
+      <tr><td>#248</td><td><code>fix/bell-unread-label</code></td><td><strong>The desktop notifications list is visible.</strong> It used to be drawn under the chat. The bell also announces the unread count.</td></tr>
+      <tr><td>#249</td><td><code>fix/esc-denies-permission</code></td><td><strong>An Esc meant for a menu no longer denies the agent's request.</strong> Adds the floating-layer hit-test sweep.</td></tr>
+      <tr><td>#251</td><td><code>fix/slash-exact-match</code></td><td>"/new" + Enter starts a conversation, not a new agent.</td></tr>
+      <tr><td>#252</td><td><code>fix/message-toolbar-blur</code></td><td>Message toolbars hide again after keyboard focus moves on.</td></tr>
+      <tr><td>#254</td><td><code>fix/message-menu-keyboard</code></td><td>The right-click message menu works from the keyboard.</td></tr>
+      <tr><td>#255</td><td><code>fix/phone-row-menu-keyboard</code></td><td>The phone's chat row menu works with a keyboard.</td></tr>
+      <tr><td>#256</td><td><code>fix/sign-in-poll-backoff</code></td><td>A network blip no longer ends web sign-in or invite redeem.</td></tr>
+      <tr><td>#257</td><td><code>fix/telegram-connect-focus</code></td><td>"Connect with Telegram" takes and keeps focus, as a modal.</td></tr>
+      <tr><td>#258</td><td><code>fix/web-sign-in-code-entry</code></td><td>Sign-in shows plain errors, the code box keeps focus, and a bad code gets feedback.</td></tr>
+      <tr><td>#259</td><td><code>fix/sign-in-paste-race</code></td><td>A pasted sign-in code isn't replaced by a slow "Getting a code…".</td></tr>
+      <tr><td>#260</td><td><code>fix/kanban-busy-per-task</code></td><td>Task board: each task's busy state is its own, and a retried attachments load clears its error.</td></tr>
+      <tr><td>#261</td><td><code>fix/agent-info-resize-refused</code></td><td>A refused resize in Agent info says so instead of looking scheduled.</td></tr>
+      <tr><td>#262</td><td><code>fix/kanban-refresh-stale</code></td><td>After a quick board switch, the old board's tasks can't land on the new one.</td></tr>
+      <tr><td>#263</td><td><code>fix/quick-reply-chips</code></td><td>A picked quick reply shows its words and retires its chips.</td></tr>
+      <tr><td>#264</td><td><code>fix/helper-stop-result</code></td><td>Morning: a helper Stop or steer that doesn't reach the agent says so, and a failed steer keeps your text.</td></tr>
+      <tr><td>#265</td><td><code>fix/agent-chip-touch-size</code></td><td>Morning: the phone's "from &lt;agent&gt;" chip is a 24px touch target.</td></tr>
+      <tr><td>#266</td><td><code>fix/restore-cat-colors</code></td><td><strong>Morning: the four nubcat colours are back</strong> (sky, pink, lilac, green), and group stacks show members in distinct colours.</td></tr>
+      <tr><td>#267</td><td><code>fix/demo-agent-routines</code></td><td>Morning: the demo's agents live on a VM like real ones, so Agent info counts their routines.</td></tr>
+      <tr><td>#268</td><td><code>fix/kanban-switch-rollback</code></td><td>Morning: a board switch the agent refuses puts the picker and tasks back.</td></tr>
+      <tr><td>#269</td><td><code>fix/host-modal-note</code></td><td>Morning: the Ship modal starts clean each time it opens.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Morning follow-up</h3>
+  <p>The open decisions from the night were made and shipped (#264–#269), and the cat colours that an earlier commit (bdc939b, already on main) had collapsed to sky blue are back. Each demo agent now has its own colour, so all four show:</p>
+  <figure><img src="media/cat-colors.jpg" alt="⌘K lists Research Alpha in sky blue, Ops Runner in pink, Draft Writer in lilac and New Instance in green; the Ops Desk group shows a pink and a blue cat" loading="lazy"><figcaption>All four colours in ⌘K. In the sidebar, Ops Desk's stack is now pink + blue: the two members' ids map to the same colour, and the stack used to show two identical pink cats while the chat chips told them apart.</figcaption></figure>
+  <figure><img src="media/demo-agent-info.jpg" alt="Agent info for Research Alpha showing Routines: 2 routines · 1 active" loading="lazy"><figcaption>The demo's Agent info says "2 routines · 1 active" (#267). It used to say "Nothing scheduled yet" beside the demo's own routines, because the demo agents carried old hosting regions.</figcaption></figure>
+  <p class="muted" style="margin-top:12px">Three code-reading subagents proposed most of these, and each one was reproduced in the browser (or proven by a unit test) before it was fixed. What's still suspected or waiting on a product decision is listed in <code>docs/loop-ledger.md</code>.</p>
+</section>
+
+<section id="watch">
+  <h2>Watch it</h2>
+  <p class="intro">A 28-second tour recorded by <code>tools/blueprint/walk.mjs</code> at phone size: Routines (pause and resume in place), Find in chat, Agent info, the full Settings panes, search across chats, then the task board.</p>
+  <div class="hero-media">
+    <figure><video src="media/phone-walk.mp4#t=0.5" controls playsinline preload="metadata" muted></video><figcaption>Recorded in headless Chrome at 390 × 844, touch enabled.</figcaption></figure>
+    <figure><img src="media/home-before-after.jpg" alt="Phone home screen before and after: after adds a notifications bell and Routines, Files, Tasks and Chat history shortcuts" loading="lazy"><figcaption>Home gains a notifications bell and shortcuts to Routines, Files, Tasks and Chat history. They wrap onto a second line instead of sliding off screen. A "Hidden chats" shortcut appears as soon as a chat is hidden.</figcaption></figure>
+  </div>
+</section>
+
+<section id="new">
+  <h2>New in this pass <span class="pill new">pass 3</span></h2>
+  <p class="intro">Pass 3 checked the phone in dark mode, on tablet widths and with a keyboard, and fixed what those checks found. The contrast checks measure the WCAG ratio of every visible piece of text against the first solid background behind it, on six screens in both themes.</p>
+  <ul class="clean">
+    <li><strong>Theme on the phone.</strong> Light and Dark are now in the phone's Settings → Appearance, the same setting as desktop Settings → General. It had only been reachable through the full Settings sheet.</li>
+    <li><strong>Contrast.</strong> All six screens meet 4.5:1 in both themes. The one failure was the Routines page's description, back link and group headings at 3.61:1 on the light sky canvas, desktop included. They now use the darker ink and measure 4.83:1.</li>
+    <li><strong>Dark task board.</strong> The "assign…" field kept a light box and an unset text colour in dark mode, and overflowed at the 16px touch font size; it now takes the theme's colours and widens on touch screens.</li>
+    <li><strong>Keyboard.</strong> On a tablet or a phone with a keyboard, ⌘[ / ⌘] go back and forward through visited chats and Alt+↑/↓ move to the previous or next chat, as on desktop. ⌘K, ⌘, and ⌘F came in pass 2.</li>
+    <li><strong>Tablets, corrected.</strong> Pass 2's roadmap said an iPad showed phone screens stretched wide. That was wrong: an existing rule already bounds the phone shell to a centred 640px column on touch screens over 720px. The harness now measures it (640px with 64px gutters at 768, 97px at 834).</li>
+  </ul>
+  <h3>Pass 2: the rest of the roadmap</h3>
+  <ul class="clean">
+    <li><strong>Search everything.</strong> The home Search button opens the desktop search: messages, agents, groups, routines, files and links. Picking a message opens its chat with that message centred and highlighted.</li>
+    <li><strong>Chat history.</strong> Search, rename, export and delete the agent's past conversations from any app (Telegram, routines, this app).</li>
+    <li><strong>Tasks.</strong> The task board, with columns stacked to the phone's width, and new tasks from the phone.</li>
+    <li><strong>Routine recipes and templates.</strong> A Marketplace recipe opens the routine editor already filled in, and templates create routines on the agent.</li>
+    <li><strong>Invite links</strong> (<code>#/invite/&lt;code&gt;</code>) open the invite screen, as on desktop.</li>
+    <li><strong>Export chat</strong> from the long-press menu once the phone is linked.</li>
+    <li><strong>Keyboard.</strong> On a tablet or a phone with a keyboard, ⌘K opens search and ⌘, opens Settings. ⌘F (find in chat) already worked.</li>
+  </ul>
+  <h3>A demo that shows real screens</h3>
+  <p>The offline demo now answers the agent routes these screens read: delivery targets, routine templates, skills, chat apps, chat history, run output, the task board and a small workspace of files (<code>src/lib/mock-dashboard.ts</code>, <code>mock-files.ts</code>, <code>mock-cron.ts</code>). That is why the screenshots show working screens instead of "needs an update". The demo only switches on in a development build in a plain browser tab. In a production build it compiles away: the shipped bundle contains none of its strings (0 chunks, checked after every build).</p>
+  <h3>Pass 1, for reference</h3>
+  <ul class="clean">
+    <li><strong>Routines</strong> as a full screen, sharing one hook with desktop (<code>src/lib/use-routines.ts</code>).</li>
+    <li><strong>Shared links</strong> (<code>#/c/&lt;id&gt;</code>, <code>#/agent/&lt;id&gt;</code>, <code>#/routines</code>, settings, files) open the right screen.</li>
+    <li><strong>Full Settings</strong> on a phone tab strip, and "See usage" from the usage-limit banner.</li>
+    <li><strong>Notifications, Find in chat, Files, Hidden chats</strong>, and Edit Profile in the long-press menu.</li>
+  </ul>
+  <h3>Limits</h3>
+  <ul class="clean">
+    <li>Everything ran against the offline demo. A linked phone reads the same screens from the real agent, but that path was not exercised here.</li>
+    <li>Export chat appears only for chats the agent keeps a transcript of. The demo chats have none, so it is covered by unit tests (<code>home-menu-and-shortcuts.test.tsx</code>), not the browser harness.</li>
+    <li>The invite check reaches the invite screen, which then reports a lost connection: the harness blocks the platform it would redeem against.</li>
+    <li>The demo's agents carry hosting-region ids (<code>fsn1</code>, …) that no real transport produces, so Agent info treats them as local agents and counts only local routines. Its card reads "Nothing scheduled yet" while the Routines page lists the two demo routines. That matches the code's rules for a local agent, so it's a demo-fixture mismatch, not a product bug. It also means the harness can't drive VM-agent-only paths in Agent info.</li>
+    <li>Product analytics (PostHog) only runs in production builds with a project key. It sends a few named events (a link, a message sent, a routine created or run), app errors, and screen recordings with every word, text box and picture hidden. Recordings carry no console output or request addresses, and heatmaps are off. It never sends message, file or routine text. People can turn it off per device in Settings → Safety. The demo this harness drives never contacts PostHog (<code>analytics-off.mjs</code>), so <code>replay-masking.mjs</code> checks the recordings against a production build with a dummy key instead, and answers PostHog's calls itself. The named events are still checked on a preview deploy.</li>
+    <li>Plugins (MCP) stay off on the web and the phone alike. They need the platform's plugin routes to allow cross-origin calls and a sign-in path that doesn't rely on a desktop-only callback.</li>
+  </ul>
+</section>
+
+<section id="parity">
+  <h2>Parity table</h2>
+  <p class="intro">Desktop-width web app versus the phone shell, for features that work in a browser (Electron-only tools such as the HUD and the local Hermes CLI are left out).</p>
+  <div class="table-box"><table>
+    <thead><tr><th>Feature</th><th>Phone before</th><th>Phone now</th><th>How</th></tr></thead>
+    <tbody>
+      <tr><td>Routines page, editor, templates, history</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>RoutinesPage</code> screen, <code>RoutineEditor</code> overlay</td></tr>
+      <tr><td>Deep links (<code>#/c</code>, <code>#/agent</code>, <code>#/routines</code>, settings, files, tasks)</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>parseHash</code> on load and on <code>hashchange</code></td></tr>
+      <tr><td>Search across messages, routines, files</td><td><span class="pill close">agents only</span></td><td><span class="pill ok">match</span></td><td><code>CommandPalette</code> overlay; jump re-centres the message</td></tr>
+      <tr><td>Settings: usage, connections, safety, help</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>SettingsStub</code> overlay with a phone tab strip</td></tr>
+      <tr><td>"See usage" from the usage-limit banner</td><td><span class="pill bad">dead button</span></td><td><span class="pill ok">match</span></td><td><code>onOpenSettingsRequest</code> listener</td></tr>
+      <tr><td>Chat history: search, rename, export, delete</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>ChatHistoryPanel</code> overlay</td></tr>
+      <tr><td>Task board</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>KanbanPanel</code> overlay, stacked columns; <code>/kanban</code> slash</td></tr>
+      <tr><td>Notifications bell</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>NotificationsBell phone</code></td></tr>
+      <tr><td>Find in chat</td><td><span class="pill bad">no trigger</span></td><td><span class="pill ok">match</span></td><td>Header button dispatches <code>maia:find-in-chat</code></td></tr>
+      <tr><td>Files browser and previews</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>FilesPanel</code> + <code>FilePreview</code></td></tr>
+      <tr><td>Hidden chats / unhide</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>MobileHiddenChats</code> sheet</td></tr>
+      <tr><td>Agent info: Routines card and chat links</td><td><span class="pill close">inert</span></td><td><span class="pill ok">match</span></td><td>Props passed through <code>MobileChat</code></td></tr>
+      <tr><td>Row menu: Edit Profile, Export chat</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td>Shared <code>sidebarRowMenuItems</code></td></tr>
+      <tr><td>Marketplace routine recipes</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>onUseRoutine</code> seeds the editor</td></tr>
+      <tr><td>Invite links (<code>#/invite/&lt;code&gt;</code>)</td><td><span class="pill bad">gap</span></td><td><span class="pill ok">match</span></td><td><code>InviteRedeem</code> takes over until redeemed</td></tr>
+      <tr><td>Theme (light / dark)</td><td><span class="pill close">full Settings only</span></td><td><span class="pill ok">match</span></td><td>Appearance card, shared <code>useTheme</code></td></tr>
+      <tr><td>Keyboard shortcuts</td><td><span class="pill bad">none</span></td><td><span class="pill ok">match</span></td><td>⌘K, ⌘,, ⌘F, ⌘[ / ⌘], Alt+↑/↓; the rest open desktop-only panes</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="architecture">
+  <h2>Architecture</h2>
+  <p class="intro">One state machine, one history mirror. Screens and sheets are React state in <code>MobileApp</code>; every layer gets a history entry, so the platform's own Back gesture is the only way back.</p>
+  <div class="arch">
+<pre class="mermaid">
+flowchart LR
+  H["location.hash"] -->|parseHash| A["MobileApp<br/>screen + overlay"]
+  E["nub:open-settings<br/>⌘K · ⌘,"] --> A
+  A -->|pushState / go| N["nav-history<br/>one entry per layer"]
+  N -->|popstate| A
+  A --> S1["RoutinesPage<br/>(screen)"]
+  A --> S2["Search · Settings · Chat history<br/>Tasks · Files · Routine editor<br/>Hidden chats (overlays)"]
+  S1 & S2 --> R["useRoutines and the<br/>desktop components"]
+  R --> C["agent dashboard routes<br/>(linked agent, or demo)"]
+</pre>
+  </div>
+  <div class="modules">
+    <div class="module"><h4>Phone shell</h4><code>src/mobile/MobileApp.tsx</code><p>Holds the screen and overlay, applies deep links and invites, listens for settings requests and keyboard shortcuts, and lazy-mounts the desktop surfaces.</p></div>
+    <div class="module"><h4>Shared routine state</h4><code>src/lib/use-routines.ts</code><p>List, loading and unreachable state, save, delete, pause and resume, run now, and local drafts firing while the app is open. Used by both shells.</p></div>
+    <div class="module"><h4>History mirror</h4><code>src/mobile/nav-history.ts</code> · <code>consume-back.ts</code><p>Knows the <code>routines</code> screen and seven overlays, so Back closes a sheet first, then the screen.</p></div>
+    <div class="module"><h4>Jump to a message</h4><code>src/components/ChatPanel.tsx</code><p>Re-centres the target while cards above it finish laying out, and stops as soon as the user scrolls.</p></div>
+    <div class="module"><h4>Offline demo</h4><code>src/lib/mock-dashboard.ts</code> · <code>mock-cron.ts</code> · <code>mock-files.ts</code><p>Answers the agent routes and file reads for the demo. <code>demoAgentActive()</code> is the one switch; it is constant-false in production, so the fixtures compile away.</p></div>
+    <div class="module"><h4>Harness</h4><code>tools/blueprint/</code><p><code>mobile-parity.mjs</code>, <code>mobile-reach.mjs</code>, <code>themes.mjs</code>, <code>sweep.mjs</code>, <code>web-panels.mjs</code>, <code>routine-editor.mjs</code>, <code>phone-signin.mjs</code>, <code>phone-preview.mjs</code>, <code>phone-touch.mjs</code>, <code>phone-esc.mjs</code>, <code>web-esc.mjs</code>, <code>web-settings.mjs</code>, <code>bell-esc.mjs</code>, <code>preview-guard.mjs</code>, <code>delete-confirm.mjs</code>, <code>palette-enter.mjs</code>, <code>palette-focus.mjs</code>, <code>toast-contrast.mjs</code>, <code>desktop-themes.mjs</code>, <code>routine-resave.mjs</code>, <code>esc-layers.mjs</code>, <code>routine-switch-focus.mjs</code>, <code>files-refresh.mjs</code>, <code>bell-list.mjs</code>, <code>layers-on-top.mjs</code>, <code>slash-exact.mjs</code>, <code>message-toolbar.mjs</code>, <code>message-menu.mjs</code>, <code>phone-row-menu.mjs</code>, <code>telegram-focus.mjs</code>, <code>sign-in-screens.mjs</code>, <code>paste-race.mjs</code>, <code>quick-reply.mjs</code>, <code>analytics-off.mjs</code>, <code>replay-masking.mjs</code>, <code>demo-agent-info.mjs</code>, <code>walk.mjs</code>, and <code>build-report.mjs</code> for this page's test table. It blocks outside requests and refuses to run against another app.</p></div>
+  </div>
+</section>
+
+<section id="tour">
+  <h2>Tour</h2>
+  <figure><img src="media/themes-tour.jpg" alt="Four phone screens in dark mode: Settings Appearance with Dark selected, the home list, Settings with the Your agent rows, and the task board" loading="lazy"><figcaption>Pass 3. Dark mode chosen in the phone's own Appearance card, then home, Settings and the task board; every text on these screens measures at least 4.5:1 against its background.</figcaption></figure>
+  <figure><img src="media/tablet-834.jpg" alt="The phone shell on an 834px tablet: a centred 640px column with gutters on both sides" loading="lazy" style="max-width:420px"><figcaption>An 834px tablet: the phone shell stays a centred 640px column.</figcaption></figure>
+  <figure><img src="media/reach-tour.jpg" alt="Six phone screens: search results for deploy summary, chat history filtered to one chat with rename, export and delete under it, the task board with stacked columns, a Marketplace recipe in the routine editor, a routine's run output, and a file preview" loading="lazy"><figcaption>Pass 2. Top row: search finding a message, chat history filtered to "table" with its actions under the title, and the task board with columns stacked full width (empty ones hide). Bottom row: a Marketplace recipe opening the editor already filled in, a routine's run output, and a file opened from the workspace.</figcaption></figure>
+  <figure><img src="media/phone-tour.jpg" alt="Six phone screens: Routines list, new routine editor, Settings with Your agent rows, Settings opened at Connections by a link, chat header with find and files buttons, and the find bar showing 1 of 2 matches" loading="lazy"><figcaption>Pass 1. Top row: Routines, the editor over it with Telegram and Email as delivery options, and the "Your agent" rows in Settings. Bottom row: a <code>?settings=1&amp;pane=connections</code> link landing on Connections, the chat header's Find and Files buttons, and Find in chat at 1/2 matches with a "Done" button.</figcaption></figure>
+  <div class="two">
+    <figure><img src="media/desktop-routines.jpg" alt="Desktop web app showing the Routines page with one active and one paused routine" loading="lazy"><figcaption>Desktop is unchanged: the same Routines page, fed by the shared hook, still says "Back to chat". (Captured in pass 3. Routines has since moved from the sidebar into the Connect apps hub, so the sidebar button and its "Routines, 1 active" name are gone, along with the sweep check that measured them.)</figcaption></figure>
+    <figure><img src="media/desktop-settings.jpg" alt="Desktop Settings dialog with the vertical section list and Safety open" loading="lazy"><figcaption>Desktop Settings keeps its vertical section list, and its search keeps the ⌘ shortcut hints the phone hides. The sweep checks both.</figcaption></figure>
+  </div>
+  <figure><img src="media/phone-widths.jpg" alt="Phone at 390px with the notifications list spanning the screen, and at 360px with Settings open at Plan and usage" loading="lazy" style="max-width:560px"><figcaption>The bell's list spans the screen with a 12px margin at 360, 390 and 430px, and Settings fits a 360px phone with no sideways scroll.</figcaption></figure>
+</section>
+
+<section id="tests">
+  <h2>Test results</h2>
+  <p class="intro">Three layers: the repo's unit and Electron suites, the TypeScript build, and the browser harness driving the real app with a touch-enabled phone viewport. Each check is a promise a user relies on; "measured" is what the harness read. This table is generated from the harness reports by <code>tools/blueprint/build-report.mjs</code>.</p>
+  <div class="table-box"><table>
+    <thead><tr><th>Area</th><th>Check</th><th>Measured</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Home</td><td>Home lists the demo conversations</td><td class="num">3 rows</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Home</td><td>Home has a notifications bell</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Home</td><td>Home has a Routines shortcut</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Home</td><td>Home has a Files shortcut</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Home</td><td>Home fits 390px (no sideways scroll)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Routines opens full screen from home</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Routines back link is a 44px touch target</td><td class="num">44px tall</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Routines lists the agent’s routines</td><td class="num">2 routines</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>The switch pauses a routine in place</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Routines fits 390px (no sideways scroll)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>New routine opens the editor</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>A routine made on the phone lands in the list</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Back from Routines returns home</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Deep links</td><td>#/routines opens Routines</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Deep links</td><td>#/c/&lt;id&gt; opens that conversation</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Deep links</td><td>#/?settings=1&amp;pane=connections opens Settings at Chat apps</td><td class="num">Chat apps tab is current</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Settings tabs fit 390px (no sideways scroll)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Settings lists Plan &amp; usage, Chat apps, Skills, Safety and Help</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Settings links are full-width rows ≥48px</td><td class="num">shortest 63px, all ≥300px wide: true</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Safety opens the full Safety pane</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>“See usage” requests land on Plan &amp; usage</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Opening a conversation shows the chat</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Chat header opens Find in chat</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Find in chat matches text in the thread</td><td class="num">1/2 matches</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Find closes with “Done” on a phone (no Esc key)</td><td class="num">reads “Done”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Chat header opens the Files browser</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Chat fits 390px (no sideways scroll)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Agent info links to Routines</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Hidden chats</td><td>A hidden chat can be brought back from home</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Home Search opens the full search</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Search finds a message inside a chat</td><td class="num">1 results</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Search fits 390px (no sideways scroll)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Search hides desktop ⌘ hints on a phone</td><td class="num">0 visible hints</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Home</td><td>Picking a message result opens its chat</td><td class="num">Research Alpha</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>The jump lands the matching message on screen</td><td class="num">message at 597–732px of 844px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>⌘K opens search (tablet keyboard)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>⌘, opens Settings</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat history</td><td>Home has a Chat history shortcut</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat history</td><td>Chat history lists the agent’s conversations</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Chat history search narrows the list</td><td class="num">table 1, deploy 0</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat history</td><td>Chat history fits 390px (no sideways scroll)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tasks</td><td>Home has a Tasks shortcut</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Home</td><td>Every home shortcut is fully on screen</td><td class="num">4 shortcuts, 0 cut off</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tasks</td><td>Tasks opens the board with the agent’s tasks</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tasks</td><td>A task made on the phone lands on the board</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tasks</td><td>Tasks fits 390px (no sideways scroll)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tasks</td><td>Task board stacks its columns on a phone</td><td class="num">3 visible columns at x=33</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>A Marketplace routine recipe opens the editor pre-filled</td><td class="num">name “Morning briefing”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>The routine editor offers the agent’s delivery targets</td><td class="num">Only in Nub Agent · Telegram · Email</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>A routine template creates a routine</td><td class="num">2 → 3 routines</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Run history shows a run’s output</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Files lists the agent’s workspace</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>A file opens in the preview</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Invite links</td><td>An invite link opens the invite screen on a phone</td><td class="num">invite screen, not the chat list</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: home text meets 4.5:1 contrast</td><td class="num">lowest 4.69:1 (“Need the latest deploy summary”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: routines text meets 4.5:1 contrast</td><td class="num">lowest 4.83:1 (“Things your agent does on a sc”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: settings text meets 4.5:1 contrast</td><td class="num">lowest 5.07:1 (“Usage, limits and resets”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: search text meets 4.5:1 contrast</td><td class="num">lowest 4.83:1 (“Summarize the latest MaiaVM de”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: tasks text meets 4.5:1 contrast</td><td class="num">lowest 10.92:1 (“Tasks”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: chat text meets 4.5:1 contrast</td><td class="num">lowest 4.8:1 (“Also attach the env example wh”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: chosen in the phone’s own Settings → Appearance</td><td class="num">data-theme=dark</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: the phone canvas goes dark</td><td class="num">canvas luminance 0.00</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: survives a reload</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: home text meets 4.5:1 contrast</td><td class="num">lowest 5.79:1 (“This phone is not linked. Prev”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: routines text meets 4.5:1 contrast</td><td class="num">lowest 5.12:1 (“Hasn’t run yet”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: settings text meets 4.5:1 contrast</td><td class="num">lowest 5.79:1 (“Usage, limits and resets”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: search text meets 4.5:1 contrast</td><td class="num">lowest 4.62:1 (“Actions”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: tasks text meets 4.5:1 contrast</td><td class="num">lowest 17.32:1 (“Tasks”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: chat text meets 4.5:1 contrast</td><td class="num">lowest 4.54:1 (“Also attach the env example wh”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tablets</td><td>Tablet 768px: the phone column stays ≤640px and centred</td><td class="num">640px wide, gutters 64/64px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tablets</td><td>Tablet 768px: no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tablets</td><td>Tablet 834px: the phone column stays ≤640px and centred</td><td class="num">640px wide, gutters 97/97px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Tablets</td><td>Tablet 834px: no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Alt+↓ moves to the next chat</td><td class="num">Research Alpha → Ops Runner</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>⌘[ goes back to the previous chat</td><td class="num">now Research Alpha</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>⌘] goes forward again</td><td class="num">now Ops Runner</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: Routines page lists the demo routines</td><td class="num">2 routines</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: Routines text meets 4.5:1 contrast on the sky canvas</td><td class="num">lowest 4.83:1 (“Paused (1)”)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: Routines back link still reads “Back to chat”</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: Settings keeps its side nav (column at ≥640px)</td><td class="num">flex-direction column, Safety current=page</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: the bell popover opens inside the window</td><td class="num">986–1306 of 1440px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: ⌘K opens the command palette</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: palette results keep their ⌘ shortcut hints</td><td class="num">9 visible hints</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Desktop</td><td>Desktop: no sideways scroll at 1440px</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 360px: home has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 360px: the bell list stays on screen</td><td class="num">12–348 of 360px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 360px: Routines has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 360px: Settings has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 390px: home has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 390px: the bell list stays on screen</td><td class="num">12–378 of 390px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 390px: Routines has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 390px: Settings has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 430px: home has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 430px: the bell list stays on screen</td><td class="num">12–418 of 430px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 430px: Routines has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Phone widths</td><td>Phone 430px: Settings has no sideways scroll</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Web shell</td><td>Web: ⌘⇧M (Plugins) leaves the URL alone</td><td class="num">hash ""</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Web shell</td><td>Web: Esc after ⌘⇧M (Plugins) still closes Settings</td><td class="num">Settings closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Web shell</td><td>Web: ⌘⇧W (Hermes tools) leaves the URL alone</td><td class="num">hash ""</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Web shell</td><td>Web: Esc after ⌘⇧W (Hermes tools) still closes Settings</td><td class="num">Settings closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Web shell</td><td>Web: a Settings link that also names Plugins still closes on Esc</td><td class="num">Settings closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Web shell</td><td>Web: a Settings link that also names Hermes tools still closes on Esc</td><td class="num">Settings closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Delete asks first, without deleting</td><td class="num">“Delete this routine?” shown</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Esc after Delete closes the editor</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>The next routine opens with a plain Delete, not a primed confirm</td><td class="num">plain Delete</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Cancel after Delete also clears the question</td><td class="num">plain Delete</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>“Keep” backs out of the question and keeps the routine</td><td class="num">2 → 2 routines</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>No routine was deleted by any of the above</td><td class="num">2 → 2 routines</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Settings opens on General with “Sign in with Telegram”</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>“Sign in with Telegram” opens “Link this phone”</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>…and stays there (no bounce back to Settings)</td><td class="num">after 1.5 s: Link this phone</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Back from “Link this phone” doesn’t reopen the Settings sheet</td><td class="num">sheet stays closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>From the Settings screen: the sheet’s “Sign in with Telegram” stays on “Link this phone”</td><td class="num">after 1.5 s: Link this phone</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Files opens a file in the preview</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Back closes the preview first, leaving Files open</td><td class="num">preview closed, Files open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>The next Back closes Files and returns home</td><td class="num">preview closed, Files closed, home showing</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Closing the preview with its own button still keeps Files open</td><td class="num">preview closed, Files open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>…and Back from there closes Files, with no preview left behind</td><td class="num">preview closed, Files closed, home showing</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Routines: “New routine” is at least 44px tall</td><td class="num">44px tall</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Routines: “Run now” answers taps across 44 × 44px</td><td class="num">drawn 44×44px, 4/4 edge taps land</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Routines: the pause switch answers taps across 44 × 44px</td><td class="num">drawn 36×20px, 4/4 edge taps land</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Routines: the switch still looks like a switch (36 × 20px track)</td><td class="num">36×20px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Routines: a tap 18px above the switch’s centre toggles it</td><td class="num">aria-checked true → false</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Files: Refresh answers taps across 44 × 44px</td><td class="num">drawn 44×44px, 4/4 edge taps land</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Files: Close answers taps across 44 × 44px</td><td class="num">drawn 44×44px, 4/4 edge taps land</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Files: every tab is at least 44px tall</td><td class="num">shortest 44px</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Files: the tabs still switch</td><td class="num">Docs aria-selected=true</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Files: a tap 18px below Close’s centre closes Files</td><td class="num">Files closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Chat: a file card’s View answers taps across 44 × 44px</td><td class="num">drawn 61×27px, 4/4 edge taps land</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Chat: a file card’s Download answers taps across 44 × 44px</td><td class="num">drawn 44×44px, 4/4 edge taps land</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Chat: the “from &lt;agent&gt;” chip is at least 24px tall (WCAG 2.5.8)</td><td class="num">24px tall, 121px wide</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Touch targets</td><td>Chat: View still opens the file</td><td class="num">preview opened</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Routines: the back link promises Esc</td><td class="num">title “Back · Esc”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Routines: Esc goes back home</td><td class="num">home</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Files: Esc closes Files</td><td class="num">home</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Files + preview: one Esc closes only the preview</td><td class="num">preview closed, Files open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>…and the next Esc closes Files</td><td class="num">home</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Home: Esc leaves the home list alone</td><td class="num">still home</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Info + Settings: the first Esc closes Settings, not Info</td><td class="num">Settings closed, Info open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>…and the next Esc closes Info</td><td class="num">Settings closed, Info closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Info alone: Esc still closes Info</td><td class="num">Info closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Picking a tab puts it in the URL</td><td class="num">on screen Chat apps, URL names Chat apps</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>Closing and reopening Settings: the tab on screen is the one the URL names</td><td class="num">on screen General, URL names General</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>…and a reload shows that same tab</td><td class="num">General → General after reload</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Settings</td><td>A link to a pane still opens that pane</td><td class="num">on screen Safety</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Desktop: the bell opens its list</td><td class="num">aria-expanded=true</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Desktop: Esc closes the list</td><td class="num">closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Desktop: focus goes back to the bell</td><td class="num">bell focused</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Phone: the bell opens its list</td><td class="num">aria-expanded=true</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Phone: Esc closes the list</td><td class="num">closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Phone: focus goes back to the bell</td><td class="num">bell focused</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Phone: Esc after closing leaves the home list alone</td><td class="num">still home</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Closing a preview with unsaved edits asks once, and Discard closes it</td><td class="num">1 prompt(s): ["Discard unsaved changes?"]; preview closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Back and Forward after that never ask about the discarded edits</td><td class="num">no prompts</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>A link to the file opens it again, without a prompt</td><td class="num">preview open; 0 prompt(s)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>The reopened preview shows the saved file, not the discarded draft</td><td class="num">saved text shown</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Fresh edits still guard Close: Keep editing keeps the draft</td><td class="num">1 prompt(s); preview open; draft kept</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Fresh edits still guard Esc</td><td class="num">1 prompt(s); preview open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Fresh edits still guard Back: Keep editing keeps the preview and its URL</td><td class="num">1 prompt(s); preview open; URL names the file; draft kept</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>…and Discard on Close then lets it go</td><td class="num">1 prompt(s); preview closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Delete asks first, with Cancel focused</td><td class="num">focus on "Cancel"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>The question names the chat as the sidebar shows it</td><td class="num">quotes "Research Alpha"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Enter on the focused Cancel cancels, and keeps the chat</td><td class="num">dialog closed; Research Alpha kept</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Esc cancels, and keeps the chat</td><td class="num">dialog closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>With Agent info open, Esc closes the dialog first and leaves Info</td><td class="num">dialog closed, Info open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>…and the next Esc closes Info, with the chat still there</td><td class="num">Info closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>With Agent info open, Esc closes the row menu first and leaves Info</td><td class="num">menu closed, Info open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Tab to Delete, then Enter, deletes</td><td class="num">focus on "Delete"; Research Alpha deleted</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>A click on Delete deletes</td><td class="num">Research Alpha deleted</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>All: a fast "ops runner" + Enter opens Ops Runner</td><td class="num">palette closed; on "Ops Runner"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Agents: a fast "ops runner" + Enter opens the agent, not "New Agent"</td><td class="num">dialogs []; on "Ops Runner"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Routines: a fast "weekly" + Enter opens Weekly digest, not "Create Routine"</td><td class="num">editor fields ["09:00","Weekly digest"]</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>All: a fast "ops runner" + ⌘1 opens Ops Runner</td><td class="num">on "Ops Runner"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Search</td><td>Unhurried typing still works: "ops runner", a pause, Enter</td><td class="num">on "Ops Runner"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Esc from search puts focus back in the composer</td><td class="num">focus on composer</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>…so typing right after lands in the composer</td><td class="num">composer holds "hello"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>A click outside closes search and also restores focus</td><td class="num">focus on composer</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Search says it is modal</td><td class="num">aria-modal=true</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Tab, 15 times, never leaves search</td><td class="num">stayed inside</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Shift+Tab, 15 times, never leaves search</td><td class="num">stayed inside</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Picking a routine keeps focus in the routine editor it opens</td><td class="num">focus on dialog:Weekly digest</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: the toast's text meets 4.5:1 against the toast</td><td class="num">10.92:1 (rgb(255, 255, 255) on rgb(26, 61, 107)), data-theme light</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: the toast's text meets 4.5:1 against the toast</td><td class="num">17.32:1 (rgb(17, 17, 17) on rgb(245, 245, 245)), data-theme dark</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Accessibility</td><td>Screen readers hear the toast (it sits in a live region)</td><td class="num">role=status</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: chat text meets 4.5:1</td><td class="num">lowest 4.8:1 (“Preview”, rgb(255, 255, 255) on rgb(43, 115, 198))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: Agent info text meets 4.5:1</td><td class="num">lowest 4.8:1 (“Preview”, rgb(255, 255, 255) on rgb(43, 115, 198))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: search text meets 4.5:1</td><td class="num">lowest 4.83:1 (“Pulls docs, summarizes findings,”, rgb(75, 101, 133) on rgb(214, 233, 251))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: file preview text meets 4.5:1</td><td class="num">lowest 6:1 (“Diff”, rgb(75, 101, 133) on rgb(255, 255, 255))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: notifications text meets 4.5:1</td><td class="num">lowest 4.8:1 (“Preview”, rgb(255, 255, 255) on rgb(43, 115, 198))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: Connect apps text meets 4.5:1</td><td class="num">lowest 9.51:1 (“Add”, rgb(26, 61, 107) on rgb(237, 239, 243))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: Routines text meets 4.5:1</td><td class="num">lowest 4.8:1 (“New routine”, rgb(255, 255, 255) on rgb(43, 115, 198))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: routine editor text meets 4.5:1</td><td class="num">lowest 4.95:1 (“Delete”, rgb(201, 59, 87) on rgb(255, 255, 255))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: Agents in Connect apps text meets 4.5:1</td><td class="num">lowest 9.51:1 (“Add”, rgb(26, 61, 107) on rgb(237, 239, 243))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: chat text meets 4.5:1</td><td class="num">lowest 4.54:1 (“Preview”, rgb(255, 255, 255) on rgb(67, 121, 179))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: Agent info text meets 4.5:1</td><td class="num">lowest 4.54:1 (“Preview”, rgb(255, 255, 255) on rgb(67, 121, 179))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: search text meets 4.5:1</td><td class="num">lowest 4.62:1 (“Messages”, rgb(133, 133, 133) on rgb(28, 28, 28))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: file preview text meets 4.5:1</td><td class="num">lowest 5.12:1 (“Diff”, rgb(133, 133, 133) on rgb(17, 17, 17))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: notifications text meets 4.5:1</td><td class="num">lowest 4.54:1 (“Preview”, rgb(255, 255, 255) on rgb(67, 121, 179))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: Connect apps text meets 4.5:1</td><td class="num">lowest 14.37:1 (“Add”, rgb(245, 245, 245) on rgb(35, 35, 35))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: Routines text meets 4.5:1</td><td class="num">lowest 4.54:1 (“New routine”, rgb(255, 255, 255) on rgb(67, 121, 179))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: routine editor text meets 4.5:1</td><td class="num">lowest 4.54:1 (“M”, rgb(255, 255, 255) on rgb(67, 121, 179))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: Agents in Connect apps text meets 4.5:1</td><td class="num">lowest 14.37:1 (“Add”, rgb(245, 245, 245) on rgb(35, 35, 35))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Light theme</td><td>Light: the "from &lt;agent&gt;" chip on a bubble meets 4.5:1</td><td class="num">7.26:1 (“from Ops Runner”, rgb(26, 61, 107) on rgb(202, 210, 244))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Dark theme</td><td>Dark: the "from &lt;agent&gt;" chip on a bubble meets 4.5:1</td><td class="num">7.97:1 (“from Ops Runner”, rgb(245, 245, 245) on rgb(84, 72, 77))</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Morning briefing starts Active</td><td class="num">Active</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Active off, then "Save &amp; run now": saves and starts a run, editor stays on Results</td><td class="num">saved and started; editor on Results</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>…the editor no longer offers to save what it just saved</td><td class="num">button reads "Run now"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>Active back on, then Save, resumes it on the agent</td><td class="num">listed under Active</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Routines</td><td>A schedule changed and then changed back is sent back too</td><td class="num">opened at 08:00, set 07:00 then 08:00; agent has 08:00</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Info + notifications list: Esc closes the list, not Info</td><td class="num">list closed, Info open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>…and focus goes back to the bell</td><td class="num">focus on notifications-bell</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Info + an agent's profile card: Esc closes the card, not Info</td><td class="num">card closed, Info open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Info alone: Esc still closes Info</td><td class="num">Info closed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Desktop: Space on "Pause Morning briefing" keeps focus on its switch</td><td class="num">focus on switch:Resume Morning briefing; listed under Paused</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Desktop: …and Space again resumes it, focus still there</td><td class="num">focus on switch:Pause Morning briefing; listed under Active</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Phone: Space on "Pause Morning briefing" keeps focus on its switch</td><td class="num">focus on switch:Resume Morning briefing; listed under Paused</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Phone: …and Space again resumes it, focus still there</td><td class="num">focus on switch:Pause Morning briefing; listed under Active</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Desktop: Refresh keeps the search and its filtered list</td><td class="num">search "read"; README listed, landing filtered out</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Desktop: opening a folder still starts with an empty search</td><td class="num">search ""; index listed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Phone: Refresh keeps the search and its filtered list</td><td class="num">search "read"; README listed, landing filtered out</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Files</td><td>Phone: opening a folder still starts with an empty search</td><td class="num">search ""; index listed</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Accessibility</td><td>Desktop: the bell's name says 2 unread</td><td class="num">badge shows 2; name "Notifications, 2 unread"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Notifications</td><td>Desktop: the open list is on top, not under the chat</td><td class="num">4/4 points hit the list</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Accessibility</td><td>Desktop: after Mark all read the name drops the count</td><td class="num">name "Notifications"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Notifications</td><td>Desktop with Agent info open: the open list is on top, not under the chat</td><td class="num">4/4 points hit the list</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Accessibility</td><td>Phone: the bell's name says 2 unread</td><td class="num">badge shows 2; name "Notifications, 2 unread"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Notifications</td><td>Phone: the open list is on top, not under the chat</td><td class="num">4/4 points hit the list</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Accessibility</td><td>Phone: after Mark all read the name drops the count</td><td class="num">name "Notifications"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>the notifications list is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>a chat row's menu is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>"Delete conversation?" is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>an agent's profile card is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>⌘K search is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>a file preview is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Agent info is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Files is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Connect apps is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Settings is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Phone: the notifications list is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Phone: a chat row's menu is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Phone: search is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Layering</td><td>Phone: the "Create new" sheet is on top once open</td><td class="num">5/5 points on it</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>"/new" lists New conversation first</td><td class="num">menu: /new /new-agent</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>…and Enter doesn't open the agent creator</td><td class="num">dialogs []; draft ""</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>"/new-agent" + Enter still opens the agent creator</td><td class="num">dialogs ["Connect with Telegram"]</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>"/ne" (a prefix) still lists both, in list order</td><td class="num">menu: /new-agent /new</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Pointing at a message shows its toolbar, and moving away hides it</td><td class="num">1 open while pointing, 0 after</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Tabbing through the chat leaves at most one toolbar open</td><td class="num">open toolbars while tabbing: 1 1 1 1 1 0 1 1 1 1 1 1 1 1</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Leaving the chat (focus in the composer) leaves none open</td><td class="num">0 open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Right-click opens the menu with focus on its first item</td><td class="num">focus on menuitem:👍</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Its items are menu items</td><td class="num">9 menuitem(s) of 9 button(s)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Arrow Down moves to the next item</td><td class="num">menuitem:👍 → menuitem:👎</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Esc closes it</td><td class="num">menu closed; focus on group:Message actions for Ops </td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>With Agent info open, Esc closes the menu and leaves Info</td><td class="num">menu closed, Info open</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Opening a row's menu puts focus on its first item</td><td class="num">focus on menuitem:Pin</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Arrow Down moves to the next item</td><td class="num">menuitem:Pin → menuitem:Mark as Unread</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Esc closes it and gives focus back to the row</td><td class="num">menu closed; focus on button:Research AlphaAug 11Need</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>…and the home list is still there (Esc took one layer only)</td><td class="num">home list showing</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Opening it moves focus into the dialog</td><td class="num">focus inside</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Tab, 10 times, never leaves it</td><td class="num">stayed inside</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Its error is announced (role=alert)</td><td class="num">“Open the desktop app to connect. Browser preview c”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Keyboard</td><td>Esc closes it and puts focus back in the composer</td><td class="num">dialog closed; focus in the composer</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Web: a sign-in request that never arrives is said in words</td><td class="num">“Can’t reach Nub right now. Check your connection and try again.”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Web: on that error screen, typing a code keeps focus in the code box</td><td class="num">focus left the box on 0/4 keys; box holds "AB3D"</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Web: while waiting, "Use this code" with a bad code says what's wrong</td><td class="num">“Paste a pairing URL or an 8-character code.”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Phone: "Link this phone" says a blocked request in words</td><td class="num">“Can’t reach Nub right now. Check your connection and try again.”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Phone: a pasted code stays after the slow request answers</td><td class="num">still on AB3D-EF7H</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Web: a pasted code stays after the slow request answers</td><td class="num">still on AB3D-EF7H</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Phone: a pasted code stays after the slow request fails</td><td class="num">still on AB3D-EF7H</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Sign-in</td><td>Web: a pasted code stays after the slow request fails</td><td class="num">still on AB3D-EF7H</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Desktop: a tapped chip posts its words, not a [choice:…] token</td><td class="num">0 bubble(s) with a token; "Draft API client" appears 2× (chip + reply)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Desktop: the chips are retired once answered</td><td class="num">chips disabled</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Phone: a tapped chip posts its words, not a [choice:…] token</td><td class="num">0 bubble(s) with a token; "Draft API client" appears 2× (chip + reply)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Chat</td><td>Phone: the chips are retired once answered</td><td class="num">chips disabled</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Desktop: sending a message in the demo</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Desktop: creating a routine in the demo</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Desktop: Safety has no analytics switch in the demo</td><td class="num">hidden</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Desktop: no request to PostHog</td><td class="num">0 request(s)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Phone: opening a chat and Settings → Safety in the demo</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Phone: no request to PostHog</td><td class="num">0 request(s)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>No outside request was even attempted to PostHog</td><td class="num">none</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Replay turns on from the project config alone (no feature-flags call)</td><td class="num">/array/&lt;key&gt;/config /s/ /e/</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Recordings are sent</td><td class="num">4 batch(es)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>The planted message, picture and text box were recorded (as structure)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>No word on screen appears in a recording</td><td class="num">0/11 leaked</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>A message added later stays hidden, and so does an edit to it</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Typed text stays hidden</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>A picture's alt text stays hidden</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>No PostHog script is ever fetched (recorder and error capture are bundled)</td><td class="num">none</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>An uncaught error is reported to error tracking</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Console output is not recorded</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>Request addresses are not recorded (no network timing)</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>No heatmap or web-vitals data is sent</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>The support chat widget stays off</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Privacy</td><td>No Content Security Policy refusals</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Agent info</td><td>Agent info counts the agent's own routines</td><td class="num">“2 routines · 1 active”</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Agent info</td><td>The count matches the Routines page</td><td class="num">Agent info 2; ⌘K Routines lists 3 (all agents)</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>Agent info</td><td>No section says the agent can't be reached</td><td class="num">none</td><td><span class="pill ok">pass</span></td></tr>
+      <tr><td>General</td><td>No console errors</td><td class="num">—</td><td><span class="pill ok">pass</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Before pass 1</h3>
+  <p>The core parity script, run before any phone changes, passed 8 of 27 checks. Three of those eight passed only because their screen never opened (a "fits 390px" check on a screen that wasn't there). Those checks now require the screen to be open first.</p>
+  <h3>Repo suites and build</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Suite</th><th>Result</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Vitest unit</td><td class="num">3,643 passed · 1 expected fail · 1 skipped · 1 todo</td><td>391 files, on <code>fix/host-modal-note</code> (#269). One flake is named and fixed (#227, below); three full runs after it were clean. Pass 3 also saw one run under load fail 4 tests in <code>markdown-lists.test.tsx</code>, which hasn't recurred.</td></tr>
+      <tr><td>Vitest Electron</td><td class="num">435 passed</td><td>32 files</td></tr>
+      <tr><td>TypeScript (<code>tsc -b</code>)</td><td class="num">0 errors</td><td></td></tr>
+      <tr><td>Web build (<code>vite build --mode web</code>)</td><td class="num">ok · bundle budget 9/9</td><td>Entry chunk 13 bytes smaller than before pass 1; 0 chunks contain demo data or a personal path</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Performance</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Measure</th><th>Value</th><th>How it was measured</th></tr></thead>
+    <tbody>
+      <tr><td>Phone boot chunk (<code>MobileApp-*.js</code>)</td><td class="num">46,140 → 54,837 → 59,953 → 61,181 B</td><td>Production web build before pass 1 and after each pass; 17.4 KB gzipped now. New screens load on demand.</td></tr>
+      <tr><td>Phone: load to home list</td><td class="num">1,304 ms</td><td>Navigate, clear storage, reload, tap "Preview without linking", first row visible (dev server, includes the 450 ms boot splash)</td></tr>
+      <tr><td>Desktop: load to chat list</td><td class="num">478 ms</td><td>Navigate, clear storage, reload, the first chat name visible (dev server). Pass 3 measured 486 ms against the sidebar Routines button, which no longer exists, so the two numbers aren't comparable.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="fixed">
+  <h2>Fixed</h2>
+  <h3>In pass 3</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Issue</th><th>Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>Routines page description, back link and group headings measured 3.61:1 on the light sky canvas (desktop and phone)</td><td>Text straight on the canvas used the muted ink meant for white cards</td><td><code>--ca-ink-soft</code> on the canvas: 4.83:1; the sweep and the themes script both measure it</td></tr>
+      <tr><td>The task board's "assign…" field showed a light box in dark mode and overflowed on touch screens</td><td>No text colour, a tinted background, and a 64px box holding the 16px touch font</td><td>Theme colours, a muted placeholder, and a wider box on touch screens</td></tr>
+      <tr><td>The phone had no theme setting of its own</td><td>Only desktop Settings → General had it</td><td>Light / Dark in Settings → Appearance (<code>MobileSettings.tsx</code>)</td></tr>
+      <tr><td>This report said tablets showed stretched phone screens</td><td>A claim made from a screenshot, not a measurement</td><td>Measured: the 640px column rule already applies; corrected above</td></tr>
+    </tbody>
+  </table></div>
+  <h3>In pass 2</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Issue</th><th>Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>Jumping to a search result left the message 124px below the bottom of the phone screen</td><td>The chat scrolled once; cards above the message then finished laying out and pushed it down</td><td><code>ChatPanel</code> re-centres the target at 250, 600 and 1,200 ms, stopping as soon as the user scrolls; the harness checks the message ends on screen</td></tr>
+      <tr><td>The task board showed one 224px column at a time on a phone, titles cut</td><td>Columns sat in a sideways strip</td><td>Below 640px columns stack full width and empty ones hide (<code>KanbanPanel.tsx</code>)</td></tr>
+      <tr><td>Chat history rows squeezed titles to "Book a table for…"</td><td>Rename, Export and Delete sat beside the title</td><td>On a phone the actions sit under the title (<code>ChatHistoryPanel.tsx</code>)</td></tr>
+      <tr><td>Search results showed "⌘1" hints on a phone, and the card ran edge to edge</td><td>Desktop keyboard hints and a full-width card</td><td>Hints hide below 640px, the card keeps a 12px margin; desktop keeps both hints and width</td></tr>
+      <tr><td>Home shortcuts could sit half off screen</td><td>A sideways-scrolling row</td><td>The row wraps; the harness checks every shortcut is fully on screen</td></tr>
+      <tr><td>The new demo fixtures reached production chunks (inert, but dead weight)</td><td>The demo routes were bundled with the code that calls them</td><td>Every fixture is behind <code>import.meta.env.PROD</code>, so the bundler drops it; the build check finds 0 chunks with demo data</td></tr>
+    </tbody>
+  </table></div>
+  <h3>In pass 1</h3>
+  <div class="table-box"><table>
+    <thead><tr><th>Issue</th><th>Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>The Files title and default folder showed a developer's own macOS home path, for every unlinked user on web and desktop</td><td><code>filesCwdWhenLinked</code> fell back to a hardcoded <code>/Users/…</code> literal, which shipped in the bundle</td><td>Fall back to the agent workspace; a test forbids a personal path (<code>src/lib/nub-vm.ts</code>)</td></tr>
+      <tr><td>"See usage" on the usage-limit banner did nothing on a phone</td><td>Only <code>App.tsx</code> listened for <code>nub:open-settings</code></td><td>The phone shell listens and opens the requested pane</td></tr>
+      <tr><td>Screen readers heard the sidebar's Routines button as "Routines1"</td><td>The count's <code>aria-label</code> sat on a <code>span</code>, which accessible names ignore</td><td>The button is named "Routines, 1 active" (<code>Sidebar.tsx</code>)</td></tr>
+      <tr><td>Find in chat's match count was silent to screen readers, and closed with "Esc" on a phone</td><td>No live region; a desktop key hint used as the label</td><td><code>aria-live="polite"</code>; the button reads "Done" in the phone shell</td></tr>
+      <tr><td>Harness: cascading failures and one run against another project's app</td><td>"Back to home" ignored open dialogs; another dev server took the port</td><td><code>backHome</code> closes dialogs first; the harness has its own port and checks the page title</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="loop">
+  <h2>Gap loop <span class="pill new">new</span></h2>
+  <p class="intro">A self-paced loop that finds one provable gap at a time, fixes it on its own <code>loop/&lt;slug&gt;</code> branch and opens a PR. When the gap shows up in the browser, a harness script reproduces it first: it has to fail before the fix and pass after. The loop's running log is <code>docs/loop-ledger.md</code>.</p>
+  <div class="table-box"><table>
+    <thead><tr><th>Gap</th><th>Cause</th><th>Fix and evidence</th><th>PR</th></tr></thead>
+    <tbody>
+      <tr><td>Tapping a quick-reply chip ("Draft API client" in the demo) posted a bubble reading "[choice:c1] Draft API client", and the demo's canned reply quoted the token too. The chips stayed live, so each tap sent the same pick again.</td><td>The pick is sent as <code>[choice:&lt;id&gt;] &lt;label&gt;</code>, and <code>displayUserPrompt</code> (<code>peer-roster.ts</code>) never removed the prefix. The chips (<code>ChatPanel.tsx</code>) had no answered state.</td><td>The bubble shows the label, and the demo reply quotes it. A message's chips are disabled once a later message picked one of them; moving on without picking leaves them live. <code>tools/blueprint/quick-reply.mjs</code> (desktop and phone): 1/5 before, 5/5 after. A unit test fails without the fix. Only the demo fixture carries choices today.</td><td>#263</td></tr>
+      <tr><td>On the task board of a linked agent with more than one board, switching boards while the first one was still loading could fill the new board with the old board's tasks, if the old answer arrived last.</td><td><code>KanbanPanel.tsx</code>'s <code>refresh</code> set whatever list answered, with no staleness guard.</td><td>Each refresh is numbered, and only the newest may land. A unit test in <code>kanban-panel-hosted.test.tsx</code> holds the first board's list until after the switch. It fails without the fix. The demo has one board, so the browser can't show it.</td><td>#262</td></tr>
+      <tr><td>For a linked agent, Agent info's Resize / Schedule row treated a refused resize as done. The confirm step cleared and nothing changed, with no message. The same happened for a refused cancel, and for a resize queued until the agent was idle.</td><td><code>AgentInfo.tsx</code> ignored the <code>false</code> that <code>scheduleResize</code> and <code>cancelResize</code> return when the platform says no.</td><td>A refusal shows "Couldn't schedule the resize. Try again." (or "Couldn't cancel…") as an alert and keeps the chosen plan and time. A later success clears it. A unit test in <code>agent-info-resize.test.tsx</code> fails without the fix. Linked agents only, so the demo can't show it.</td><td>#261</td></tr>
+      <tr><td>On the task board, breaking down task A and then task B brought A's "Break this down" back while A was still running, so it could be sent twice. A finishing then cleared B's "Breaking down…". Done and Assign shared the same slot. Separately, a failed attachments load stayed on screen after a retry succeeded.</td><td><code>KanbanPanel.tsx</code> kept one in-flight slot for "Break this down" and one for Done and Assign. The attachments error was set on failure and never cleared.</td><td>In-flight work is tracked per task in sets (plus create and swarm), and a press on a task already in flight is ignored. A retry starts clean, and a success clears the error. Two unit tests in <code>kanban-panel-hosted.test.tsx</code> fail without the fix. The demo answers its task routes at once, so the browser can't show the race.</td><td>#260</td></tr>
+      <tr><td>On phone and web sign-in you can paste your own code while the screen is still getting one. When that slow request answered, a fresh code replaced yours. If it failed instead, an error replaced the wait and your code stopped being checked.</td><td>Neither <code>MobileConnect.tsx</code>'s nor <code>WebConnect.tsx</code>'s <code>start()</code> checked whether its answer was still wanted. <code>TelegramConnect</code> already guards with <code>startSeq</code>.</td><td>Each start is numbered, a pasted code bumps the number, and a late answer is dropped. <code>tools/blueprint/paste-race.mjs</code> answers the start route after 3 seconds, on the phone in the demo and on the web against a production build: 1/5 before (the screen showed ZZZZ-ZZZZ, or an error), 5/5 after. Unit tests fail without the fix.</td><td>#259</td></tr>
+      <tr><td>Three problems on the sign-in screens. A request that never reached the server showed the browser's own words ("Failed to fetch") on web and phone. On the web error screen, typing a code lost three of every four keystrokes: "AB3D" left "A". And on the web, "Use this code" with a mistyped code did nothing visible while waiting.</td><td>Both <code>start()</code>s showed <code>err.message</code>. The web error's inline ref callback ran on every render and pulled focus out of the code box. The paste error was only drawn on the error screen (<code>WebConnect.tsx</code>).</td><td>A shared <code>signInErrorMessage()</code> says "Can't reach Nub right now…" or "Nub took too long to answer…", and keeps any message the server wrote. The error is focused once, when it appears. A bad code shows an alert under the box, as on the phone. <code>tools/blueprint/sign-in-screens.mjs</code> runs its web part against a production build and its phone part in the demo: 1/5 before, 5/5 after. Unit tests cover the helper and both web fixes.</td><td>#258</td></tr>
+      <tr><td>"Connect with Telegram" (what "New agent" opens while unlinked) said it was modal but left focus on the page behind it. Tab walked the dimmed sidebar, typing went into the composer, and screen readers didn't hear its error.</td><td><code>TelegramConnect.tsx</code> set <code>aria-modal</code> and had no focus handling at all, unlike <code>AppModal</code>.</td><td>It takes focus on open, wraps Tab inside, gives focus back on close, and its error is <code>role="alert"</code>. <code>tools/blueprint/telegram-focus.mjs</code>: 1/5 before (8 of 10 Tabs landed behind it), 5/5 after. Two unit tests fail without the fix.</td><td>#257</td></tr>
+      <tr><td>On the web, a one-second network blip (a Wi-Fi handoff, a laptop waking up) during sign-in or while redeeming an invite ended it at once with "Lost connection while waiting". The give-up was meant to take about 30 seconds of failed polls.</td><td><code>WebConnect.tsx</code> and <code>InviteRedeem.tsx</code> kept the failed-poll count in state, as a dependency of the poll effect. Every failure re-ran the effect, which polls again at once, so all 15 failures landed within milliseconds.</td><td>The count is a ref, so failures happen at the poll interval. The existing outage test only passed because of the bug: one 25-second fake-timer jump fires a couple of ticks, and the cascade did the rest. It now advances a second at a time. New tests: a one-second blip makes at most 2 polls and shows no error (before: 30 and 16 polls), and a long outage still says so. Not drivable in the demo (production web sign-in, and the real invite server).</td><td>#256</td></tr>
+      <tr><td>On the phone with a keyboard (a tablet, a keyboard case, a Chromebook), a chat row's long-press menu (Pin, Mark as unread, Hide, Delete) never took focus, and Esc didn't close it.</td><td><code>MobileHome.tsx</code> handled Esc only for the compose sheet, and the menu sheet didn't manage focus.</td><td>The menu focuses its first item, moves with the arrow keys, closes on Esc the way Cancel does, and gives focus back to the row. <code>tools/blueprint/phone-row-menu.mjs</code>: 2/5 before, 5/5 after. A unit test in <code>home-menu-and-shortcuts.test.tsx</code> fails without the fix.</td><td>#255</td></tr>
+      <tr><td>A message's right-click menu (react, reply, copy, edit, ask again) couldn't be used from the keyboard. It never took focus, Esc didn't close it, and screen readers heard its items as plain buttons. With Agent info open, Esc closed Info behind it.</td><td><code>MessageActions.tsx</code> rendered <code>role="menu"</code> with plain buttons and only an outside-click listener. The menu and the reaction picker lacked the <code>data-esc-layer</code> marker (#242).</td><td>The menu focuses its first item, moves with the arrow keys and Home/End, closes on Esc or Tab, and gives focus back unless an item moved it on purpose. Its items are <code>menuitem</code>s, and the menu and the picker carry <code>data-esc-layer</code>. <code>tools/blueprint/message-menu.mjs</code>: 1/6 before, 6/6 after. A unit test fails without the fix.</td><td>#254</td></tr>
+      <tr><td>Tabbing through a chat opened each message's action toolbar (react, reply, copy) <strong>for good</strong>. The bars piled up over the messages above them, and stayed after focus moved to the composer.</td><td><code>MessageActions.tsx</code> set the toolbar's hover state on focus, and only the pointer leaving cleared it.</td><td>A blur that leaves the message hides its bar, unless the pointer is still on it or its picker or menu is open. <code>tools/blueprint/message-toolbar.mjs</code>: 2/4 before (two bars stuck, still up with focus in the composer), 4/4 after. Hover still shows and hides the bar. A unit test in <code>message-actions.test.tsx</code> fails without the fix.</td><td>#252</td></tr>
+      <tr><td>Typing <code>/new</code> (New conversation) in full and pressing Enter ran <code>/new-agent</code>. That opened the agent creator on desktop ("Connect with Telegram" on the web while unlinked), and sent the phone to Home.</td><td>The slash menu (<code>ChatPanel.tsx</code>) matches by prefix and <code>APP_SLASH</code> lists <code>/new-agent</code> first. The highlight resets to the top row on every keystroke, so Enter ran it.</td><td>A command typed out in full sorts first, and prefixes keep list order. <code>tools/blueprint/slash-exact.mjs</code>: 3/5 before, 5/5 after. A unit test in <code>chat-widgets.test.tsx</code> fails without the fix.</td><td>#251</td></tr>
+      <tr><td>While the agent waited on a permission or a question, <strong>any Esc answered "Deny"</strong>, including one used to close the slash-command menu, the @mention picker, the reply pill or a menu on screen. Closing a menu also refused the agent's request.</td><td><code>ChatPanel.tsx</code>'s window-level keydown denies on Escape and ignored whether the key was already handled. The slash menu's own Esc branch didn't even mark it handled.</td><td>The listener skips an Esc that was already handled (<code>defaultPrevented</code>) or while a <code>[data-esc-layer]</code> layer is open, and the slash menu's Esc marks itself handled. The demo never raises a permission request, so two unit tests in <code>chat-widgets.test.tsx</code> are the evidence. They fail without the fix, and the plain "Esc denies" test still passes. This PR also adds <code>layers-on-top.mjs</code>: fourteen floating layers, desktop and phone, hit-tested at five points each. It's 15/15, and with #248's header fix reverted it fails exactly the desktop bell list.</td><td>#249</td></tr>
+      <tr><td><strong>On the desktop-width web app and desktop, the notifications bell opened an invisible list.</strong> It was drawn under the chat, with or without Agent info open, so notifications could only be read on the phone. Separately, screen readers never heard how many were unread.</td><td>The top bar (<code>TopBar.tsx</code>) is <code>.nub-glass</code>. Its backdrop blur makes it a stacking context of its own, and with no z-index the chat area painted after it covered everything below the bar, the bell's list included. The bell's <code>aria-label</code> "Notifications" replaced the badge's text. Earlier checks missed the first bug: <code>bell-esc</code> reads <code>aria-expanded</code> and the sweep measures the list's box, but neither hit-tests it.</td><td>The header is <code>relative z-20</code>. Modals are portaled to the page body at z-50 and stay above it. The bell's name says "Notifications, 2 unread", and the badge is <code>aria-hidden</code>. <code>tools/blueprint/bell-list.mjs</code> seeds two unread notifications and hit-tests four points inside the open list: 3/8 before (0/4 points on desktop, even with Info open), 8/8 after. Unit tests guard the header's z-index and the label. Found while writing the count check: a screenshot showed the bell "open" with nothing under it.</td><td>#248</td></tr>
+      <tr><td>With a linked agent, open the notifications bell and click "Mark all read" straight away: when the server's answer to the refresh the bell started came back, the unread badge returned. It stayed until a later poll, or for good if the mark-read call had failed.</td><td>That refresh left before the read reached the server, so it answered <code>read: false</code>. <code>mergeNotifications</code> (<code>notifications.ts</code>) let the server copy win whenever it stated <code>read</code>.</td><td>Read is sticky in the merge: an item read on this device stays read, and read on another device still arrives from the server. The demo can't show this (its notifications probe says unsupported), so two unit tests are the evidence: the merge rule, and the bell with a held refresh. Both fail without the fix.</td><td>#246</td></tr>
+      <tr><td>In the Files panel (desktop and phone), Refresh wiped what was typed in the search box and showed the whole folder again.</td><td><code>FilesPanel.tsx</code> cleared the search inside the listing effect, which Refresh re-runs to reload the folder.</td><td>Clearing now has its own effect, keyed on the panel opening and the folder. A reopen or another folder still starts with an empty search, and Refresh keeps it. <code>tools/blueprint/files-refresh.mjs</code>: 3/5 before, 5/5 after. A unit test in <code>files-panel.test.tsx</code> fails without the fix.</td><td>#245</td></tr>
+      <tr><td>On the Routines page (desktop and phone), Space on a routine's pause switch dropped keyboard focus to the page. The next Tab started over from the top, and a second Space did nothing.</td><td>The switch was <code>disabled</code> while the change was sent, and a focused element that becomes disabled loses focus. The row then moved between the Active and Paused lists, which remounts it (<code>RoutinesPage.tsx</code>).</td><td><code>PillSwitch</code> gains a busy state (<code>aria-busy</code>, <code>aria-disabled</code>, clicks ignored, still focusable) that the row uses instead of <code>disabled</code>. The row puts focus back on its switch in its new place when the switch had it. <code>tools/blueprint/routine-switch-focus.mjs</code>: 1/5 before, 5/5 after, on desktop and the phone. A unit test in <code>routines-page.test.tsx</code> fails without the fix.</td><td>#243</td></tr>
+      <tr><td>With Agent info, Files or Routines open, Esc closed that panel and left the notifications list, an agent's profile card or a notification's detail drawer on screen. Focus stayed inside the list.</td><td>The same mechanism as #229's sidebar layers. <code>App.tsx</code>'s capture-phase Esc chain stops the key at the side panels, and these three close themselves in bubble-phase listeners (<code>NotificationsBell.tsx</code>, <code>AgentProfileCard.tsx</code>, <code>NotificationDetail.tsx</code>). The <code>bell-esc</code> script only tested with no panel open.</td><td>#229's <code>data-sidebar-layer</code> is now a general <code>data-esc-layer</code>, set on all six layers. The app's Esc chain yields to it just below ⌘K search, which stays topmost. <code>tools/blueprint/esc-layers.mjs</code>: 2/5 before, 5/5 after. The drawer can't be driven in the demo (no notifications), so unit tests check the markers. Three fail without the fix.</td><td>#242</td></tr>
+      <tr><td>In the routine editor, "Save &amp; run now" saves, starts a run and keeps the editor open on Results. A second Save in the same sitting could be silently dropped. Turn Active off, "Save &amp; run now", turn Active back on, Save: the routine stayed <strong>Paused</strong> on the agent and never ran. A time changed and then put back stayed changed. The button also kept offering "Save &amp; run now" for edits it had already saved.</td><td><code>App.tsx</code> (and the phone's <code>MobileApp.tsx</code>) passed the routine as it was when the editor opened to every save. <code>upsertRoutine</code> only sends a pause or resume, or a schedule, when it differs from that copy, and the editor's own unsaved-edits check (<code>RoutineEditor.tsx</code>) compared against it too.</td><td>The editor keeps a baseline: the routine as opened, then what its own save returned. It passes the baseline to <code>onSave</code> and checks unsaved edits against it. Both shells return the saved routine. <code>tools/blueprint/routine-resave.mjs</code>: 3/6 before (the demo agent really kept the routine paused, at 07:00), 6/6 after. A unit test in <code>routine-editor.test.tsx</code> fails without the fix.</td><td>#240</td></tr>
+      <tr><td>The phone's dark mode was swept for contrast (<code>themes.mjs</code>), but the desktop-width app's wasn't. A new sweep found one failure on six screens: the "from Ops Runner" chip on a chat bubble read 1.74:1 in dark mode, navy on grey. @mention chips use the same colours.</td><td>Both chips (<code>agent-identity.tsx</code>, <code>MessageBody.tsx</code>) draw the agent's eye colour on a 45% tint of its body colour. Over a white bubble that's fine (6.96:1). Over a near-black bubble the tint goes mid-grey and navy disappears.</td><td>In dark mode the chips tint toward the card (28% body) and name the agent in ink: 8.4:1, and near 7:1 even for a white body. Light mode is unchanged. <code>tools/blueprint/desktop-themes.mjs</code> measures every visible text on chat, Agent info, ⌘K, a file preview, notifications and Connect apps in both themes. #240 added Routines, the routine editor and Connect apps' Agents, and all three pass. It composites translucent layers and reads <code>color(srgb …)</code> from <code>color-mix()</code>, and the chip has its own check. 11/15 before, 21/21 after. Three unit tests fail without the fix. Settings isn't in this sweep: the Settings loop owns those files.</td><td>#239</td></tr>
+      <tr><td>In dark mode the app's toast ("Link copied", "That conversation isn't available…", plugin messages) was white text on a near-white pill, at 1.09:1. Screen readers didn't announce it either.</td><td>The toast in <code>App.tsx</code> was <code>bg-[var(--ca-ink)] text-white</code>. <code>--ca-ink</code> is dark navy in light mode but <code>#f5f5f5</code> in dark mode. The plugin UI's primary <code>Button</code> used the same pairing. The toast was mounted only while it had text, with no live region.</td><td>Text on an ink fill now takes <code>--ca-card</code>, which flips the other way: 17.32:1 in dark, and light unchanged at 10.92:1. The toast sits in an always-mounted <code>role="status"</code> region. <code>tools/blueprint/toast-contrast.mjs</code>: 2/4 before, 4/4 after. A source scan (<code>ink-fill-text.test.ts</code>) fails on both old pairings. The Settings loop session found this one.</td><td>#237</td></tr>
+      <tr><td>Mid-way through "Create group", a roster sync or an agent's status change put the typed name and picked members back to the defaults, and moved focus back to Name.</td><td><code>GroupEditor.tsx</code> derived its default members from <code>props.agents</code> with <code>useMemo</code>, and its reset-on-open effect depended on that. Every new agents array re-ran the reset while the dialog was open. <code>RoutineEditor</code> already reads its defaults at open only.</td><td>The defaults are read at open, through a ref. A unit test in <code>group-editor.test.tsx</code> hands down a fresh copy of the same roster mid-edit. It fails without the fix, and reopening still starts fresh. No browser check: the demo's roster doesn't change while the dialog is open.</td><td>#236</td></tr>
+      <tr><td>"Delete conversation?" from a row's menu quoted the chat's stored session title ("Summarize the latest MaiaVM deploy docs"). The row the user right-clicked reads "Research Alpha", so the question named something they never saw. A chat with no stored title got empty quotes.</td><td>The menu path in <code>Sidebar.tsx</code> passed <code>conv.title</code>. The Hidden chats path already used <code>conversationTitle()</code>, which gives the agent or group name the row shows.</td><td>The menu path uses <code>conversationTitle()</code> too. <code>delete-confirm.mjs</code> gained a check: 9/10 before, 10/10 after. A unit test in <code>sidebar-delete.test.tsx</code> fails without the fix.</td><td>#235</td></tr>
+      <tr><td>Close ⌘K search with Esc or a click outside, and keyboard focus fell to the page itself, so the next keystrokes went nowhere: someone who searched from the composer had to click back in. While search was open, Tab walked out of it into the dimmed page behind.</td><td><code>CommandPalette.tsx</code> rendered nothing on close and never saved or restored focus, had no Tab trap, and didn't set <code>aria-modal</code>. <code>AppModal</code> does all three.</td><td>Closing returns focus to where it was, but only when focus would otherwise be lost, so an editor a pick opens keeps its own focus. Tab and Shift+Tab wrap between the input and the category pills, and the dialog is <code>aria-modal</code>. <code>tools/blueprint/palette-focus.mjs</code>: 2/8 before (Tab reached the sidebar's "+ New" and chat rows), 8/8 after. Two unit tests fail without the fix.</td><td>#233</td></tr>
+      <tr><td>In ⌘K search, typing "ops runner" and pressing Enter quickly left you on Research Alpha. On the Agents or Routines tab, a quick search-and-Enter opened a create flow ("New Agent", which on the web is "Connect with Telegram", or a blank "Create Routine") instead of what you typed. ⌘1–9 did the same.</td><td>Results follow a copy of the query debounced by 150 ms, but Enter and ⌘N ran the selected row straight away (<code>CommandPalette.tsx</code>). That row came from the previous query, and on those tabs it's the pinned create row.</td><td>When the query is ahead of the debounce, Enter or ⌘N flushes it and runs the pick once the rows match what was typed. <code>tools/blueprint/palette-enter.mjs</code>: 2/6 before, 6/6 after. Two unit tests in <code>command-palette.test.tsx</code> fail without the fix. Server transcript hits still arrive after the debounce, so a fast Enter picks from local results.</td><td>#232</td></tr>
+      <tr><td>With a real agent, opening file A (a slow read) and then file B (a fast one) could show A's text in the preview titled B. Edit, then Save, would then write A's text into B. The git badge could show A's status too.</td><td><code>loadContent</code> in <code>FilePreview.tsx</code> set the text from whichever read answered last, and the <code>statPath</code> call wasn't cancelled when the file changed. The Diff and sheet panes in the same file already guarded against this.</td><td>Each load carries a sequence number, bumped on every file change, and a late answer is dropped. The stat call is cancelled on change. The demo reads files synchronously, so the browser can't show the race. A unit test in <code>file-preview-stack.test.tsx</code> holds A's read until B has loaded. It fails without the fix (A's text appears under B) and passes with it. <code>preview-guard</code> and <code>phone-preview</code> still pass.</td><td>#230</td></tr>
+      <tr><td>On desktop and the desktop-width web app, "Delete conversation?" opens with Cancel focused, but <strong>Enter on Cancel deleted the chat</strong>. The dialog says the delete is synced everywhere and can't be undone. Separately, with Agent info or Files open, Esc closed that panel <em>behind</em> the dialog (or the row menu, or Hidden chats) and left the dialog up.</td><td>A keydown handler on the whole dialog turned any Enter into a delete and cancelled the focused button's own click (<code>Sidebar.tsx</code>). The sidebar's layers close on Esc in a bubble-phase listener, and <code>App.tsx</code>'s capture-phase Esc chain closed a side panel and stopped the key before it got there.</td><td>The dialog-level Enter handler is gone: Enter presses the focused button, and Tab reaches Delete. The row menu, Hidden chats and the dialog are marked <code>data-sidebar-layer</code> (since #242, <code>data-esc-layer</code>), and the app's Esc chain yields to them, as it does for the picture viewer. <code>tools/blueprint/delete-confirm.mjs</code>: 6/9 before (that run really deleted Research Alpha), 9/9 after. It has 10 checks since #235. Tab-then-Enter and a click on Delete still delete. Two unit tests in <code>sidebar-delete.test.tsx</code> fail without the fix. The phone asks through <code>window.confirm</code> and wasn't affected.</td><td>#229</td></tr>
+      <tr><td>A green CI run failed anyway: on #223's first run all 1,900 affected tests passed, then Vitest reported an unhandled <code>EnvironmentTeardownError</code> ("Cannot load <code>platform.ts</code> … after the environment was torn down") and failed the job. The rerun passed. This is likely the unnamed file the loop saw fail 1 run in 7.</td><td><code>useAgentRuntime</code>'s audit-log effect lazily imports <code>agent-rest</code> on mount, which pulls in <code>vm-fs-http</code>, then <code>mobile/session</code>, then <code>platform</code>. <code>store-structural.test.tsx</code> mounts the hook only to count renders. On a slow runner the chain was still loading when the file's jsdom environment was torn down.</td><td>The test stubs <code>agent-rest</code>, as it already stubs <code>active-transport</code>. With a 5 ms delay forced on that load, 3 of 6 runs hit the same error before the stub and 0 of 6 after. Three full unit runs after it were clean: 3,589 passed each, no unhandled errors. Test-only, so there is no browser check.</td><td>#227</td></tr>
+      <tr><td>On the desktop-width web app (and desktop), after closing a file preview with unsaved edits and choosing Discard, the next link to that file (or any route naming a preview) asked "Discard unsaved changes?" again. Choosing Cancel, the natural answer with nothing open, blocked the file from opening.</td><td><code>FilePreview.tsx</code> publishes its leave guard to the app (<code>guardRef</code>) during render, but returned early when closed, before that line. The app kept the last open render's <code>confirmLeave</code>, whose closure still held the discarded draft, and asked it on every route change (<code>App.tsx</code> <code>onHashChange</code>).</td><td>The guard is published above the early return, and is <code>null</code> while the preview is closed. <code>tools/blueprint/preview-guard.mjs</code>: 7/9 before (the stale prompt, then the file not opening), 9/9 after. It also checks that fresh edits still guard Close, Esc and Back, and that Cancel keeps the draft and the URL. A unit test in <code>file-preview-stack.test.tsx</code> fails without the fix.</td><td>#226</td></tr>
+      <tr><td>Once #221 was live, the PostHog project's own settings switched on more than masked replays and errors. Console output went into replays, which masking doesn't touch. Heatmaps sent click data. Network timing, web vitals, Logs and the support chat widget were also switched on.</td><td>The setup wizard turned these on in the project. With no value set in <code>analytics.ts</code>, posthog-js follows the project's remote config. Read from the live config file.</td><td><code>analytics.ts</code> now pins each one off: <code>enable_recording_console_log</code>, <code>capture_performance</code>, <code>capture_heatmaps</code>, <code>logs.captureConsoleLogs</code>, <code>disable_conversations</code>. <code>replay-masking.mjs</code> now serves the live project's config and gained 5 checks (15 in all): 13/15 on <code>main</code> (console output recorded, <code>$$heatmap</code> events sent), 15/15 after. The network-timing check also passed before: the harness saw no network events, so it guards against a regression but didn't prove a leak. A new check confirms an uncaught error still reaches error tracking.</td><td>#223</td></tr>
+      <tr><td>PostHog's setup wizard turned session replays on with nothing hidden. In a chat app, that would have recorded people's messages. Once masked, the replays still never started.</td><td>The wizard dropped the masking options from <code>analytics.ts</code>. Replays then needed two more things: the project's remote config, which says replay is on (fetched from <code>us-assets.i.posthog.com</code>, which the CSP refused), and the full recorder bundle (<code>posthog-js/dist/posthog-recorder</code>; <code>dist/recorder</code> is rrweb alone and asked for a script from PostHog).</td><td>Replays hide every word, text box and picture (<code>maskTextSelector: '*'</code>, all inputs, <code>img, video, canvas, iframe, picture</code> blocked). Only <code>connect-src</code> gains the config host; <code>script-src</code> is unchanged. Feature flags stay off. <code>tools/blueprint/replay-masking.mjs</code> drives a production build with a dummy key, answers PostHog itself and unpacks every recording: 6/10 with masking off (11 of 11 on-screen words, a planted message, typed text and alt text all in the replay), 15/15 after.</td><td>#221</td></tr>
+      <tr><td>On desktop, Chat history reopened with the last search still typed in and the list still filtered to it, with "Show more" hidden. Search (⌘K) and the Marketplace both start empty.</td><td><code>ChatHistoryPanel.tsx</code> stays mounted on desktop after its first open, and never reset its query. The phone unmounts it, so it was never affected.</td><td>Each open clears the query, and the stale query's debounced search is cancelled before it fires. Desktop Chat history needs a linked agent, which the demo doesn't have, so a unit test in <code>chat-history-panel.test.tsx</code> is the evidence. It fails without the fix and checks that no extra search goes out. The phone path stays covered by <code>mobile-reach</code> (26/26).</td><td>#216</td></tr>
+      <tr><td>On desktop and the phone, Esc didn't close the notifications list. It only closed on a click outside, so a keyboard user inside it had to Tab back to the bell.</td><td><code>NotificationsBell.tsx</code> listened for outside clicks only.</td><td>While the list is open, Esc closes it and puts focus back on the bell. The key stops there, so a chat-level Esc (find bar, draft) doesn't also fire. <code>tools/blueprint/bell-esc.mjs</code>: 4/8 before, 8/8 after, plus a unit test in <code>notifications-bell.test.tsx</code> that fails without the fix.</td><td>#215</td></tr>
+      <tr><td>For a linked (VM) agent, Agent info's routine summary ("2 routines · 2 active") went stale after a routine was saved from its own "+ New", while the Connect apps tile and the Routines page showed the new count.</td><td>The panel fetched the VM's cron jobs only when it opened, the agent changed or Retry was pressed (<code>AgentInfo.tsx</code>).</td><td>It re-counts when the app's routine list changes. It keys on the routines' ids and on/off state, so a fresh copy of the same list doesn't refetch. The demo can't show this: its agents aren't VM agents (see Limits), so a unit test in <code>agent-info-routines.test.tsx</code> is the evidence. It fails without the fix ("1 routine" stays) and passes with it.</td><td>#214</td></tr>
+      <tr><td>On the desktop-width web app, Settings reopened on the last tab (say Connections) while the URL said a bare <code>?settings=1</code>, which names General. A reload or a shared link then landed on a different tab than the one on screen. <code>App.tsx</code> promises "the URL always names the pane on screen".</td><td>Settings stays mounted between opens, and its tab state (<code>SettingsStub.tsx</code>) only changed when a pane was requested.</td><td>A bare open (sidebar, ⌘,) now starts on General, as a fresh load of <code>?settings=1</code> does. The reset happens only on the open transition, so the dev-only Plugins tab, which reports no pane, isn't kicked back. <code>tools/blueprint/web-settings.mjs</code>: 3/5 before, 5/5 after, plus a unit test in <code>settings-fold-in.test.tsx</code> that fails without the fix.</td><td>#213</td></tr>
+      <tr><td>On the desktop-width web app, with Agent info open, Esc in Settings closed the Info panel <em>behind</em> it and left Settings on screen. The same went for Kanban, Chat history and the group editor.</td><td>The app's Esc handler (<code>App.tsx</code>, capture phase) checked the side panels (Files, Info, tools) before the modals, and stopped the key there.</td><td>The modals now come first: the Kanban and Settings branches moved above the side panels, and Chat history and the group editor got their own. A first try that yielded to any <code>aria-modal</code> in the page broke Esc off the Routines page in a unit test: a closing modal's exit animation still counts. So the fix uses explicit branches. <code>tools/blueprint/web-esc.mjs</code>: 3/4 before, 4/4 after. Only the Settings case is driven, because the demo can't open Chat history (linked only) and the group editor didn't open from search.</td><td>#212</td></tr>
+      <tr><td>On the phone, the Files tabs (All · Photos · Docs · Sites) were 26px tall.</td><td>The tab strip in <code>FilesPanel.tsx</code> is desktop-sized.</td><td>The tabs take <code>.nub-touch-44</code>, so they're 44px tall on touch screens. They sit in a segmented control, so they grow instead of borrowing a hit area. <code>phone-touch.mjs</code> gained 2 checks (14 in all): 13/14 before, 14/14 after, and the tabs still switch.</td><td>#211</td></tr>
+      <tr><td>On the phone, the file card under an agent reply had a 61 × 27px View pill and a 28 × 28px Download button.</td><td>The same mouse-sized desktop component (<code>FileCard.tsx</code>) that the earlier touch pass didn't reach.</td><td>The same two touch classes: Download grows to 44px, and View keeps its pill but answers taps across 44 × 44px. That needed <code>position: relative</code> on <code>.nub-touch-hit</code>, which the switch had only by luck. <code>phone-touch.mjs</code> gained 3 chat checks: 10/12 before (both new size checks failed), 12/12 after.</td><td>#210 (pass 2 of 3)</td></tr>
+      <tr><td>On the phone with a keyboard (a tablet, a keyboard case, the Android app on a Chromebook), Esc did nothing on the Routines screen, though its back link reads "Back · Esc". It also did nothing on the Files panel, which desktop closes on Esc.</td><td>The phone shell's key handler (<code>MobileApp.tsx</code>) only knew ⌘ and Alt shortcuts. Only modals, Hidden chats and the compose sheet handled Esc themselves.</td><td>Esc on Routines or Files takes the same history step as Back. It stands down while a modal is open, because the modal closes itself on the same key: one Esc, one layer. <code>tools/blueprint/phone-esc.mjs</code>: 4/7 before (the two one-layer guards and "home untouched" already held), 7/7 after.</td><td>#209</td></tr>
+      <tr><td>On the phone, Routines' Run now (32 × 32px), pause switch (36 × 20px) and New routine (32px tall), and Files' Refresh and Close (32 × 32px), were under the 44px touch minimum.</td><td>These are desktop components the phone mounts, sized for a mouse. The phone's touch pass hadn't reached them.</td><td>Under <code>(pointer: coarse)</code> in the phone shell, <code>.nub-touch-44</code> grows a control to 44px, and <code>.nub-touch-hit</code> keeps the switch's drawing but answers taps across 44 × 44px. Desktop is untouched. <code>tools/blueprint/phone-touch.mjs</code> hit-tests a 44px square around each control: 4/9 before, 9/9 after. Two "tap near the edge" checks passed before too, because Chrome's touch emulation adjusts near-miss taps, so the hit-area checks are the evidence.</td><td>#208 (pass 1 of 3)</td></tr>
+      <tr><td>On the phone, Back with a file preview open closed the Files panel <em>under</em> it and left the preview on screen. The next Back left Files for home with the preview still floating over the chat list.</td><td>The preview was plain state beside the phone's layer model (<code>previewPath</code> in <code>MobileApp.tsx</code>): it had no history entry, so a Back press popped the layer beneath it.</td><td>A user's Back with a preview open now closes the preview and restores the entry that pop took, so the layer under it stays. Pops the app makes itself are untouched. <code>tools/blueprint/phone-preview.mjs</code>: 2/6 before, 6/6 after.</td><td>#207</td></tr>
+      <tr><td>On the phone, "Sign in with Telegram" in the Settings sheet (General → Your Nub account) showed "Link this phone" for a moment, then bounced back: to the sheet when it was opened from home, or to the phone's Settings screen when it was opened from there. A phone that wasn't linked couldn't start linking from Settings.</td><td>The link screen clears the open sheet as it starts. The phone's history mirror (<code>MobileApp.tsx</code>) turns a shallower state into <code>history.go(-n)</code>, and the pop then adopted the entry it landed on, which still named the old screen and sheet.</td><td>A pop the mirror starts itself now keeps the state the app was heading for, and rewrites the entry it lands on to match. That fixes the class, not just this button. <code>tools/blueprint/phone-signin.mjs</code>: 3/6 before, 6/6 after. All 30 core phone checks and 26 reach checks still pass.</td><td>#206</td></tr>
+      <tr><td>On desktop and the desktop-width web app, asking "Delete this routine?" and then closing the editor with Esc or Cancel left the question armed. The next routine opened with "Delete this routine? Delete / Keep" already showing, so one tap deleted it.</td><td>The editor stays mounted between opens. Its reset-on-open effect (<code>RoutineEditor.tsx</code>) reset every field except <code>confirmingDelete</code>; only "Keep" cleared it. The phone unmounts the editor, so it was never affected.</td><td>The reset also clears the question. <code>tools/blueprint/routine-editor.mjs</code>: 3/7 before. In that run one tap really deleted a demo routine (2 → 1). 7/7 after, plus a unit test in <code>routine-editor.test.tsx</code> that fails without the fix.</td><td>#205</td></tr>
+      <tr><td>On the desktop-width web app, ⌘⇧M (Plugins) and ⌘⇧W (Hermes tools) opened nothing, but wrote <code>?mcp=1</code> / <code>?tools=skills</code> into the URL. The next Esc then closed that invisible panel instead of what was on screen. A shared link carrying either flag did the same.</td><td>Both panels need desktop-only capabilities (<code>caps.vmFs</code>, <code>caps.localTasks</code>). The open flags in <code>App.tsx</code> were set regardless, and the Esc handler and the URL read them raw.</td><td>The flags are now read through the capability, so a panel that can't render is never "open". <code>tools/blueprint/web-panels.mjs</code>: 1/7 before the fix, 7/7 after.</td><td>#204</td></tr>
+      <tr><td>A helper's Stop and steer did nothing on a linked agent when its turn was resumed in this tab (after a reload, or started on another device)</td><td><code>cancelSubagent</code> / <code>messageSubagent</code> only knew turns this tab had sent</td><td>Same turn lookup as the main Stop button. Covered by a unit test only: the demo mode this harness runs doesn't use the linked-agent transport.</td><td>#203</td></tr>
+      <tr><td>The Android update check's guards (bad hash, bad size, unreadable version) had no running tests</td><td>Their tests were left as <code>it.todo</code> after the guards shipped</td><td>Real tests now. With the guards switched off, 3 tests fail. Unit only, nothing to see in the browser.</td><td>#202</td></tr>
+    </tbody>
+  </table></div>
+  <figure><img src="media/bell-list-before-after.jpg" alt="Desktop top bar with the bell showing 2 unread: before, nothing appears below it after clicking; after, the notifications list with two items sits on top of the chat" loading="lazy"><figcaption>The bell clicked open on the desktop-width web app, with two unread notifications. Before, the list is drawn under the chat and nothing shows. After, it sits on top.</figcaption></figure>
+  <figure><img src="media/dark-chip-before-after.jpg" alt="A chat bubble in dark mode before and after: before, the from Ops Runner chip is navy text on grey and hard to read; after, light text on a darker tint" loading="lazy"><figcaption>The "from Ops Runner" chip in dark mode. Before, navy on a mid-grey tint (1.74:1). After, ink on a darker tint of the same colour (8.4:1).</figcaption></figure>
+  <figure><img src="media/dark-toast-before-after.jpg" alt="The app toast in dark mode before and after: before, faint white text on a near-white pill; after, dark text on the same pill, clearly readable" loading="lazy"><figcaption>The same toast in dark mode. Before, the text is white on #f5f5f5 (1.09:1) and nearly invisible. After, it's #111 on the same pill (17.32:1).</figcaption></figure>
+  <figure><img src="media/delete-enter-before-after.jpg" alt="Three desktop screens: the Delete conversation dialog with Cancel focused; before the fix, after Enter, Research Alpha is gone from the sidebar; after the fix, after Enter, all three conversations remain" loading="lazy"><figcaption>"Delete conversation?" opens with Cancel focused (left). Before the fix, Enter there deleted Research Alpha, leaving 2 conversations (middle). After the fix, Enter cancels and all 3 remain (right).</figcaption></figure>
+  <figure><img src="media/web-esc-before-after.jpg" alt="Desktop web app after one Esc with Settings open over Agent info: before, Settings is still open and Info has closed; after, Settings has closed and Info is still open" loading="lazy"><figcaption>One Esc with Settings open over Agent info. Before, the hidden Info panel closed and Settings stayed. After, Settings closes and Info is still there. (The time-zone field is blanked out.)</figcaption></figure>
+  <figure><img src="media/phone-file-card-before-after.jpg" alt="A chat file card for index.html before and after: after, the card is slightly taller and the Download button has a 44px target" loading="lazy" style="max-width:560px"><figcaption>A chat file card. View keeps its pill, and Download grows to a 44px target. The card is a few pixels taller.</figcaption></figure>
+  <figure><img src="media/phone-touch-before-after.jpg" alt="The phone Routines screen before and after: after, New routine is a taller pill and the Run now buttons have larger hit areas; the switches look the same" loading="lazy" style="max-width:560px"><figcaption>The phone Routines screen. After the fix, New routine is 44px tall and Run now is 44 × 44px. The switch looks the same, but a tap anywhere in the 44px square around it now lands.</figcaption></figure>
+  <figure><img src="media/phone-preview-before-after.jpg" alt="Two phone screens after one Back press with README.md previewed from Files: before, the preview is still open over the home list; after, the Files panel is showing" loading="lazy" style="max-width:560px"><figcaption>One Back press with README.md open from Files. Before, Files closed underneath and the preview stayed over the home list. After, the preview closes and Files is still there.</figcaption></figure>
+  <figure><img src="media/phone-signin-before-after.jpg" alt="Two phone screens 1.5 seconds after tapping Sign in with Telegram: before, the Settings sheet is back; after, the Link this phone screen" loading="lazy" style="max-width:560px"><figcaption>1.5 seconds after tapping "Sign in with Telegram" on a 390px phone. Before, Settings is back on screen. After, "Link this phone" stays. "Failed to fetch" is the harness blocking the platform, so no pairing code is ever minted. Since #258 that message reads "Can’t reach Nub right now…".</figcaption></figure>
+  <figure><img src="media/routine-delete-before-after.jpg" alt="Two routine editors for Weekly digest: before, the footer already reads Delete this routine? Delete Keep; after, it shows a plain Delete" loading="lazy"><figcaption>The same steps before and after the fix: ask to delete "Morning briefing", press Esc, open "Weekly digest". Before, the footer is already asking "Delete this routine?", one tap from deleting the wrong routine.</figcaption></figure>
+</section>
+
+<section id="roadmap">
+  <h2>Roadmap</h2>
+  <p class="intro">Everything from the earlier roadmaps is shipped: search, chat history, demo fixtures, the task board, invite links, routine recipes, Export chat, keyboard shortcuts and dark mode. What's left needs a real device, the platform team, or a design decision. Size: S under half a day, M one to two days, L most of a week.</p>
+  <div class="tier">
+    <h3>P1 · prove it on real phones <small>do next</small></h3>
+    <div class="items">
+      <div class="item"><h4>P1-1 · Real devices and a linked agent</h4><dl><dt>Evidence</dt><dd>Every check ran in headless Chrome against the offline demo.</dd><dt>Approach</dt><dd>Run the four harness scripts against a staging agent with a test account, then a manual pass on iOS Safari, Android Chrome and the Capacitor app. Keep account details off screen.</dd><dt>Size</dt><dd class="effort">M</dd></dl></div>
+      <div class="item"><h4>P1-2 · Screen readers</h4><dl><dt>Evidence</dt><dd>The harness checks accessible names, live regions and contrast, not VoiceOver or TalkBack themselves.</dd><dt>Approach</dt><dd>VoiceOver and TalkBack through home, search, Routines and Settings; fix focus order inside the overlays.</dd><dt>Size</dt><dd class="effort">M</dd></dl></div>
+    </div>
+  </div>
+  <div class="tier">
+    <h3>P2 · needs the platform <small>after P1</small></h3>
+    <div class="items">
+      <div class="item"><h4>P2-1 · Plugins (MCP) on web and phone</h4><dl><dt>Evidence</dt><dd>Plugins are desktop-only on every browser shell; the platform's plugin routes send no cross-origin headers, and plugin sign-in relies on a desktop-only callback.</dd><dt>Approach</dt><dd>Platform: cross-origin headers on <code>/api/instances/:id/mcp*</code>. App: a browser path through the dashboard proxy, with stdio-command validation moved out of the Electron main process.</dd><dt>Size</dt><dd class="effort">L</dd></dl></div>
+    </div>
+  </div>
+  <div class="tier">
+    <h3>P3 · design calls <small>later</small></h3>
+    <div class="items">
+      <div class="item"><h4>P3-1 · A two-pane tablet layout</h4><dl><dt>Evidence</dt><dd>Tablets get a centred 640px phone column (measured above); the list and the chat can't be side by side.</dd><dt>Approach</dt><dd>Decide whether tablets should get the desktop shell's split view or a phone-style two-pane home and chat above 900px, then extend the tablet checks.</dd><dt>Size</dt><dd class="effort">M</dd></dl></div>
+    </div>
+  </div>
+  <div class="callout"><strong>Not yet tested:</strong> a real device (iOS Safari, Android Chrome, the Capacitor app), a linked phone talking to a real agent, landscape phones, and real screen readers.</div>
+</section>
+
+<section id="run">
+  <h2>Run &amp; reproduce</h2>
+<pre class="cmd"># offline demo app on the harness port (outside requests are blocked by the scripts)
+VITE_MAIAVM_MOCK=true npx vite --port 5287 --strictPort --host 127.0.0.1 &amp;
+
+# browser harness, one after another
+node tools/blueprint/mobile-parity.mjs   # core phone parity  → blueprint-out/data/report-mobile-parity.json
+node tools/blueprint/mobile-reach.mjs    # pass 2: search, history, tasks, recipes, files, invites, keys
+node tools/blueprint/themes.mjs          # pass 3: dark-mode contrast, tablet column, keyboard
+node tools/blueprint/sweep.mjs           # desktop + phone-width regressions
+node tools/blueprint/web-panels.mjs      # gap loop: web shortcuts and links vs hidden panels
+node tools/blueprint/routine-editor.mjs  # gap loop: the two-step routine Delete
+node tools/blueprint/phone-signin.mjs    # gap loop: phone Sign in with Telegram from Settings
+node tools/blueprint/phone-preview.mjs   # gap loop: phone Back with a file preview open
+node tools/blueprint/phone-touch.mjs     # gap loop: 44px touch targets on phone Routines and Files
+node tools/blueprint/phone-esc.mjs       # gap loop: Esc on phone Routines and Files
+node tools/blueprint/web-esc.mjs         # gap loop: Esc closes a modal before the panel behind it
+node tools/blueprint/web-settings.mjs    # gap loop: the Settings tab on screen matches the URL
+node tools/blueprint/bell-esc.mjs        # gap loop: Esc closes the notifications list
+node tools/blueprint/preview-guard.mjs   # gap loop: a closed preview's discard prompt never comes back
+node tools/blueprint/delete-confirm.mjs  # gap loop: the sidebar's Delete conversation? dialog and Esc
+node tools/blueprint/palette-enter.mjs   # gap loop: ⌘K Enter faster than the search debounce
+node tools/blueprint/palette-focus.mjs   # gap loop: focus back after ⌘K, Tab stays inside
+node tools/blueprint/toast-contrast.mjs  # gap loop: the app toast in light and dark
+node tools/blueprint/desktop-themes.mjs  # gap loop: desktop contrast sweep, light and dark
+node tools/blueprint/routine-resave.mjs  # gap loop: a second save after Save &amp; run now
+node tools/blueprint/esc-layers.mjs      # gap loop: Esc with a panel open and a small layer over it
+node tools/blueprint/routine-switch-focus.mjs  # gap loop: keyboard focus on a routine's pause switch
+node tools/blueprint/files-refresh.mjs   # gap loop: Refresh in Files keeps the search
+node tools/blueprint/bell-list.mjs       # gap loop: the bell's list is on top; the unread count is announced
+node tools/blueprint/layers-on-top.mjs   # gap loop: every floating layer is hit-tested on top
+node tools/blueprint/slash-exact.mjs     # gap loop: a slash command typed in full runs that command
+node tools/blueprint/message-toolbar.mjs # gap loop: message toolbars and keyboard focus
+node tools/blueprint/message-menu.mjs    # gap loop: the right-click message menu from the keyboard
+node tools/blueprint/phone-row-menu.mjs  # gap loop: the phone's chat row menu with a keyboard
+node tools/blueprint/telegram-focus.mjs  # gap loop: Connect with Telegram as a real modal
+# sign-in screens: the web part needs a production build on :4329 (no PostHog key needed)
+npx vite build --mode web --outDir /tmp/nub-web &amp;&amp; npx vite preview --mode web --outDir /tmp/nub-web --port 4329 --strictPort --host 127.0.0.1 &amp;
+node tools/blueprint/sign-in-screens.mjs
+node tools/blueprint/paste-race.mjs      # gap loop: a pasted code vs a slow "Getting a code…"
+node tools/blueprint/quick-reply.mjs     # gap loop: quick-reply chips
+node tools/blueprint/analytics-off.mjs   # privacy: the demo never contacts PostHog
+# privacy: replays carry no words (a production build with a dummy key, served on :4319)
+VITE_POSTHOG_KEY=phc_localprobe0000000000000000000000000000000000 npx vite build --mode web --outDir /tmp/nub-replay
+npx vite preview --mode web --outDir /tmp/nub-replay --port 4319 --strictPort --host 127.0.0.1 &amp;
+node tools/blueprint/replay-masking.mjs
+node tools/blueprint/demo-agent-info.mjs # follow-up: the demo's Agent info counts routines
+node tools/blueprint/walk.mjs            # recorded phone tour (webm)
+node tools/blueprint/build-report.mjs    # this page, with the test table filled from the reports
+
+# repo suites and build
+npx tsc -b
+npx vitest run --project unit
+npx vitest run --project electron
+npx vite build --mode web</pre>
+</section>
+</main>
+</div>

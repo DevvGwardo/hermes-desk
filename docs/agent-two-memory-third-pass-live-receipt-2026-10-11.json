@@ -1,0 +1,14 @@
+{
+  "note_id": 464,
+  "previous_raw_records_preserved": 464,
+  "raw_records_at_verification": 465,
+  "indexed_leaves_at_verification": 465,
+  "fresh_complete_tree": true,
+  "returned_build_nodes": 934,
+  "menu_utf8_bytes": 6922,
+  "raw_recall_utf8_bytes": 2642,
+  "direct_recall_utf8_bytes": 2599,
+  "model_calls": 0,
+  "database_writes": 0,
+  "backend_restarted": false
+}

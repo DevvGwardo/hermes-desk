@@ -1,0 +1,83 @@
+{
+  "duration": 1.6,
+  "blendIn": 0.06,
+  "blendOut": 0.35,
+  "springScale": 5,
+  "tracks": {
+    "parts": {
+      "wing-l": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.1, "rotate": 18},
+        {"t": 0.3, "rotate": 132, "ease": "outQuad"},
+        {"t": 0.42, "rotate": 70},
+        {"t": 0.52, "rotate": 124},
+        {"t": 0.66, "rotate": 134},
+        {"t": 0.78, "rotate": 64},
+        {"t": 1.0, "rotate": 86},
+        {"t": 1.6, "rotate": 83}
+      ],
+      "wing-r": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.1, "rotate": -18},
+        {"t": 0.3, "rotate": -132, "ease": "outQuad"},
+        {"t": 0.42, "rotate": -70},
+        {"t": 0.52, "rotate": -124},
+        {"t": 0.66, "rotate": -134},
+        {"t": 0.78, "rotate": -64},
+        {"t": 1.0, "rotate": -86},
+        {"t": 1.6, "rotate": -83}
+      ],
+      "body": [
+        {"t": 0, "sy": 1},
+        {"t": 0.1, "sy": 0.92},
+        {"t": 0.3, "sy": 1.05},
+        {"t": 0.5, "sy": 0.92},
+        {"t": 0.66, "sy": 1.04},
+        {"t": 0.82, "sy": 0.94},
+        {"t": 1.0, "sy": 1.02}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -3},
+        {"t": 0.3, "rotate": -16},
+        {"t": 0.5, "rotate": 4},
+        {"t": 0.66, "rotate": -14},
+        {"t": 0.82, "rotate": 4},
+        {"t": 1.0, "rotate": -12}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 3},
+        {"t": 0.3, "rotate": 16},
+        {"t": 0.5, "rotate": -4},
+        {"t": 0.66, "rotate": 14},
+        {"t": 0.82, "rotate": -4},
+        {"t": 1.0, "rotate": 12}
+      ]
+    },
+    "root": [
+      {"t": 0, "y": 0, "sy": 1, "sx": 1},
+      {"t": 0.1, "y": 6, "sy": 0.9, "sx": 1.06},
+      {"t": 0.3, "y": -58, "sy": 1.06, "sx": 0.95, "ease": "outQuad"},
+      {"t": 0.5, "y": 0, "sy": 0.9, "sx": 1.07, "ease": "inQuad"},
+      {"t": 0.66, "y": -38, "sy": 1.04, "sx": 0.97, "ease": "outQuad"},
+      {"t": 0.82, "y": 0, "sy": 0.93, "sx": 1.05, "ease": "inQuad"},
+      {"t": 1.0, "y": 0, "sy": 1, "sx": 1}
+    ],
+    "mouth": [
+      {"t": 0.08, "expr": "grin"}
+    ],
+    "fx": [
+      {
+        "t": 0.3,
+        "type": "confetti",
+        "anchor": "head",
+        "params": {"count": 18}
+      },
+      {
+        "t": 0.66,
+        "type": "sparkle",
+        "anchor": "head",
+        "params": {"count": 4}
+      }
+    ]
+  }
+}

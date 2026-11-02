@@ -1,0 +1,14 @@
+{
+  "task": "hermes-desk round 2: checkJs remaining modules, tighten any, cut dead code/bundle",
+  "gate": "npx tsc -b && npx tsc -p tsconfig.electron.json && npm run check:node",
+  "score": {
+    "command": "bash tools/hillclimb/score.sh",
+    "direction": "higher",
+    "epsilon": 1e-09,
+    "scorerHash": "ef00d4973509",
+    "scorer": "score.sh"
+  },
+  "budget": 20,
+  "plateau": 3,
+  "created": "2026-10-29T20:32:22+00:00"
+}

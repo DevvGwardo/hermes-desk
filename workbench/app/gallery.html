@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>maiavm-desktop — project blueprint</title>
+<style>
+  :root { --ink:#0d1117; --panel:#161b22; --line:rgba(240,246,252,.1); --paper:#e6edf3; --muted:#7d8590; --acid:#b7d9ff; --gold:#f5b13f; }
+  * { box-sizing:border-box; margin:0 }
+  body { background:var(--ink); color:var(--paper); font:13px/1.5 -apple-system,Menlo,monospace; padding:24px; max-width:1400px }
+  h1 { font-size:16px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px }
+  .sub { color:var(--muted); font-size:11px; margin-bottom:8px }
+  .stamp { color:var(--muted); font-size:10px; margin-bottom:20px }
+  h2.sec { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--acid); margin:30px 0 12px; border-bottom:1px solid var(--line); padding-bottom:6px }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px }
+  .card h3 { font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:normal; margin-bottom:10px }
+  .kv { display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid var(--line); font-size:11px; gap:10px }
+  .kv:last-child { border-bottom:none }
+  .kv .k { color:var(--muted); white-space:nowrap }
+  .kv .v { text-align:right; word-break:break-word }
+  table.mini { width:100%; border-collapse:collapse; font-size:10.5px; margin-top:8px }
+  table.mini td, table.mini th { padding:3px 6px; text-align:left; border-bottom:1px solid var(--line); color:#8b949e }
+  table.mini th { color:var(--muted); font-weight:normal }
+  .kpi-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-bottom:14px }
+  .kpi { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px }
+  .kpi .lbl { font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted) }
+  .kpi .val { font-size:22px; font-weight:700; color:var(--paper); font-variant-numeric:tabular-nums; margin-top:2px }
+  .chartbox { background:#0a0e14; border:1px solid var(--line); border-radius:10px; padding:14px }
+  .badge { display:inline-block; padding:1px 8px; border-radius:99px; font-size:10px; border:1px solid var(--line); color:#8b949e; margin:1px }
+  .arch-row { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:11px; flex-wrap:wrap }
+  .arch-box { border:1px solid var(--line); border-radius:8px; padding:6px 10px; background:#0a0e14 }
+  .arrow { color:var(--muted) }
+  .commit { padding:4px 0; border-bottom:1px solid var(--line); font-size:11px }
+  .commit:last-child { border-bottom:none }
+  .commit .h { color:var(--gold); font-family:Menlo,monospace }
+  .commit .d { color:var(--muted); font-size:10px }
+  .bar { height:14px; background:#0a0e14; border-radius:4px; overflow:hidden; display:flex; margin:8px 0 }
+  .bar > div { height:100% }
+  code { color:var(--acid); font-size:10.5px }
+</style>
+</head>
+<body>
+<h1>maiavm-desktop — project blueprint</h1>
+<div class="sub">the entire project as data · generated 2026-09-18T13:01:01.213Z · regenerate: <code>node workbench/app/generate-blueprint.cjs</code></div>
+
+<h2 class="sec">vitals</h2>
+<div class="kpi-row">
+  <div class="kpi"><div class="lbl">version</div><div class="val">v0.1.18</div></div><div class="kpi"><div class="lbl">renderer LOC</div><div class="val">57,454</div></div><div class="kpi"><div class="lbl">test LOC</div><div class="val">27,019</div></div><div class="kpi"><div class="lbl">test cases</div><div class="val">~1580</div></div><div class="kpi"><div class="lbl">total commits</div><div class="val">316</div></div><div class="kpi"><div class="lbl">api endpoints</div><div class="val">19</div></div>
+</div>
+<div class="chartbox">
+  <div class="kv" style="border:none;padding:0"><span class="k">code distribution (LOC, total 125,686)</span></div>
+  <div class="bar"><div style="width:45.7%;background:#b7d9ff" title="rendererSrc: 57,454"></div><div style="width:21.5%;background:#f5b13f" title="tests: 27,019"></div><div style="width:7.6%;background:#3fbe86" title="electron: 9,571"></div><div style="width:4.4%;background:#f9705c" title="scripts: 5,468"></div><div style="width:20.8%;background:#9a72ee" title="workbench: 26,174"></div></div>
+  <div><span class="badge" style="border-color:#b7d9ff">rendererSrc · 57,454</span> <span class="badge" style="border-color:#f5b13f">tests · 27,019</span> <span class="badge" style="border-color:#3fbe86">electron · 9,571</span> <span class="badge" style="border-color:#f9705c">scripts · 5,468</span> <span class="badge" style="border-color:#9a72ee">workbench · 26,174</span></div>
+</div>
+
+<h2 class="sec">git progress — commits per day, last 30 days</h2>
+<div class="chartbox">
+  <div style="display:flex;align-items:flex-end;height:90px;gap:2px"><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-19: 3">
+     <div style="width:70%;height:5.454545454545454%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-20: 1">
+     <div style="width:70%;height:3%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-21: 14">
+     <div style="width:70%;height:25.454545454545453%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-22: 20">
+     <div style="width:70%;height:36.36363636363637%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-23: 55">
+     <div style="width:70%;height:100%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-24: 9">
+     <div style="width:70%;height:16.363636363636363%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-25: 11">
+     <div style="width:70%;height:20%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-26: 2">
+     <div style="width:70%;height:3.6363636363636362%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-27: 2">
+     <div style="width:70%;height:3.6363636363636362%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-28: 12">
+     <div style="width:70%;height:21.818181818181817%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-29: 9">
+     <div style="width:70%;height:16.363636363636363%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-30: 1">
+     <div style="width:70%;height:3%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-08-31: 2">
+     <div style="width:70%;height:3.6363636363636362%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-01: 5">
+     <div style="width:70%;height:9.090909090909092%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-04: 24">
+     <div style="width:70%;height:43.63636363636363%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-06: 12">
+     <div style="width:70%;height:21.818181818181817%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-07: 6">
+     <div style="width:70%;height:10.909090909090908%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-10: 9">
+     <div style="width:70%;height:16.363636363636363%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-11: 3">
+     <div style="width:70%;height:5.454545454545454%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-12: 8">
+     <div style="width:70%;height:14.545454545454545%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-13: 12">
+     <div style="width:70%;height:21.818181818181817%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-14: 19">
+     <div style="width:70%;height:34.54545454545455%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-16: 2">
+     <div style="width:70%;height:3.6363636363636362%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-17: 8">
+     <div style="width:70%;height:14.545454545454545%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div><div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="2026-09-18: 5">
+     <div style="width:70%;height:9.090909090909092%;background:var(--acid);border-radius:2px 2px 0 0"></div>
+   </div></div>
+  <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-top:6px">
+    <span>2026-08-19</span><span>2026-09-18</span>
+  </div>
+</div>
+<div class="grid" style="margin-top:14px">
+  <div class="card"><h3>contributors</h3><div class="kv"><span class="k">DevGwardo</span><span class="v">231 commits</span></div><div class="kv"><span class="k">DevvGwardo</span><span class="v">84 commits</span></div><div class="kv"><span class="k">Phoenix</span><span class="v">1 commits</span></div></div>
+  <div class="card"><h3>recent commits (15 of 316)</h3><div class="commit"><span class="h">a844528</span> Merge pull request #41 from DevvGwardo/docs/waitlist-redteam-spec<div class="d">2026-09-18 08:01</div></div><div class="commit"><span class="h">1eae9a1</span> docs: add waitlist.nub.lol red-team remediation spec<div class="d">2026-09-17 12:43</div></div><div class="commit"><span class="h">dda478d</span> Merge pull request #43 from DevvGwardo/activity-where-icons<div class="d">2026-09-18 07:57</div></div><div class="commit"><span class="h">ee8056c</span> Merge pull request #42 from DevvGwardo/remove-train-on-data-toggle<div class="d">2026-09-18 07:57</div></div><div class="commit"><span class="h">32c82ce</span> Merge pull request #40 from DevvGwardo/markdown-list-ux<div class="d">2026-09-18 07:56</div></div><div class="commit"><span class="h">5d1a31e</span> feat(activity): icon-first where pill for VM vs local computer<div class="d">2026-09-18 02:01</div></div><div class="commit"><span class="h">86ea205</span> Remove training opt-in toggle from web app settings<div class="d">2026-09-17 20:38</div></div><div class="commit"><span class="h">9e227d1</span> fix(ci): hermetic mock-mode pin + electron-less nub-link test<div class="d">2026-09-17 16:21</div></div><div class="commit"><span class="h">8296b09</span> feat(invite): wire waitlist -> redeem into the app shell<div class="d">2026-09-17 15:43</div></div><div class="commit"><span class="h">d7e872f</span> fix(audit-crew): wave-2 integration reconciliation — 0 failures<div class="d">2026-09-17 15:34</div></div><div class="commit"><span class="h">13000b9</span> feat(audit-crew): 12-lane parallel implementation — web perf, shell UX, store, build+CSP+PWA, preview lazy, REST hardening, electron+HUD+updates, kanban/mcp, transport, a11y/tokens, test infra, invite system<div class="d">2026-09-17 15:28</div></div><div class="commit"><span class="h">61dfc2f</span> wip: uncommitted 42-file work before audit-crew implementation (cat variation removal, LoopStudio, tokens, vm-roster)<div class="d">2026-09-17 15:11</div></div><div class="commit"><span class="h">928ad5d</span> fix(markdown): restore list bullets, nesting markers, and task checkboxes<div class="d">2026-09-17 01:24</div></div><div class="commit"><span class="h">454371e</span> Merge pull request #39 from DevvGwardo/feat/high-stakes-approvals<div class="d">2026-09-16 16:32</div></div><div class="commit"><span class="h">4e028ee</span> feat(security): high-stakes approvals never offer standing grants<div class="d">2026-09-16 16:23</div></div></div>
+</div>
+
+<h2 class="sec">architecture — layers &amp; import edges</h2>
+<div class="grid">
+  <div class="card"><h3>module counts per layer</h3><div class="kv"><span class="k">Electron main process</span><span class="v">0 modules</span></div><div class="kv"><span class="k">Renderer entry</span><span class="v">4 modules</span></div><div class="kv"><span class="k">UI components</span><span class="v">64 modules</span></div><div class="kv"><span class="k">Agent transports &amp; runtime</span><span class="v">24 modules</span></div><div class="kv"><span class="k">Core libs</span><span class="v">95 modules</span></div><div class="kv"><span class="k">Plugin host</span><span class="v">10 modules</span></div><div class="kv"><span class="k">Mobile (Capacitor)</span><span class="v">29 modules</span></div></div>
+  <div class="card"><h3>cross-layer import edges (18)</h3><div class="arch-row">
+     <span class="arch-box">Renderer entry</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">UI components</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Renderer entry</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Plugin host</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Renderer entry</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Core libs</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Renderer entry</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Mobile (Capacitor)</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Renderer entry</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Agent transports &amp; runtime</span>
+   </div><div class="arch-row">
+     <span class="arch-box">UI components</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Agent transports &amp; runtime</span>
+   </div><div class="arch-row">
+     <span class="arch-box">UI components</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Core libs</span>
+   </div><div class="arch-row">
+     <span class="arch-box">UI components</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Mobile (Capacitor)</span>
+   </div><div class="arch-row">
+     <span class="arch-box">UI components</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Plugin host</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Agent transports &amp; runtime</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Core libs</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Agent transports &amp; runtime</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Mobile (Capacitor)</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Core libs</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Agent transports &amp; runtime</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Core libs</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Mobile (Capacitor)</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Core libs</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">UI components</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Mobile (Capacitor)</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">UI components</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Mobile (Capacitor)</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Agent transports &amp; runtime</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Mobile (Capacitor)</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Core libs</span>
+   </div><div class="arch-row">
+     <span class="arch-box">Plugin host</span>
+     <span class="arrow">──▶</span>
+     <span class="arch-box">Core libs</span>
+   </div></div>
+</div>
+
+<h2 class="sec">transports &amp; api surface</h2>
+<div class="grid">
+  <div class="card"><h3>transport classes</h3><div class="kv"><span class="k">HermesDeployTransport</span><span class="v">src/lib/agents/hermes-deploy-transport.ts</span></div><div class="kv"><span class="k">HermesServeTransport</span><span class="v">src/lib/agents/hermes-transport.ts</span></div></div>
+  <div class="card"><h3>api endpoints (19)</h3><span class="badge">/api/</span> <span class="badge">/api/analytics/usage</span> <span class="badge">/api/computer/screenshot</span> <span class="badge">/api/computer/status</span> <span class="badge">/api/config</span> <span class="badge">/api/cron/jobs</span> <span class="badge">/api/mcp/servers</span> <span class="badge">/api/memory</span> <span class="badge">/api/memory/pending</span> <span class="badge">/api/notifications</span> <span class="badge">/api/notifications/read</span> <span class="badge">/api/nub/desktop/instance</span> <span class="badge">/api/skills</span> <span class="badge">/api/skills/toggle</span> <span class="badge">/api/status</span> <span class="badge">/api/system/stats</span> <span class="badge">/api/tools/computer-use/status</span> <span class="badge">/api/transcripts/tail</span> <span class="badge">/api/ws</span></div>
+</div>
+
+<h2 class="sec">tests</h2>
+<div class="grid">
+  <div class="card"><h3>test files by area (194 files, ~1580 cases)</h3><div class="kv"><span class="k">src/lib</span><span class="v">103 test files</span></div><div class="kv"><span class="k">src/components</span><span class="v">61 test files</span></div><div class="kv"><span class="k">src/mobile</span><span class="v">24 test files</span></div><div class="kv"><span class="k">src/plugins</span><span class="v">6 test files</span></div></div>
+</div>
+
+<h2 class="sec">build &amp; deploy topology</h2>
+<div class="grid">
+  <div class="card"><h3>release targets</h3><div class="kv"><span class="k">Desktop macOS (arm64)</span><span class="v"><code>npm run electron:build</code></span></div><div class="kv"><span class="k">Desktop Windows</span><span class="v"><code>npm run electron:build:win</code></span></div><div class="kv"><span class="k">Hosted web app (Vercel)</span><span class="v"><code>npm run build:web</code></span></div><div class="kv"><span class="k">Android AAB (Play)</span><span class="v"><code>npm run android:bundle</code></span></div><div class="kv"><span class="k">Android debug APK</span><span class="v"><code>npm run android:debug</code></span></div></div>
+  <div class="card"><h3>all npm scripts</h3><table class="mini"><tr><th>script</th><th>command</th></tr><tr><td><code>dev</code></td><td>vite</td></tr><tr><td><code>dev:web</code></td><td>vite --mode web</td></tr><tr><td><code>build</code></td><td>tsc -b &amp;&amp; vite build</td></tr><tr><td><code>build:web</code></td><td>tsc -b &amp;&amp; vite build --mode web</td></tr><tr><td><code>preview</code></td><td>vite preview</td></tr><tr><td><code>test</code></td><td>vitest</td></tr><tr><td><code>test:run</code></td><td>vitest run</td></tr><tr><td><code>test:unit</code></td><td>vitest run --project unit</td></tr><tr><td><code>test:electron</code></td><td>vitest run --project electron</td></tr><tr><td><code>test:bundle</code></td><td>vitest run --project unit src/lib/__tests__/bundle-budget.test.ts</td></tr><tr><td><code>electron:dev</code></td><td>node scripts/launch-desktop.mjs</td></tr><tr><td><code>electron:build</code></td><td>node scripts/build-desktop.mjs</td></tr><tr><td><code>electron:build:win</code></td><td>node scripts/build-desktop.mjs --win</td></tr><tr><td><code>electron:upload</code></td><td>node scripts/upload-desktop.mjs</td></tr><tr><td><code>android:bundle</code></td><td>node scripts/build-android.mjs bundle</td></tr><tr><td><code>android:apk</code></td><td>node scripts/build-android.mjs apk</td></tr><tr><td><code>android:debug</code></td><td>node scripts/build-android.mjs debug</td></tr><tr><td><code>workbench</code></td><td>open workbench/app/gallery.html &amp;&amp; node workbench/app/capture-app.cjs</td></tr></table></div>
+</div>
+
+<h2 class="sec">dependencies</h2>
+<div class="grid">
+  <div class="card"><h3>runtime (12)</h3><table class="mini"><tr><th>package</th><th>version</th></tr><tr><td>dompurify</td><td style="color:var(--muted)">^3.4.14</td></tr><tr><td>exceljs</td><td style="color:var(--muted)">^4.4.0</td></tr><tr><td>framer-motion</td><td style="color:var(--muted)">^12.23.12</td></tr><tr><td>gifenc</td><td style="color:var(--muted)">^1.0.3</td></tr><tr><td>katex</td><td style="color:var(--muted)">^0.18.4</td></tr><tr><td>mediabunny</td><td style="color:var(--muted)">^1.55.7</td></tr><tr><td>mermaid</td><td style="color:var(--muted)">^11.17.0</td></tr><tr><td>pdfjs-dist</td><td style="color:var(--muted)">^6.2.108</td></tr><tr><td>react</td><td style="color:var(--muted)">^19.1.0</td></tr><tr><td>react-dom</td><td style="color:var(--muted)">^19.1.0</td></tr><tr><td>react-markdown</td><td style="color:var(--muted)">^10.1.0</td></tr><tr><td>remark-gfm</td><td style="color:var(--muted)">^4.0.1</td></tr></table></div>
+  <div class="card"><h3>dev (23)</h3><table class="mini"><tr><th>package</th><th>version</th></tr><tr><td>@capacitor/android</td><td style="color:var(--muted)">^8.5.0</td></tr><tr><td>@capacitor/app</td><td style="color:var(--muted)">^8.1.1</td></tr><tr><td>@capacitor/cli</td><td style="color:var(--muted)">^8.5.0</td></tr><tr><td>@capacitor/core</td><td style="color:var(--muted)">^8.5.0</td></tr><tr><td>@capacitor/haptics</td><td style="color:var(--muted)">^8.0.2</td></tr><tr><td>@capacitor/keyboard</td><td style="color:var(--muted)">^8.0.5</td></tr><tr><td>@capacitor/status-bar</td><td style="color:var(--muted)">^8.0.3</td></tr><tr><td>@tailwindcss/vite</td><td style="color:var(--muted)">^4.1.11</td></tr><tr><td>@testing-library/jest-dom</td><td style="color:var(--muted)">^7.0.1</td></tr><tr><td>@testing-library/react</td><td style="color:var(--muted)">^16.3.2</td></tr><tr><td>@types/react</td><td style="color:var(--muted)">^19.1.8</td></tr><tr><td>@types/react-dom</td><td style="color:var(--muted)">^19.1.6</td></tr><tr><td>@vitejs/plugin-react</td><td style="color:var(--muted)">^4.6.0</td></tr><tr><td>concurrently</td><td style="color:var(--muted)">^9.2.0</td></tr><tr><td>electron</td><td style="color:var(--muted)">^37.2.6</td></tr><tr><td>electron-builder</td><td style="color:var(--muted)">^26.0.12</td></tr><tr><td>esbuild</td><td style="color:var(--muted)">^0.25.12</td></tr><tr><td>jsdom</td><td style="color:var(--muted)">^30.0.1</td></tr><tr><td>playwright-core</td><td style="color:var(--muted)">^1.62.1</td></tr><tr><td>tailwindcss</td><td style="color:var(--muted)">^4.1.11</td></tr><tr><td>typescript</td><td style="color:var(--muted)">~5.8.3</td></tr><tr><td>vite</td><td style="color:var(--muted)">^6.3.5</td></tr><tr><td>vitest</td><td style="color:var(--muted)">^4.1.10</td></tr></table></div>
+</div>
+
+<h2 class="sec">screens (17)</h2>
+<div class="grid">
+  <div class="card">
+    <h3>chat</h3>
+    <div class="kv"><span class="k">source</span><span class="v">App.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Main chat view: Sidebar + TopBar + ChatPanel</span></div>
+    <div class="kv"><span class="k">mount</span><span class="v">App (full)</span></div>
+    
+  </div>
+  <div class="card">
+    <h3>computer</h3>
+    <div class="kv"><span class="k">source</span><span class="v">ComputerPanel.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">VM computer/page panel overlay</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>agent-info</h3>
+    <div class="kv"><span class="k">source</span><span class="v">AgentInfo.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Agent detail rail (status, routines, MCP attach)</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>agent-editor</h3>
+    <div class="kv"><span class="k">source</span><span class="v">AgentEditor.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Create/edit agent form modal</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>routine-editor</h3>
+    <div class="kv"><span class="k">source</span><span class="v">RoutineEditor.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Routine cron editor</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>settings</h3>
+    <div class="kv"><span class="k">source</span><span class="v">SettingsStub.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Settings screen incl. FatCatIconDemo mascot strip</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>kanban</h3>
+    <div class="kv"><span class="k">source</span><span class="v">KanbanPanel.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Kanban board panel</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>mcp</h3>
+    <div class="kv"><span class="k">source</span><span class="v">McpPanel.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">MCP servers panel</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>hermes-surfaces</h3>
+    <div class="kv"><span class="k">source</span><span class="v">HermesSurfacesPanel.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Hermes surfaces (channels) panel</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>files</h3>
+    <div class="kv"><span class="k">source</span><span class="v">FilesPanel.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">VM file browser rail</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>file-preview</h3>
+    <div class="kv"><span class="k">source</span><span class="v">FilePreview.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">File preview/editor rail</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>telegram-connect</h3>
+    <div class="kv"><span class="k">source</span><span class="v">TelegramConnect.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Telegram pairing flow</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>web-connect</h3>
+    <div class="kv"><span class="k">source</span><span class="v">WebConnect.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Web pairing/connect screen</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>waitlist-capture</h3>
+    <div class="kv"><span class="k">source</span><span class="v">WaitlistCapture.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Waitlist email capture, flat unboxed invite code</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>invite-redeem</h3>
+    <div class="kv"><span class="k">source</span><span class="v">InviteRedeem.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Invite redeem gate (#/invite/&lt;code>), flat</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>mobile-connect</h3>
+    <div class="kv"><span class="k">source</span><span class="v">MobileConnect.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Phone-shell pairing screen, flat code block</span></div>
+    
+    
+  </div>
+  <div class="card">
+    <h3>command-palette</h3>
+    <div class="kv"><span class="k">source</span><span class="v">CommandPalette.tsx</span></div>
+    <div class="kv"><span class="k">desc</span><span class="v">Cmd-K command palette overlay</span></div>
+    
+    
+  </div></div>
+
+<h2 class="sec">components (21)</h2>
+<div class="grid">
+  <div class="card">
+    <h3>sidebar</h3>
+    <div class="kv"><span class="k">source</span><span class="v">Sidebar.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>agents</code></td></tr><tr><td><code>groups</code></td></tr><tr><td><code>conversations</code></td></tr><tr><td><code>selectedConversationId</code></td></tr><tr><td><code>onSelectConversation</code></td></tr><tr><td><code>onNewConversation</code></td></tr><tr><td><code>onOpenTarget</code></td></tr><tr><td><code>onOpenSettings</code></td></tr><tr><td><code>onOpenPlugins</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>topbar</h3>
+    <div class="kv"><span class="k">source</span><span class="v">TopBar.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>agent</code></td></tr><tr><td><code>showComputer</code></td></tr><tr><td><code>onToggleComputer</code></td></tr><tr><td><code>showInfo</code></td></tr><tr><td><code>onToggleInfo</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>message-body-markdown</h3>
+    <div class="kv"><span class="k">source</span><span class="v">MessageBody.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>content: markdown string</code></td></tr><tr><td><code>variant: 'markdown'</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>message-body-streaming</h3>
+    <div class="kv"><span class="k">source</span><span class="v">MessageBody.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>content: partial text</code></td></tr><tr><td><code>variant: 'plain'</code></td></tr><tr><td><code>streaming: true</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>message-actions</h3>
+    <div class="kv"><span class="k">source</span><span class="v">MessageActions.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>per message-actions lib</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>reply-quote</h3>
+    <div class="kv"><span class="k">source</span><span class="v">ReplyQuote.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>replyTo: MessageReplyTo</code></td></tr><tr><td><code>variant: 'quote'|'pill'</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>file-card</h3>
+    <div class="kv"><span class="k">source</span><span class="v">FileCard.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>file: FileRef</code></td></tr><tr><td><code>onOpen</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>file-preview-card</h3>
+    <div class="kv"><span class="k">source</span><span class="v">FilePreview.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>see FilePreviewProps</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>project-artifact-card</h3>
+    <div class="kv"><span class="k">source</span><span class="v">ProjectArtifactCard.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>artifact: ProjectArtifact</code></td></tr><tr><td><code>onPreview</code></td></tr><tr><td><code>onDownload</code></td></tr><tr><td><code>onHost</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>computer-handoff-card</h3>
+    <div class="kv"><span class="k">source</span><span class="v">ComputerHandoffCard.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>see component</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>group-avatar-stack</h3>
+    <div class="kv"><span class="k">source</span><span class="v">GroupAvatarStack.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>members: Agent[]</code></td></tr><tr><td><code>size</code></td></tr><tr><td><code>live?</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>new-chat-bar</h3>
+    <div class="kv"><span class="k">source</span><span class="v">NewChatBar.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>open</code></td></tr><tr><td><code>agents</code></td></tr><tr><td><code>groups</code></td></tr><tr><td><code>onOpenTarget</code></td></tr><tr><td><code>onClose</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>update-banner</h3>
+    <div class="kv"><span class="k">source</span><span class="v">UpdateBanner.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>info: AppUpdateInfo|null</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>vm-shot</h3>
+    <div class="kv"><span class="k">source</span><span class="v">VmShot.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>screenshot props</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>fatcat-icon</h3>
+    <div class="kv"><span class="k">source</span><span class="v">FatCatIcon.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>expression (39 states)</code></td></tr><tr><td><code>size</code></td></tr><tr><td><code>framed?</code></td></tr><tr><td><code>still?</code></td></tr><tr><td><code>bgColor?</code></td></tr><tr><td><code>fgColor?</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>fatcat-icon-demo</h3>
+    <div class="kv"><span class="k">source</span><span class="v">FatCatIconDemo.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>intervalMs?</code></td></tr><tr><td><code>mode: colors|fx|expression|grid</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>creature-mark</h3>
+    <div class="kv"><span class="k">source</span><span class="v">CreatureMark.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>see CreatureMark</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>blob-fx-layers</h3>
+    <div class="kv"><span class="k">source</span><span class="v">BlobFxLayers.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>fx state layers</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>plugin-mark</h3>
+    <div class="kv"><span class="k">source</span><span class="v">PluginMark.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>plugin mark props</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>train-on-data-toggle</h3>
+    <div class="kv"><span class="k">source</span><span class="v">TrainOnDataToggle.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>toggle props</code></td></tr></table>
+  </div>
+  <div class="card">
+    <h3>telegram-connect-card</h3>
+    <div class="kv"><span class="k">source</span><span class="v">TelegramConnect.tsx</span></div>
+    
+    
+    <table class="mini"><tr><th>props</th></tr><tr><td><code>pairing state</code></td></tr></table>
+  </div></div>
+
+</body>
+</html>

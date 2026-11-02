@@ -1,0 +1,85 @@
+{
+  "default": {
+    "--m-primary": "#b99476",
+    "--m-secondary": "#715b54",
+    "--m-accent": "#e8b96e",
+    "--m-belly": "#eadcc5",
+    "--m-ink": "#302c35",
+    "--m-eye": "#fff6e7",
+    "--m-shine": "#fffefa"
+  },
+  "agents": {
+    "maia": {
+      "--m-primary": "#9ecdff",
+      "--m-secondary": "#4e7298",
+      "--m-accent": "#efca82",
+      "--m-belly": "#dcecff",
+      "--m-ink": "#213248",
+      "--m-eye": "#f5faff",
+      "--m-shine": "#ffffff"
+    },
+    "sage": {
+      "--m-primary": "#a4c5a2",
+      "--m-secondary": "#527566",
+      "--m-accent": "#f2cf86",
+      "--m-belly": "#dfead0",
+      "--m-ink": "#293b34",
+      "--m-eye": "#f8faef",
+      "--m-shine": "#ffffff"
+    },
+    "iris": {
+      "--m-primary": "#bba6e4",
+      "--m-secondary": "#766393",
+      "--m-accent": "#f2c582",
+      "--m-belly": "#e9dff6",
+      "--m-ink": "#332942",
+      "--m-eye": "#fbf6ff",
+      "--m-shine": "#ffffff"
+    },
+    "coral": {
+      "--m-primary": "#edaa9b",
+      "--m-secondary": "#a36666",
+      "--m-accent": "#f3d386",
+      "--m-belly": "#ffe0cf",
+      "--m-ink": "#482d36",
+      "--m-eye": "#fff7ed",
+      "--m-shine": "#ffffff"
+    },
+    "mint": {
+      "--m-primary": "#94d3c6",
+      "--m-secondary": "#4f8585",
+      "--m-accent": "#f1ca86",
+      "--m-belly": "#d9f2e5",
+      "--m-ink": "#253b3e",
+      "--m-eye": "#f5fff8",
+      "--m-shine": "#ffffff"
+    },
+    "honey": {
+      "--m-primary": "#edc07b",
+      "--m-secondary": "#9b7654",
+      "--m-accent": "#ffe0a0",
+      "--m-belly": "#ffebc6",
+      "--m-ink": "#433328",
+      "--m-eye": "#fff9ed",
+      "--m-shine": "#ffffff"
+    },
+    "rose": {
+      "--m-primary": "#dba8c4",
+      "--m-secondary": "#93647f",
+      "--m-accent": "#f4cd8d",
+      "--m-belly": "#f6dfeb",
+      "--m-ink": "#422d40",
+      "--m-eye": "#fff6fb",
+      "--m-shine": "#ffffff"
+    },
+    "slate": {
+      "--m-primary": "#b4c3d5",
+      "--m-secondary": "#687b96",
+      "--m-accent": "#efd09b",
+      "--m-belly": "#e0e6f0",
+      "--m-ink": "#2b3446",
+      "--m-eye": "#f7faff",
+      "--m-shine": "#ffffff"
+    }
+  }
+}

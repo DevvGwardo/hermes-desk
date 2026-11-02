@@ -1,0 +1,54 @@
+{
+  "duration": 1.1,
+  "blendIn": 0.08,
+  "blendOut": 0.25,
+  "springScale": 4,
+  "tracks": {
+    "parts": {
+      "letter": [
+        {"t": 0, "sx": 0, "sy": 0, "rotate": -86, "ty": 0},
+        {"t": 0.12, "sx": 1, "sy": 1, "rotate": -86, "ty": 20, "ease": "outBack"},
+        {"t": 0.42, "rotate": -64},
+        {"t": 0.55, "sx": 1, "sy": 1, "rotate": -122},
+        {"t": 0.58, "sx": 0, "sy": 0, "ease": "step"}
+      ],
+      "wing-l": [
+        {"t": 0, "rotate": 0, "tx": 0, "ty": 0},
+        {"t": 0.14, "rotate": 92, "tx": 10, "ty": -10, "ease": "outBack"},
+        {"t": 0.42, "rotate": 70},
+        {"t": 0.56, "rotate": 128, "ease": "inQuad"},
+        {"t": 0.9, "rotate": 0, "tx": 0, "ty": 0, "ease": "outBack"}
+      ],
+      "head": [
+        {"t": 0, "rotate": -2},
+        {"t": 0.4, "rotate": -8},
+        {"t": 0.6, "rotate": 6, "ty": -4},
+        {"t": 1.0, "rotate": -2, "ty": 0}
+      ],
+      "body": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.42, "rotate": 3},
+        {"t": 0.6, "rotate": -4},
+        {"t": 1.0, "rotate": 0}
+      ]
+    },
+    "show": [
+      {"t": 0, "part": "letter", "visible": true},
+      {"t": 0.56, "part": "letter", "visible": false}
+    ],
+    "mouth": [
+      {"t": 0.5, "expr": "smile"}
+    ],
+    "fx": [
+      {
+        "t": 0.56,
+        "type": "letter",
+        "anchor": "letter",
+        "params": {"count": 1, "angle": -145, "spread": 10}
+      }
+    ],
+    "events": [
+      {"t": 0.56, "name": "toss"}
+    ]
+  }
+}

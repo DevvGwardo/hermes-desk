@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300">
+<g transform="translate(0,0)">
+  <rect width="280" height="300" rx="14" fill="#14161a"/>
+  <svg x="10" y="10" viewBox="-15 -15 259 259" width="260" height="260">
+    <path d="M0.05 119.35Q0.05 103.97 4.92 89.39L25.83 26.64Q28.61 18.31 32.81 26.02L59.73 75.36Q68.14 90.79 85.24 86.72L82.22 87.44Q114.27 79.81 146.32 87.44L143.31 86.72Q160.4 90.79 168.81 75.36L195.73 26.02Q199.94 18.31 202.71 26.64L223.63 89.39Q228.49 103.97 228.49 119.35L228.49 95.19Q228.49 130.33 212.77 161.76L216.64 154.04Q199.94 187.44 164 197.58L152.33 200.87Q114.27 211.6 76.22 200.87L64.54 197.58Q28.61 187.44 11.91 154.04L15.77 161.76Q0.05 130.33 0.05 95.19Z" fill="#b7dbff" stroke="#9ecdff" stroke-width="1"/>
+    <ellipse cx="114.3" cy="144.3" rx="59.0" ry="40.6" fill="none" stroke="#f4c34e" stroke-width="1.5" stroke-dasharray="4 3"/>
+  </svg>
+  <text x="140" y="290" text-anchor="middle" fill="#e8e4da" font-family="Menlo, monospace" font-size="14">cat-pointy</text>
+</g>
+<g transform="translate(300,0)">
+  <rect width="280" height="300" rx="14" fill="#14161a"/>
+  <svg x="10" y="10" viewBox="-15 -15 259 259" width="260" height="260">
+    <path d="M0.05 121.91Q0.05 97.75 10.1 75.77L27.89 36.85Q35.2 20.87 44.83 35.57L62.49 62.52Q76.93 84.57 101.3 74.53L83.8 81.74Q114.27 69.2 144.74 81.74L127.24 74.53Q151.61 84.57 166.05 62.52L183.71 35.57Q193.35 20.87 200.65 36.85L218.44 75.77Q228.49 97.75 228.49 121.91L228.49 88.96Q228.49 124.11 212.77 155.54L216.64 147.82Q199.94 181.22 164 191.36L152.33 194.65Q114.27 205.38 76.22 194.65L64.54 191.36Q28.61 181.22 11.91 147.82L15.77 155.54Q0.05 124.11 0.05 88.96Z" fill="#b7dbff" stroke="#9ecdff" stroke-width="1"/>
+    <ellipse cx="114.3" cy="138.3" rx="59.0" ry="40.6" fill="none" stroke="#f4c34e" stroke-width="1.5" stroke-dasharray="4 3"/>
+  </svg>
+  <text x="140" y="290" text-anchor="middle" fill="#e8e4da" font-family="Menlo, monospace" font-size="14">cat-round</text>
+</g>
+<g transform="translate(600,0)">
+  <rect width="280" height="300" rx="14" fill="#14161a"/>
+  <svg x="10" y="10" viewBox="-15 -15 259 259" width="260" height="260">
+    <path d="M0.05 120.54Q0.05 100.77 5.21 81.68L18.58 32.21Q22.02 19.49 28.64 30.89L50.53 68.59Q61.55 87.59 83.35 84.86L81.58 85.08Q114.27 81 146.97 85.08L145.19 84.86Q166.99 87.59 178.01 68.59L199.9 30.89Q206.53 19.49 209.96 32.21L223.33 81.68Q228.49 100.77 228.49 120.54L228.49 91.98Q228.49 127.12 212.77 158.56L216.64 150.84Q199.94 184.23 164 194.37L152.33 197.67Q114.27 208.4 76.22 197.67L64.54 194.37Q28.61 184.23 11.91 150.84L15.77 158.56Q0.05 127.12 0.05 91.98Z" fill="#b7dbff" stroke="#9ecdff" stroke-width="1"/>
+    <ellipse cx="114.3" cy="142.3" rx="56.6" ry="39.2" fill="none" stroke="#f4c34e" stroke-width="1.5" stroke-dasharray="4 3"/>
+  </svg>
+  <text x="140" y="290" text-anchor="middle" fill="#e8e4da" font-family="Menlo, monospace" font-size="14">cat-wide</text>
+</g></svg>

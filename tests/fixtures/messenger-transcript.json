@@ -1,0 +1,37 @@
+{
+  "now": "2026-10-06T12:00:00",
+  "profile": "fixture-scout",
+  "model": "fixture-local-model",
+  "messages": [
+    { "id": "old-user", "threadId": "messenger-fixture", "role": "user", "content": "Help me plan a local-only workspace.", "createdAt": "2026-10-04T09:00:00" },
+    { "id": "old-agent", "threadId": "messenger-fixture", "role": "agent", "content": "Each profile gets its own isolated browser lane.", "createdAt": "2026-10-04T09:00:02", "fromAgentId": "profile:fixture-scout" },
+    { "id": "yesterday-user", "threadId": "messenger-fixture", "role": "user", "content": "Find a reference for the lane model.", "createdAt": "2026-10-05T10:00:00" },
+    {
+      "id": "yesterday-agent", "threadId": "messenger-fixture", "role": "agent",
+      "content": "The workspace keeps agent tabs separate from your tabs.",
+      "createdAt": "2026-10-05T10:00:04", "fromAgentId": "profile:fixture-scout",
+      "toolEvents": [
+        { "tool": "browser_navigate", "toolCallId": "fixture-tool-1", "status": "completed", "args": "{\"url\":\"https://wikipedia.org/\"}", "durationMs": 2100 },
+        { "tool": "read_file", "toolCallId": "fixture-tool-2", "status": "completed", "label": "Reading fixture notes", "durationMs": 1100 },
+        { "tool": "terminal", "toolCallId": "fixture-tool-3", "status": "completed", "durationMs": 900 }
+      ],
+      "reasoning": "Keep the user and agent sessions separate."
+    },
+    {
+      "id": "today-user", "threadId": "messenger-fixture", "role": "user",
+      "content": "Explain that with a tiny example.", "createdAt": "2026-10-06T11:00:00",
+      "replyTo": { "id": "yesterday-agent", "role": "agent", "snippet": "The workspace keeps agent tabs separate from your tabs." }
+    },
+    {
+      "id": "today-agent", "threadId": "messenger-fixture", "role": "agent",
+      "content": "```ts\nconst lane = 'profile:fixture-scout'\n```\n\n| Lane | Owner |\n| --- | --- |\n| you | User |\n| profile:fixture-scout | Scout |",
+      "createdAt": "2026-10-06T11:00:02", "fromAgentId": "profile:fixture-scout"
+    },
+    { "id": "sent-user", "threadId": "messenger-fixture", "role": "user", "content": "Please continue after approval.", "createdAt": "2026-10-06T11:01:00" }
+  ],
+  "approval": {
+    "id": "fixture-approval", "conversationId": "messenger-fixture", "sessionId": "fixture-session",
+    "description": "May I read the local fixture notes?", "command": "read fixture-notes.txt",
+    "choices": ["once", "session", "always", "deny"], "status": "pending"
+  }
+}

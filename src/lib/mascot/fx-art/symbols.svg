@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Particle art for the mascot stage. Each symbol is 24×24 around its centre and
+       paints only through the --m-* palette (or --fx-color for per-particle tints). -->
+  <defs>
+    <radialGradient id="mascot-fx-dust-grad">
+      <stop offset="0" stop-color="var(--m-belly, #efe2c9)" stop-opacity=".85"/>
+      <stop offset=".6" stop-color="var(--m-belly, #efe2c9)" stop-opacity=".45"/>
+      <stop offset="1" stop-color="var(--m-belly, #efe2c9)" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="mascot-fx-trail-grad">
+      <stop offset="0" stop-color="var(--m-primary, #8bb8e8)" stop-opacity=".55"/>
+      <stop offset="1" stop-color="var(--m-primary, #8bb8e8)" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mascot-fx-feather-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--fx-color, var(--m-secondary, #cfe0f4))"/>
+      <stop offset="1" stop-color="var(--fx-color, var(--m-primary, #8bb8e8))"/>
+    </linearGradient>
+  </defs>
+  <symbol id="mascot-fx-feather" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M-1.2 10.5 C-6.8 5.2 -6.6 -3.4 -0.6 -10.6 C1.4 -11.6 2.4 -10.8 2.7 -9.6 C6.4 -2.4 5.4 5.4 -1.2 10.5Z"
+      fill="url(#mascot-fx-feather-grad)" stroke="var(--m-ink, #1d2a3d)" stroke-width=".9" stroke-opacity=".55"/>
+    <path d="M-1.6 11.6 C-0.4 4 0.5 -3 1.6 -10.2" fill="none" stroke="var(--m-ink, #1d2a3d)" stroke-width=".8" stroke-linecap="round" opacity=".7"/>
+    <path d="M0.4 1.2 L3.6 -1.2 M-0.2 4.6 L-3.8 2.4 M0.9 -2.4 L-3 -4.6 M1.3 -5.8 L3.8 -7.2" fill="none"
+      stroke="var(--m-ink, #1d2a3d)" stroke-width=".55" stroke-linecap="round" opacity=".35"/>
+  </symbol>
+  <symbol id="mascot-fx-dust" viewBox="-12 -12 24 24" overflow="visible">
+    <circle r="10" fill="url(#mascot-fx-dust-grad)"/>
+    <circle cx="-4" cy="2" r="4.2" fill="var(--m-belly, #efe2c9)" opacity=".35"/>
+    <circle cx="4.5" cy="1" r="3.4" fill="var(--m-belly, #efe2c9)" opacity=".3"/>
+  </symbol>
+  <symbol id="mascot-fx-wind" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M-11 0 C-4 -1.6 4 -1.6 11 0" fill="none" stroke="var(--m-shine, #f3fbff)" stroke-width="1.8" stroke-linecap="round" opacity=".8"/>
+    <path d="M-7 3.4 C-2 2.4 3 2.4 7 3.4" fill="none" stroke="var(--m-shine, #f3fbff)" stroke-width="1.1" stroke-linecap="round" opacity=".5"/>
+  </symbol>
+  <symbol id="mascot-fx-sparkle" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M0 -11 C1 -3 3 -1 11 0 C3 1 1 3 0 11 C-1 3 -3 1 -11 0 C-3 -1 -1 -3 0 -11Z"
+      fill="var(--fx-color, var(--m-accent, #ffd772))" stroke="var(--m-shine, #fffaf0)" stroke-width=".7"/>
+    <circle r="2" fill="var(--m-shine, #fffaf0)"/>
+  </symbol>
+  <symbol id="mascot-fx-trail" viewBox="-12 -12 24 24" overflow="visible">
+    <ellipse rx="11" ry="6.5" fill="url(#mascot-fx-trail-grad)"/>
+  </symbol>
+  <symbol id="mascot-fx-letter" viewBox="-12 -12 24 24" overflow="visible">
+    <rect x="-10.5" y="-7" width="21" height="14" rx="1.8" fill="var(--m-shine, #fbf6ea)" stroke="var(--m-ink, #1d2a3d)" stroke-width="1.1"/>
+    <path d="M-10 -6.4 L0 1.4 L10 -6.4" fill="none" stroke="var(--m-ink, #1d2a3d)" stroke-width="1" stroke-linejoin="round"/>
+    <path d="M-10 6.4 L-3.4 0.6 M10 6.4 L3.4 0.6" fill="none" stroke="var(--m-ink, #1d2a3d)" stroke-width=".7" opacity=".45"/>
+    <circle cy="1.2" r="2.6" fill="var(--m-accent, #e0644f)" stroke="var(--m-ink, #1d2a3d)" stroke-width=".6"/>
+  </symbol>
+  <symbol id="mascot-fx-zzz" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M-6 -6 H6 L-6 6 H6" fill="none" stroke="var(--m-ink, #1d2a3d)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" opacity=".5"/>
+    <path d="M-6 -6 H6 L-6 6 H6" fill="none" stroke="var(--fx-color, var(--m-shine, #e9f4ff))" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="mascot-fx-note" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M-1 6 V-9 C2 -8 6 -7 7 -3.5 C5 -6 2 -6 1.6 -6 V6.5" fill="var(--fx-color, var(--m-accent, #ffd772))" stroke="var(--m-ink, #1d2a3d)" stroke-width="1" stroke-linejoin="round"/>
+    <ellipse cx="-3.6" cy="7" rx="4.6" ry="3.4" transform="rotate(-18 -3.6 7)" fill="var(--fx-color, var(--m-accent, #ffd772))" stroke="var(--m-ink, #1d2a3d)" stroke-width="1"/>
+  </symbol>
+  <symbol id="mascot-fx-heart" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M0 10 C-3 7.4 -11 2.4 -10.4 -3.8 C-10 -8 -5.4 -10 -2.4 -7.6 C-1.2 -6.6 -0.4 -5.6 0 -4.8 C0.4 -5.6 1.2 -6.6 2.4 -7.6 C5.4 -10 10 -8 10.4 -3.8 C11 2.4 3 7.4 0 10Z"
+      fill="var(--fx-color, #ff7d9d)" stroke="var(--m-ink, #1d2a3d)" stroke-width="1"/>
+    <path d="M-6.4 -4.6 C-6 -6.4 -4.4 -7 -3.4 -6.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".7"/>
+  </symbol>
+  <symbol id="mascot-fx-sweat" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M0 -10 C3 -4 6.5 0 6.5 4 A6.5 6.5 0 0 1 -6.5 4 C-6.5 0 -3 -4 0 -10Z" fill="var(--m-shine, #e4f5ff)" stroke="var(--m-ink, #1d2a3d)" stroke-width="1.1"/>
+    <path d="M-2.6 2.6 C-2.6 4.6 -1.6 5.6 0 6" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="mascot-fx-ring" viewBox="-12 -12 24 24" overflow="visible">
+    <circle r="9.5" fill="none" stroke="var(--fx-color, var(--m-accent, #ffd772))" stroke-width="1.8"/>
+  </symbol>
+  <symbol id="mascot-fx-confetti" viewBox="-12 -12 24 24" overflow="visible">
+    <rect x="-4" y="-7" width="8" height="14" rx="1.4" fill="var(--fx-color, var(--m-accent, #ffd772))"/>
+    <rect x="-4" y="-7" width="3" height="14" rx="1.2" fill="#fff" opacity=".28"/>
+  </symbol>
+  <symbol id="mascot-fx-star" viewBox="-12 -12 24 24" overflow="visible">
+    <path d="M0 -10.5 L3 -3.6 L10.4 -3.2 L4.6 1.6 L6.6 9 L0 4.9 L-6.6 9 L-4.6 1.6 L-10.4 -3.2 L-3 -3.6Z"
+      fill="var(--fx-color, var(--m-accent, #ffd772))" stroke="var(--m-ink, #1d2a3d)" stroke-width="1.1" stroke-linejoin="round"/>
+  </symbol>
+</svg>

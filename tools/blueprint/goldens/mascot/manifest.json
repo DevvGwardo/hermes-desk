@@ -1,0 +1,189 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-06T23:33:09.137Z",
+  "clockMs": 1200,
+  "scale": 2,
+  "frames": [
+    {
+      "id": "idle-maia-160",
+      "file": "idle-maia-160.png",
+      "rgbaSha256": "b3f66be58cf56a8766b03e72f3d1d3992d2cd5b394e2a4401f8b3575d5659a9a",
+      "size": 160
+    },
+    {
+      "id": "idle-coral-160",
+      "file": "idle-coral-160.png",
+      "rgbaSha256": "e33056cc72317275c148072a1f92f5867118f49785edeb0b0e6cd2460f4ea6c2",
+      "size": 160
+    },
+    {
+      "id": "idle-slate-160",
+      "file": "idle-slate-160.png",
+      "rgbaSha256": "f03bae96a0fbb850daffeeadf5474878a81c461cfcbdd40f842fd8efb1780765",
+      "size": 160
+    },
+    {
+      "id": "thinking-maia-160",
+      "file": "thinking-maia-160.png",
+      "rgbaSha256": "2ac19658c5e97c89fa3b905d6cde24414aba2561a55a09fa1dc13439134cdbe6",
+      "size": 160
+    },
+    {
+      "id": "thinking-coral-160",
+      "file": "thinking-coral-160.png",
+      "rgbaSha256": "4a5d7bf77163e287fef4cfe6edd4ac534ea2934ff2547ff623006375d2c9bf3a",
+      "size": 160
+    },
+    {
+      "id": "thinking-slate-160",
+      "file": "thinking-slate-160.png",
+      "rgbaSha256": "3c02c272c8ac2314dff4fba57c5392db20bf9768f0831cc3e463c3e5cc7345e1",
+      "size": 160
+    },
+    {
+      "id": "tool-maia-160",
+      "file": "tool-maia-160.png",
+      "rgbaSha256": "083ac86ea2cf3f50a8d1c5980866c1c69e3f3dcf5730e8224345f1a9db39084b",
+      "size": 160
+    },
+    {
+      "id": "tool-coral-160",
+      "file": "tool-coral-160.png",
+      "rgbaSha256": "5d1797fb8ff84d88ae35b218bf68d305f627932d6524eb217c9453991d4d9bee",
+      "size": 160
+    },
+    {
+      "id": "tool-slate-160",
+      "file": "tool-slate-160.png",
+      "rgbaSha256": "27d3530ae5728555b5cf378b3e5cf5047baeefe9445c7bd6c09269425d02e1a4",
+      "size": 160
+    },
+    {
+      "id": "browsing-maia-160",
+      "file": "browsing-maia-160.png",
+      "rgbaSha256": "9c9947784fd2fe7ca4a5babd5421213f3586ff5415b5e214e3fb5ccc4b221ac7",
+      "size": 160
+    },
+    {
+      "id": "browsing-coral-160",
+      "file": "browsing-coral-160.png",
+      "rgbaSha256": "60af6e0421b56ca843e766492b7931afced08a4a1148bb66898b733532fa2660",
+      "size": 160
+    },
+    {
+      "id": "browsing-slate-160",
+      "file": "browsing-slate-160.png",
+      "rgbaSha256": "1eaf06f59af397a9cf9d8fa3c899bed81dff416a8a09148ecaf519b3eb9bb742",
+      "size": 160
+    },
+    {
+      "id": "waiting-maia-160",
+      "file": "waiting-maia-160.png",
+      "rgbaSha256": "4dead9e1c28b7170403505b076cd6971593124ae2ed2cedca3a1f78df32dec28",
+      "size": 160
+    },
+    {
+      "id": "waiting-sage-40",
+      "file": "waiting-sage-40.png",
+      "rgbaSha256": "623f07de06bb62073a2d7f759666d5a44cd4879db8ec5b8702cb263878b401b9",
+      "size": 40
+    },
+    {
+      "id": "waiting-coral-160",
+      "file": "waiting-coral-160.png",
+      "rgbaSha256": "a4ddae21b62c31896fc3e32c8bcf92505a812c144782bd6bd848fa6bcbccdb81",
+      "size": 160
+    },
+    {
+      "id": "waiting-slate-160",
+      "file": "waiting-slate-160.png",
+      "rgbaSha256": "5b3a69f8bf2151be038cc698ac26a67cefe020a2625a0ce2200cd20406aaa8d5",
+      "size": 160
+    },
+    {
+      "id": "talking-maia-160",
+      "file": "talking-maia-160.png",
+      "rgbaSha256": "0d3b3c6c903ca426268ef8064a357fc454bf1ccb1814c28767de7a0c7dbd8c83",
+      "size": 160
+    },
+    {
+      "id": "talking-coral-160",
+      "file": "talking-coral-160.png",
+      "rgbaSha256": "9588307072219195f57a361c5cfb33f5d99f2131b47f566d1eff33824d29fd21",
+      "size": 160
+    },
+    {
+      "id": "talking-slate-160",
+      "file": "talking-slate-160.png",
+      "rgbaSha256": "e2d0eeae9178760dfed0683e81c737a445e26275c3910731f6fb857f7501c4c7",
+      "size": 160
+    },
+    {
+      "id": "happy-maia-160",
+      "file": "happy-maia-160.png",
+      "rgbaSha256": "204cfce12645bd7d73676b2add64f1452415e4d77b79c2f14c0e3335bd4d6d43",
+      "size": 160
+    },
+    {
+      "id": "happy-coral-160",
+      "file": "happy-coral-160.png",
+      "rgbaSha256": "4957b871b4b009b69637764f480ad5bd9d0aa46e59373ba4b098bacceca4ee8a",
+      "size": 160
+    },
+    {
+      "id": "happy-honey-16",
+      "file": "happy-honey-16.png",
+      "rgbaSha256": "31cdab6d1c849d7c99446f8868434130790fcdc70bb3d5232ea770fefbf4609e",
+      "size": 16
+    },
+    {
+      "id": "happy-slate-160",
+      "file": "happy-slate-160.png",
+      "rgbaSha256": "87a0f25e59461e9e2ac0e013f17a43b267ce5ec315898dc0d3d1e1e5dd76a14e",
+      "size": 160
+    },
+    {
+      "id": "error-maia-160",
+      "file": "error-maia-160.png",
+      "rgbaSha256": "3d714c52fa6e5e54ee776cf7be2e324da9d0be1a78f61e09d9bef5cbc16d1a8d",
+      "size": 160
+    },
+    {
+      "id": "error-coral-160",
+      "file": "error-coral-160.png",
+      "rgbaSha256": "8e110d7265a1b36d9d4d7613c0fded8f72927c7e22aa61cd34804bbe231fd53d",
+      "size": 160
+    },
+    {
+      "id": "error-mint-64",
+      "file": "error-mint-64.png",
+      "rgbaSha256": "560a6e4f9dc31a83968cad2fc68da254faa6f857b233ca1a7343f7dbe350a72a",
+      "size": 64
+    },
+    {
+      "id": "error-slate-160",
+      "file": "error-slate-160.png",
+      "rgbaSha256": "7256fa891d535917ead9b154c5b312fa9b068faa0434f2b11c325ac566771188",
+      "size": 160
+    },
+    {
+      "id": "sleep-maia-160",
+      "file": "sleep-maia-160.png",
+      "rgbaSha256": "9e72f4d2fc4275c14b1ac22eedc637c585c2bf0316669db8d22d9b5a22112812",
+      "size": 160
+    },
+    {
+      "id": "sleep-coral-160",
+      "file": "sleep-coral-160.png",
+      "rgbaSha256": "0bdabf41114ee57e335db65f7f023180800cb5292d90c7b818d966fff8825c77",
+      "size": 160
+    },
+    {
+      "id": "sleep-slate-160",
+      "file": "sleep-slate-160.png",
+      "rgbaSha256": "451bb24e9fb52b3866657befdcdec53c28100c9546b99633ac6b891441625c72",
+      "size": 160
+    }
+  ],
+  "stateThreshold255": 7.283925024892813
+}

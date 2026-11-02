@@ -1,0 +1,18 @@
+{
+  "name": "f1-golden-single-turn",
+  "description": "INV1 golden path: one streamed turn, four id-stamped delta frames, clean data:[DONE] close. Client must render exactly one assistant bubble and must NOT hit /events afterwards.",
+  "sessionId": "sess_eval_f1",
+  "turns": [
+    {
+      "turnId": "turn_f1_golden_a",
+      "userPrompt": "Give me the golden path answer",
+      "events": [
+        { "id": 1, "delta": "Golden path answer.", "delayMs": 40 },
+        { "id": 2, "delta": " One turn streams", "delayMs": 40 },
+        { "id": 3, "delta": " four small chunks", "delayMs": 40 },
+        { "id": 4, "delta": " and closes cleanly.", "delayMs": 40 },
+        { "done": true }
+      ]
+    }
+  ]
+}

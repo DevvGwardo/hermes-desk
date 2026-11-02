@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workspace overlay</title>
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; background: transparent; overflow: hidden; pointer-events: none; }
+    #cursor { position: absolute; left: 0; top: 0; opacity: 0; color: #8b9cff; transition: transform 250ms ease, opacity 180ms ease; }
+    #arrow { width: 18px; height: 24px; background: currentColor; clip-path: polygon(0 0, 100% 65%, 58% 65%, 75% 100%, 55% 100%, 40% 70%, 0 95%); }
+    #label { position: absolute; top: 22px; left: 16px; font: 12px -apple-system, BlinkMacSystemFont, sans-serif; white-space: nowrap; padding: 4px 7px; border-radius: 5px; background: currentColor; }
+    #label span { color: #101012; }
+    #pulse { position: absolute; width: 30px; height: 30px; left: -15px; top: -15px; border: 2px solid currentColor; border-radius: 50%; opacity: 0; }
+    #cursor.pressed #pulse { animation: pulse 350ms ease-out; }
+    @keyframes pulse { from { opacity: 0.8; transform: scale(0.3); } to { opacity: 0; transform: scale(1.5); } }
+    .mask { position: absolute; background: #000; }
+  </style>
+</head>
+<body>
+  <div id="masks"></div>
+  <div id="cursor"><div id="arrow"></div><div id="pulse"></div><div id="label"><span></span></div></div>
+  <script>
+    (() => {
+      'use strict'
+      const cursor = document.getElementById('cursor')
+      const masks = document.getElementById('masks')
+      const label = document.querySelector('#label span')
+      let fade = null
+      let activeTabId = null
+      function receive(msg) {
+        if (msg.type === 'activate') {
+          activeTabId = msg.tabId
+          masks.replaceChildren()
+          cursor.style.opacity = '0'
+          clearTimeout(fade)
+          return
+        }
+        if (msg.tabId && msg.tabId !== activeTabId) return
+        if (msg.type !== 'clear' && !msg.tabId) return
+        if (msg.type === 'clear') {
+          masks.replaceChildren()
+          cursor.style.opacity = '0'
+          clearTimeout(fade)
+        } else if (msg.type === 'cursor') {
+          cursor.style.transform = `translate(${msg.x}px, ${msg.y}px)`
+          cursor.style.color = msg.color
+          cursor.style.opacity = '1'
+          label.textContent = msg.label
+          cursor.classList.remove('pressed')
+          if (msg.phase === 'press') {
+            void cursor.offsetWidth
+            cursor.classList.add('pressed')
+          }
+          clearTimeout(fade)
+          fade = setTimeout(() => { cursor.style.opacity = '0' }, 2000)
+        } else if (msg.type === 'masks') {
+          masks.replaceChildren(...msg.rects.map((rect) => {
+            const mask = document.createElement('div')
+            mask.className = 'mask'
+            Object.assign(mask.style, { left: `${rect.x}px`, top: `${rect.y}px`,
+              width: `${rect.width}px`, height: `${rect.height}px` })
+            return mask
+          }))
+        }
+      }
+      const waitFrame = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+      Object.defineProperty(window, 'hermesWorkspaceOverlay', { value: Object.freeze({ receive, waitFrame }) })
+    })()
+  </script>
+</body>
+</html>

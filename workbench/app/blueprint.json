@@ -1,0 +1,630 @@
+{
+  "projectStats": {
+    "generatedAt": "2026-09-18T13:01:01.213Z",
+    "version": "0.1.18",
+    "loc": {
+      "rendererSrc": 57454,
+      "tests": 27019,
+      "electron": 9571,
+      "scripts": 5468,
+      "workbench": 26174
+    },
+    "fileCounts": {
+      "rendererSourceFiles": 226,
+      "testFiles": 194,
+      "electronFiles": 29,
+      "scripts": 42,
+      "workbenchFiles": 36
+    },
+    "testsByArea": {
+      "components": 61,
+      "lib": 103,
+      "mobile": 24,
+      "plugins": 6
+    },
+    "totalTestCases": 1580
+  },
+  "deps": {
+    "runtime": [
+      {
+        "name": "dompurify",
+        "version": "^3.4.14"
+      },
+      {
+        "name": "exceljs",
+        "version": "^4.4.0"
+      },
+      {
+        "name": "framer-motion",
+        "version": "^12.23.12"
+      },
+      {
+        "name": "gifenc",
+        "version": "^1.0.3"
+      },
+      {
+        "name": "katex",
+        "version": "^0.18.4"
+      },
+      {
+        "name": "mediabunny",
+        "version": "^1.55.7"
+      },
+      {
+        "name": "mermaid",
+        "version": "^11.17.0"
+      },
+      {
+        "name": "pdfjs-dist",
+        "version": "^6.2.108"
+      },
+      {
+        "name": "react",
+        "version": "^19.1.0"
+      },
+      {
+        "name": "react-dom",
+        "version": "^19.1.0"
+      },
+      {
+        "name": "react-markdown",
+        "version": "^10.1.0"
+      },
+      {
+        "name": "remark-gfm",
+        "version": "^4.0.1"
+      }
+    ],
+    "dev": [
+      {
+        "name": "@capacitor/android",
+        "version": "^8.5.0"
+      },
+      {
+        "name": "@capacitor/app",
+        "version": "^8.1.1"
+      },
+      {
+        "name": "@capacitor/cli",
+        "version": "^8.5.0"
+      },
+      {
+        "name": "@capacitor/core",
+        "version": "^8.5.0"
+      },
+      {
+        "name": "@capacitor/haptics",
+        "version": "^8.0.2"
+      },
+      {
+        "name": "@capacitor/keyboard",
+        "version": "^8.0.5"
+      },
+      {
+        "name": "@capacitor/status-bar",
+        "version": "^8.0.3"
+      },
+      {
+        "name": "@tailwindcss/vite",
+        "version": "^4.1.11"
+      },
+      {
+        "name": "@testing-library/jest-dom",
+        "version": "^7.0.1"
+      },
+      {
+        "name": "@testing-library/react",
+        "version": "^16.3.2"
+      },
+      {
+        "name": "@types/react",
+        "version": "^19.1.8"
+      },
+      {
+        "name": "@types/react-dom",
+        "version": "^19.1.6"
+      },
+      {
+        "name": "@vitejs/plugin-react",
+        "version": "^4.6.0"
+      },
+      {
+        "name": "concurrently",
+        "version": "^9.2.0"
+      },
+      {
+        "name": "electron",
+        "version": "^37.2.6"
+      },
+      {
+        "name": "electron-builder",
+        "version": "^26.0.12"
+      },
+      {
+        "name": "esbuild",
+        "version": "^0.25.12"
+      },
+      {
+        "name": "jsdom",
+        "version": "^30.0.1"
+      },
+      {
+        "name": "playwright-core",
+        "version": "^1.62.1"
+      },
+      {
+        "name": "tailwindcss",
+        "version": "^4.1.11"
+      },
+      {
+        "name": "typescript",
+        "version": "~5.8.3"
+      },
+      {
+        "name": "vite",
+        "version": "^6.3.5"
+      },
+      {
+        "name": "vitest",
+        "version": "^4.1.10"
+      }
+    ]
+  },
+  "gitProgress": {
+    "totalCommits": 316,
+    "contributors": [
+      {
+        "commits": 231,
+        "name": "DevGwardo"
+      },
+      {
+        "commits": 84,
+        "name": "DevvGwardo"
+      },
+      {
+        "commits": 1,
+        "name": "Phoenix"
+      }
+    ],
+    "recentLog": [
+      {
+        "hash": "a844528",
+        "date": "2026-09-18 08:01",
+        "subject": "Merge pull request #41 from DevvGwardo/docs/waitlist-redteam-spec"
+      },
+      {
+        "hash": "1eae9a1",
+        "date": "2026-09-17 12:43",
+        "subject": "docs: add waitlist.nub.lol red-team remediation spec"
+      },
+      {
+        "hash": "dda478d",
+        "date": "2026-09-18 07:57",
+        "subject": "Merge pull request #43 from DevvGwardo/activity-where-icons"
+      },
+      {
+        "hash": "ee8056c",
+        "date": "2026-09-18 07:57",
+        "subject": "Merge pull request #42 from DevvGwardo/remove-train-on-data-toggle"
+      },
+      {
+        "hash": "32c82ce",
+        "date": "2026-09-18 07:56",
+        "subject": "Merge pull request #40 from DevvGwardo/markdown-list-ux"
+      },
+      {
+        "hash": "5d1a31e",
+        "date": "2026-09-18 02:01",
+        "subject": "feat(activity): icon-first where pill for VM vs local computer"
+      },
+      {
+        "hash": "86ea205",
+        "date": "2026-09-17 20:38",
+        "subject": "Remove training opt-in toggle from web app settings"
+      },
+      {
+        "hash": "9e227d1",
+        "date": "2026-09-17 16:21",
+        "subject": "fix(ci): hermetic mock-mode pin + electron-less nub-link test"
+      },
+      {
+        "hash": "8296b09",
+        "date": "2026-09-17 15:43",
+        "subject": "feat(invite): wire waitlist -> redeem into the app shell"
+      },
+      {
+        "hash": "d7e872f",
+        "date": "2026-09-17 15:34",
+        "subject": "fix(audit-crew): wave-2 integration reconciliation — 0 failures"
+      },
+      {
+        "hash": "13000b9",
+        "date": "2026-09-17 15:28",
+        "subject": "feat(audit-crew): 12-lane parallel implementation — web perf, shell UX, store, build+CSP+PWA, preview lazy, REST hardening, electron+HUD+updates, kanban/mcp, transport, a11y/tokens, test infra, invite system"
+      },
+      {
+        "hash": "61dfc2f",
+        "date": "2026-09-17 15:11",
+        "subject": "wip: uncommitted 42-file work before audit-crew implementation (cat variation removal, LoopStudio, tokens, vm-roster)"
+      },
+      {
+        "hash": "928ad5d",
+        "date": "2026-09-17 01:24",
+        "subject": "fix(markdown): restore list bullets, nesting markers, and task checkboxes"
+      },
+      {
+        "hash": "454371e",
+        "date": "2026-09-16 16:32",
+        "subject": "Merge pull request #39 from DevvGwardo/feat/high-stakes-approvals"
+      },
+      {
+        "hash": "4e028ee",
+        "date": "2026-09-16 16:23",
+        "subject": "feat(security): high-stakes approvals never offer standing grants"
+      },
+      {
+        "hash": "893c7e4",
+        "date": "2026-09-14 19:54",
+        "subject": "feat(web): polish the post-sign-in experience — in-place link, boot surface, shine skeletons"
+      },
+      {
+        "hash": "5390763",
+        "date": "2026-09-14 16:08",
+        "subject": "docs(state): record 0.1.18 shipped — update-check fix chain + on-device banner proof"
+      },
+      {
+        "hash": "579b168",
+        "date": "2026-09-14 15:42",
+        "subject": "fix(android): make the in-app update check actually reachable (0.1.18)"
+      },
+      {
+        "hash": "f0db305",
+        "date": "2026-09-14 14:08",
+        "subject": "Merge pull request #38 from DevvGwardo/fix/mobile-resize-probe-spa"
+      },
+      {
+        "hash": "4d9e686",
+        "date": "2026-09-14 14:00",
+        "subject": "docs(state): record the resize block as deployed + live-verified, and the SPA-fallback probe fix"
+      },
+      {
+        "hash": "7c3b0b4",
+        "date": "2026-09-14 13:59",
+        "subject": "feat(mobile): enlarge the orb for agents showing activity + shell visual refresh"
+      },
+      {
+        "hash": "6bd3e45",
+        "date": "2026-09-14 13:58",
+        "subject": "fix(resize): treat a 200 HTML answer as unsupported in probeResize"
+      },
+      {
+        "hash": "f246afe",
+        "date": "2026-09-14 10:59",
+        "subject": "fix(dist): cask pointed at a versioned URL that never existed"
+      },
+      {
+        "hash": "814ec9c",
+        "date": "2026-09-14 09:55",
+        "subject": "feat(dist): Homebrew cask generator (honest about what it does not fix)"
+      },
+      {
+        "hash": "8299864",
+        "date": "2026-09-14 09:42",
+        "subject": "feat(dist): drag-to-install DMG, drop the quarantined .command helper"
+      },
+      {
+        "hash": "a6d95c4",
+        "date": "2026-09-14 08:57",
+        "subject": "chore(release): bump to 0.1.17 (versionCode 14)"
+      },
+      {
+        "hash": "67a8cdb",
+        "date": "2026-09-14 08:37",
+        "subject": "chore(gates): refresh prod-evals evidence from a green three-tier run"
+      },
+      {
+        "hash": "1beb9d5",
+        "date": "2026-09-14 08:37",
+        "subject": "fix(pwa): do not register the service worker inside the native APK"
+      },
+      {
+        "hash": "7f29565",
+        "date": "2026-09-14 08:05",
+        "subject": "fix(gates): repair parity-check and mobile-prod-smoke"
+      },
+      {
+        "hash": "acd9cc6",
+        "date": "2026-09-14 08:05",
+        "subject": "feat(pwa): service worker shell + maskable icons"
+      }
+    ],
+    "commitsPerDayLast30": {
+      "2026-09-18": 5,
+      "2026-09-17": 8,
+      "2026-09-16": 2,
+      "2026-09-14": 19,
+      "2026-09-13": 12,
+      "2026-09-12": 8,
+      "2026-09-11": 3,
+      "2026-09-10": 9,
+      "2026-09-07": 6,
+      "2026-09-06": 12,
+      "2026-09-04": 24,
+      "2026-09-01": 5,
+      "2026-08-31": 2,
+      "2026-08-30": 1,
+      "2026-08-29": 9,
+      "2026-08-28": 12,
+      "2026-08-27": 2,
+      "2026-08-26": 2,
+      "2026-08-25": 11,
+      "2026-08-24": 9,
+      "2026-08-23": 55,
+      "2026-08-22": 20,
+      "2026-08-21": 14,
+      "2026-08-20": 1,
+      "2026-08-19": 3
+    }
+  },
+  "architecture": {
+    "layers": [
+      {
+        "id": "electron-main",
+        "label": "Electron main process",
+        "dir": "electron",
+        "moduleCount": 0
+      },
+      {
+        "id": "entry",
+        "label": "Renderer entry",
+        "dir": "src",
+        "moduleCount": 4
+      },
+      {
+        "id": "components",
+        "label": "UI components",
+        "dir": "src/components",
+        "moduleCount": 64
+      },
+      {
+        "id": "lib-agents",
+        "label": "Agent transports & runtime",
+        "dir": "src/lib/agents",
+        "moduleCount": 24
+      },
+      {
+        "id": "lib-core",
+        "label": "Core libs",
+        "dir": "src/lib",
+        "moduleCount": 95
+      },
+      {
+        "id": "plugins",
+        "label": "Plugin host",
+        "dir": "src/plugins",
+        "moduleCount": 10
+      },
+      {
+        "id": "mobile",
+        "label": "Mobile (Capacitor)",
+        "dir": "src/mobile",
+        "moduleCount": 29
+      }
+    ],
+    "edges": [
+      {
+        "from": "entry",
+        "to": "components"
+      },
+      {
+        "from": "entry",
+        "to": "plugins"
+      },
+      {
+        "from": "entry",
+        "to": "lib-core"
+      },
+      {
+        "from": "entry",
+        "to": "mobile"
+      },
+      {
+        "from": "entry",
+        "to": "lib-agents"
+      },
+      {
+        "from": "components",
+        "to": "lib-agents"
+      },
+      {
+        "from": "components",
+        "to": "lib-core"
+      },
+      {
+        "from": "components",
+        "to": "mobile"
+      },
+      {
+        "from": "components",
+        "to": "plugins"
+      },
+      {
+        "from": "lib-agents",
+        "to": "lib-core"
+      },
+      {
+        "from": "lib-agents",
+        "to": "mobile"
+      },
+      {
+        "from": "lib-core",
+        "to": "lib-agents"
+      },
+      {
+        "from": "lib-core",
+        "to": "mobile"
+      },
+      {
+        "from": "lib-core",
+        "to": "components"
+      },
+      {
+        "from": "mobile",
+        "to": "components"
+      },
+      {
+        "from": "mobile",
+        "to": "lib-agents"
+      },
+      {
+        "from": "mobile",
+        "to": "lib-core"
+      },
+      {
+        "from": "plugins",
+        "to": "lib-core"
+      }
+    ]
+  },
+  "transports": {
+    "transports": [
+      {
+        "name": "HermesDeployTransport",
+        "file": "src/lib/agents/hermes-deploy-transport.ts"
+      },
+      {
+        "name": "HermesServeTransport",
+        "file": "src/lib/agents/hermes-transport.ts"
+      }
+    ],
+    "apiEndpoints": [
+      "/api/",
+      "/api/analytics/usage",
+      "/api/computer/screenshot",
+      "/api/computer/status",
+      "/api/config",
+      "/api/cron/jobs",
+      "/api/mcp/servers",
+      "/api/memory",
+      "/api/memory/pending",
+      "/api/notifications",
+      "/api/notifications/read",
+      "/api/nub/desktop/instance",
+      "/api/skills",
+      "/api/skills/toggle",
+      "/api/status",
+      "/api/system/stats",
+      "/api/tools/computer-use/status",
+      "/api/transcripts/tail",
+      "/api/ws"
+    ]
+  },
+  "buildTargets": {
+    "targets": [
+      {
+        "id": "electron-mac",
+        "label": "Desktop macOS (arm64)",
+        "script": "electron:build",
+        "output": "release/"
+      },
+      {
+        "id": "electron-win",
+        "label": "Desktop Windows",
+        "script": "electron:build:win",
+        "output": "release/"
+      },
+      {
+        "id": "web",
+        "label": "Hosted web app (Vercel)",
+        "script": "build:web",
+        "output": "dist/"
+      },
+      {
+        "id": "android-bundle",
+        "label": "Android AAB (Play)",
+        "script": "android:bundle",
+        "output": "android/app/build/"
+      },
+      {
+        "id": "android-apk",
+        "label": "Android debug APK",
+        "script": "android:debug",
+        "output": "~/Downloads/Nub-Agent-debug.apk"
+      }
+    ],
+    "allScripts": [
+      {
+        "name": "dev",
+        "cmd": "vite"
+      },
+      {
+        "name": "dev:web",
+        "cmd": "vite --mode web"
+      },
+      {
+        "name": "build",
+        "cmd": "tsc -b && vite build"
+      },
+      {
+        "name": "build:web",
+        "cmd": "tsc -b && vite build --mode web"
+      },
+      {
+        "name": "preview",
+        "cmd": "vite preview"
+      },
+      {
+        "name": "test",
+        "cmd": "vitest"
+      },
+      {
+        "name": "test:run",
+        "cmd": "vitest run"
+      },
+      {
+        "name": "test:unit",
+        "cmd": "vitest run --project unit"
+      },
+      {
+        "name": "test:electron",
+        "cmd": "vitest run --project electron"
+      },
+      {
+        "name": "test:bundle",
+        "cmd": "vitest run --project unit src/lib/__tests__/bundle-budget.test.ts"
+      },
+      {
+        "name": "electron:dev",
+        "cmd": "node scripts/launch-desktop.mjs"
+      },
+      {
+        "name": "electron:build",
+        "cmd": "node scripts/build-desktop.mjs"
+      },
+      {
+        "name": "electron:build:win",
+        "cmd": "node scripts/build-desktop.mjs --win"
+      },
+      {
+        "name": "electron:upload",
+        "cmd": "node scripts/upload-desktop.mjs"
+      },
+      {
+        "name": "android:bundle",
+        "cmd": "node scripts/build-android.mjs bundle"
+      },
+      {
+        "name": "android:apk",
+        "cmd": "node scripts/build-android.mjs apk"
+      },
+      {
+        "name": "android:debug",
+        "cmd": "node scripts/build-android.mjs debug"
+      },
+      {
+        "name": "workbench",
+        "cmd": "open workbench/app/gallery.html && node workbench/app/capture-app.cjs"
+      }
+    ]
+  }
+}

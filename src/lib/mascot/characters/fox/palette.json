@@ -1,0 +1,21 @@
+{
+  "default": {
+    "primary": "#f5a24f",
+    "secondary": "#bd582e",
+    "accent": "#75d6d0",
+    "belly": "#ffe1ae",
+    "ink": "#34262b",
+    "eye": "#fff5e7",
+    "shine": "#fff8e9"
+  },
+  "agents": [
+    { "primary": "#9ecdff", "secondary": "#537dbb", "accent": "#ffd58b", "belly": "#e3efff", "ink": "#23324b", "eye": "#f5f9ff", "shine": "#ffffff" },
+    { "primary": "#b7d68b", "secondary": "#668748", "accent": "#ffdba2", "belly": "#edf3d4", "ink": "#2c382b", "eye": "#fbfff0", "shine": "#ffffff" },
+    { "primary": "#d4b1f3", "secondary": "#8c61b7", "accent": "#9fe4d8", "belly": "#f1e2fc", "ink": "#372946", "eye": "#fcf5ff", "shine": "#ffffff" },
+    { "primary": "#f4adb7", "secondary": "#b6637b", "accent": "#abdced", "belly": "#ffe4de", "ink": "#432b36", "eye": "#fff5f1", "shine": "#ffffff" },
+    { "primary": "#89d8cd", "secondary": "#438f92", "accent": "#ffbf83", "belly": "#d8f5e9", "ink": "#213c3c", "eye": "#f0fffa", "shine": "#ffffff" },
+    { "primary": "#efcf7b", "secondary": "#ae7f3d", "accent": "#a5c1ff", "belly": "#fff0c9", "ink": "#443528", "eye": "#fffbea", "shine": "#ffffff" },
+    { "primary": "#a5b5ed", "secondary": "#6473b7", "accent": "#f5b5cf", "belly": "#e4e8ff", "ink": "#2b2e4b", "eye": "#f5f6ff", "shine": "#ffffff" },
+    { "primary": "#efa883", "secondary": "#ad634d", "accent": "#bde1a0", "belly": "#ffe4cf", "ink": "#412b28", "eye": "#fff6eb", "shine": "#ffffff" }
+  ]
+}

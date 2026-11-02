@@ -1,0 +1,4 @@
+{"jsonrpc":"2.0","id":"srq-approval","method":"approval","params":{"session_id":"runtime-runner","request_id":"approval-fixture","command":"touch /fake/note.txt","description":"Create a synthetic note","choices":["once","session","always","deny"],"allow_permanent":true,"allow_session":true}}
+{"jsonrpc":"2.0","id":"srq-clarify","method":"clarify","params":{"session_id":"runtime-runner","questions":[{"qid":"destination","question":"Where should this fixture go?","choices":["Inbox","Archive"],"multi_select":false}]}}
+{"jsonrpc":"2.0","id":"srq-secret","method":"secret","params":{"session_id":"runtime-runner","env_var":"FAKE_FIXTURE_KEY","prompt":"Only a synthetic secret prompt"}}
+{"jsonrpc":"2.0","id":"srq-sudo","method":"sudo","params":{"session_id":"runtime-runner","command":"echo synthetic-only"}}

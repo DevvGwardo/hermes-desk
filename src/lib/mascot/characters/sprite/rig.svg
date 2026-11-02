@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-labelledby="sprite-title sprite-desc">
+  <title id="sprite-title">Wisp, the messenger spirit</title>
+  <desc id="sprite-desc">A translucent blue droplet with a floating winged helmet, curious eyes, small fins and a curling comet tail.</desc>
+  <defs>
+    <radialGradient id="sprite-shell" cx="0.34" cy="0.25" r="0.83">
+      <stop stop-color="var(--m-primary, #8edbff)" stop-opacity=".78"/>
+      <stop offset=".42" stop-color="var(--m-primary, #8edbff)" stop-opacity=".53"/>
+      <stop offset="1" stop-color="var(--m-secondary, #4568ac)" stop-opacity=".7"/>
+    </radialGradient>
+    <radialGradient id="sprite-aura">
+      <stop stop-color="var(--m-primary, #8edbff)" stop-opacity=".12"/>
+      <stop offset=".62" stop-color="var(--m-secondary, #4568ac)" stop-opacity=".06"/>
+      <stop offset="1" stop-color="var(--m-secondary, #4568ac)" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sprite-core">
+      <stop stop-color="var(--m-belly, #b6f4ee)" stop-opacity=".64"/>
+      <stop offset=".38" stop-color="var(--m-primary, #8edbff)" stop-opacity=".36"/>
+      <stop offset="1" stop-color="var(--m-primary, #8edbff)" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sprite-tail" x1="232" y1="346" x2="369" y2="429" gradientUnits="userSpaceOnUse">
+      <stop stop-color="var(--m-primary, #8edbff)" stop-opacity=".13"/>
+      <stop offset=".25" stop-color="var(--m-primary, #8edbff)" stop-opacity=".62"/>
+      <stop offset=".6" stop-color="var(--m-secondary, #4568ac)" stop-opacity=".48"/>
+      <stop offset="1" stop-color="var(--m-primary, #8edbff)" stop-opacity=".12"/>
+    </linearGradient>
+    <linearGradient id="sprite-tail-tip" x1="307" y1="405" x2="391" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="var(--m-secondary, #4568ac)" stop-opacity="0"/>
+      <stop offset=".24" stop-color="var(--m-secondary, #4568ac)" stop-opacity=".4"/>
+      <stop offset="1" stop-color="var(--m-primary, #8edbff)" stop-opacity=".16"/>
+    </linearGradient>
+    <linearGradient id="sprite-fin" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="var(--m-belly, #b6f4ee)" stop-opacity=".83"/>
+      <stop offset="1" stop-color="var(--m-secondary, #4568ac)" stop-opacity=".64"/>
+    </linearGradient>
+    <linearGradient id="sprite-helmet" x1=".3" y1="0" x2=".8" y2="1">
+      <stop stop-color="var(--m-belly, #b6f4ee)"/>
+      <stop offset=".32" stop-color="var(--m-primary, #8edbff)"/>
+      <stop offset="1" stop-color="var(--m-secondary, #4568ac)"/>
+    </linearGradient>
+    <linearGradient id="sprite-brim" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="var(--m-shine, #effcff)"/>
+      <stop offset=".3" stop-color="var(--m-primary, #8edbff)"/>
+      <stop offset="1" stop-color="var(--m-secondary, #4568ac)"/>
+    </linearGradient>
+    <linearGradient id="sprite-feather" x1=".3" y1="0" x2=".7" y2="1">
+      <stop stop-color="var(--m-shine, #effcff)"/>
+      <stop offset=".55" stop-color="var(--m-belly, #b6f4ee)"/>
+      <stop offset="1" stop-color="var(--m-primary, #8edbff)"/>
+    </linearGradient>
+    <radialGradient id="sprite-iris">
+      <stop stop-color="var(--m-secondary, #4568ac)"/>
+      <stop offset="1" stop-color="var(--m-ink, #122b48)"/>
+    </radialGradient>
+    <linearGradient id="sprite-lid" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="var(--m-primary, #8edbff)"/>
+      <stop offset="1" stop-color="var(--m-secondary, #4568ac)"/>
+    </linearGradient>
+  </defs>
+  <g id="part-root" data-pivot="256 270">
+    <g id="part-body" data-pivot="256 278" data-parent="part-root">
+      <g id="part-aura" data-pivot="256 282" data-parent="part-body">
+        <ellipse cx="256" cy="282" rx="185" ry="178" fill="url(#sprite-aura)"/>
+      </g>
+      <g id="part-tail" data-pivot="250 345" data-parent="part-body">
+        <path d="M235 355C219 375 228 397 247 410C265 422 296 427 324 417Q329 408 321 397C296 405 271 393 265 377C263 366 269 358 274 355Q254 361 235 355Z" fill="url(#sprite-tail)"/>
+        <path d="M238 361C233 389 266 410 299 411" stroke="var(--m-primary, #8edbff)" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>
+        <g id="part-tail-tip" data-pivot="316 405" data-parent="part-tail">
+          <path d="M310 395C341 405 371 396 391 375C386 410 358 434 328 424C320 422 313 418 307 412Z" fill="url(#sprite-tail-tip)"/>
+          <path d="M316 410C343 422 369 402 381 389" stroke="var(--m-belly, #b6f4ee)" stroke-opacity=".44" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+      </g>
+      <g id="part-fin-l" data-pivot="156 284" data-parent="part-body">
+        <path d="M160 268C138 270 128 255 104 245C105 267 112 273 128 280C112 278 104 274 93 274C99 294 119 309 146 302L165 293Z" fill="url(#sprite-fin)" stroke="var(--m-primary, #8edbff)" stroke-opacity=".65" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M109 258Q128 281 153 286M107 285Q126 297 150 292" stroke="var(--m-shine, #effcff)" stroke-opacity=".38" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+      <g id="part-fin-r" data-pivot="351 284" data-parent="part-body">
+        <path d="M348 270C372 270 383 255 407 245C406 266 398 274 383 280C397 278 408 274 419 275C412 295 393 309 366 302L348 292Z" fill="url(#sprite-fin)" stroke="var(--m-primary, #8edbff)" stroke-opacity=".65" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M401 259Q382 281 356 286M405 286Q385 297 360 292" stroke="var(--m-shine, #effcff)" stroke-opacity=".38" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+      <path d="M256 151C248 174 211 178 181 211C141 254 136 309 167 344C192 373 248 386 293 365C338 348 365 309 348 266C333 226 297 208 275 180C266 170 261 156 256 151Z" fill="url(#sprite-shell)" stroke="var(--m-primary, #8edbff)" stroke-opacity=".78" stroke-width="3"/>
+      <path d="M166 294C165 330 193 355 224 362C248 368 271 365 289 357" stroke="var(--m-secondary, #4568ac)" stroke-opacity=".6" stroke-width="7" stroke-linecap="round"/>
+      <path d="M269 182C284 211 314 227 332 257" stroke="var(--m-belly, #b6f4ee)" stroke-opacity=".37" stroke-width="2.5" stroke-linecap="round"/>
+      <g id="part-light" data-pivot="256 265" data-parent="part-body">
+        <path d="M254 169C240 189 201 198 178 234C162 261 155 288 163 308C170 271 189 251 212 235C236 219 254 207 254 169Z" fill="var(--m-shine, #effcff)" fill-opacity=".18"/>
+        <path d="M194 213Q210 197 231 190" stroke="var(--m-shine, #effcff)" stroke-opacity=".78" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="183" cy="233" rx="4" ry="7" transform="rotate(30 183 233)" fill="var(--m-shine, #effcff)" fill-opacity=".52"/>
+      </g>
+      <g id="part-inner-glow" data-pivot="255 294" data-parent="part-body">
+        <ellipse cx="255" cy="294" rx="99" ry="73" fill="url(#sprite-core)"/>
+        <g id="part-swirl" data-pivot="255 299" data-parent="part-inner-glow">
+          <path d="M198 301C205 276 242 271 274 284C297 294 301 311 285 322C267 335 231 331 218 318C206 306 222 293 239 296" stroke="var(--m-belly, #b6f4ee)" stroke-opacity=".27" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M206 320C226 341 280 340 298 313" stroke="var(--m-primary, #8edbff)" stroke-opacity=".36" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="294" cy="305" r="3" fill="var(--m-shine, #effcff)" fill-opacity=".47"/>
+        </g>
+        <g id="part-caduceus" data-pivot="255 319" data-parent="part-inner-glow" stroke="var(--m-belly, #b6f4ee)" stroke-opacity=".22" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M255 301V340M253 309C237 305 238 318 257 322C274 326 267 336 250 338M257 309C273 305 272 318 253 322C236 326 243 336 260 338"/>
+          <path d="M253 305Q245 293 235 302Q242 311 252 308M257 305Q265 293 275 302Q268 311 258 308"/>
+          <circle cx="255" cy="298" r="3" fill="var(--m-belly, #b6f4ee)" fill-opacity=".22"/>
+        </g>
+      </g>
+      <g id="part-head" data-pivot="256 231" data-parent="part-body">
+        <g id="part-cheek-l" data-pivot="184 265" data-parent="part-head">
+          <ellipse cx="184" cy="265" rx="15" ry="6" fill="var(--m-accent, #e7c47d)" fill-opacity=".33"/>
+          <path d="M177 263L176 267M184 263L183 267" stroke="var(--m-accent, #e7c47d)" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g id="part-cheek-r" data-pivot="318 265" data-parent="part-head">
+          <ellipse cx="318" cy="265" rx="15" ry="6" fill="var(--m-accent, #e7c47d)" fill-opacity=".33"/>
+          <path d="M316 263L317 267M323 263L324 267" stroke="var(--m-accent, #e7c47d)" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g id="part-eye-l" data-pivot="211 233" data-parent="part-head">
+          <ellipse cx="211" cy="233" rx="27" ry="33" fill="var(--m-eye, #e7f8ff)" stroke="var(--m-ink, #122b48)" stroke-opacity=".66" stroke-width="3.5"/>
+          <g id="part-pupil-l" data-pivot="214 235" data-parent="part-eye-l">
+            <g id="pupil-l">
+              <ellipse cx="214" cy="235" rx="15.5" ry="22" fill="url(#sprite-iris)"/>
+              <ellipse cx="215" cy="236" rx="8" ry="14" fill="var(--m-ink, #122b48)"/>
+              <ellipse cx="208" cy="226" rx="5" ry="6.5" fill="var(--m-shine, #effcff)"/>
+              <circle cx="221" cy="245" r="2.5" fill="var(--m-primary, #8edbff)"/>
+            </g>
+          </g>
+        </g>
+        <g id="part-eye-r" data-pivot="297 233" data-parent="part-head">
+          <ellipse cx="297" cy="233" rx="27" ry="33" fill="var(--m-eye, #e7f8ff)" stroke="var(--m-ink, #122b48)" stroke-opacity=".66" stroke-width="3.5"/>
+          <g id="part-pupil-r" data-pivot="294 235" data-parent="part-eye-r">
+            <g id="pupil-r">
+              <ellipse cx="294" cy="235" rx="15.5" ry="22" fill="url(#sprite-iris)"/>
+              <ellipse cx="293" cy="236" rx="8" ry="14" fill="var(--m-ink, #122b48)"/>
+              <ellipse cx="288" cy="226" rx="5" ry="6.5" fill="var(--m-shine, #effcff)"/>
+              <circle cx="301" cy="245" r="2.5" fill="var(--m-primary, #8edbff)"/>
+            </g>
+          </g>
+        </g>
+        <g id="part-lid-l" data-pivot="211 197" data-parent="part-head" transform="translate(211 197) scale(1 0) translate(-211 -197)">
+          <ellipse cx="211" cy="233" rx="30" ry="36" fill="url(#sprite-lid)"/>
+          <path d="M189 234Q211 247 233 234" stroke="var(--m-ink, #122b48)" stroke-width="4.5" stroke-linecap="round"/>
+        </g>
+        <g id="part-lid-r" data-pivot="297 197" data-parent="part-head" transform="translate(297 197) scale(1 0) translate(-297 -197)">
+          <ellipse cx="297" cy="233" rx="30" ry="36" fill="url(#sprite-lid)"/>
+          <path d="M275 234Q297 247 319 234" stroke="var(--m-ink, #122b48)" stroke-width="4.5" stroke-linecap="round"/>
+        </g>
+        <g id="part-brow-l" data-pivot="211 191" data-parent="part-head">
+          <path d="M191 192Q208 182 227 189" stroke="var(--m-ink, #122b48)" stroke-opacity=".65" stroke-width="3.5" stroke-linecap="round"/>
+        </g>
+        <g id="part-brow-r" data-pivot="297 191" data-parent="part-head">
+          <path d="M279 189Q298 182 315 192" stroke="var(--m-ink, #122b48)" stroke-opacity=".65" stroke-width="3.5" stroke-linecap="round"/>
+        </g>
+        <g id="part-mouth" data-pivot="254 272" data-parent="part-head" stroke="var(--m-ink, #122b48)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+          <g id="mouth-neutral"><path d="M246 270Q254 277 262 270"/></g>
+          <g id="mouth-smile" style="display:none"><path d="M240 267Q254 285 268 267"/></g>
+          <g id="mouth-open" style="display:none">
+            <path d="M242 268Q254 263 266 268C267 287 242 291 242 268Z" fill="var(--m-ink, #122b48)"/>
+            <path d="M247 281Q254 276 262 281" stroke="var(--m-accent, #e7c47d)" stroke-width="4"/>
+          </g>
+          <g id="mouth-o" style="display:none"><ellipse cx="254" cy="273" rx="7.5" ry="10" fill="var(--m-ink, #122b48)"/></g>
+          <g id="mouth-flat" style="display:none"><path d="M244 273H264"/></g>
+          <g id="mouth-grin" style="display:none">
+            <path d="M237 265Q254 273 271 265Q266 287 254 287Q242 287 237 265Z" fill="var(--m-ink, #122b48)"/>
+            <path d="M242 269Q254 274 266 269L263 276Q254 280 245 276Z" fill="var(--m-eye, #e7f8ff)" stroke="none"/>
+          </g>
+        </g>
+        <g id="part-helmet" data-pivot="256 126" data-parent="part-head">
+          <ellipse cx="256" cy="145" rx="56" ry="7" fill="var(--m-secondary, #4568ac)" fill-opacity=".12"/>
+          <g id="part-wing-l" data-pivot="211 110" data-parent="part-helmet">
+            <path d="M214 109C195 90 168 82 140 54C137 78 153 101 166 109C147 106 135 99 126 89C128 115 146 128 161 130C144 133 136 127 127 124C139 151 172 150 194 132L214 124Z" fill="url(#sprite-feather)" stroke="var(--m-secondary, #4568ac)" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M148 72C166 100 185 109 206 119M140 108Q163 127 195 125M143 135Q164 140 185 131" stroke="var(--m-secondary, #4568ac)" stroke-opacity=".63" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M155 78L161 89M174 96L180 102" stroke="var(--m-shine, #effcff)" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <g id="part-wing-r" data-pivot="301 110" data-parent="part-helmet">
+            <path d="M298 109C317 90 344 82 372 54C375 78 359 101 346 109C365 106 377 99 386 89C384 115 366 128 351 130C368 133 376 127 385 124C373 151 340 150 318 132L298 124Z" fill="url(#sprite-feather)" stroke="var(--m-secondary, #4568ac)" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M364 72C346 100 327 109 306 119M372 108Q349 127 317 125M369 135Q348 140 327 131" stroke="var(--m-secondary, #4568ac)" stroke-opacity=".63" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M357 78L351 89M338 96L332 102" stroke="var(--m-shine, #effcff)" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <path d="M207 119C209 84 229 74 256 74C283 74 303 84 305 119L299 128H213Z" fill="url(#sprite-helmet)" stroke="var(--m-secondary, #4568ac)" stroke-width="3"/>
+          <path d="M218 107C223 88 237 83 249 83" stroke="var(--m-shine, #effcff)" stroke-opacity=".74" stroke-width="4" stroke-linecap="round"/>
+          <path d="M267 83C282 89 290 102 291 117" stroke="var(--m-secondary, #4568ac)" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+          <path d="M199 117Q256 101 313 117C326 121 326 131 313 135Q256 149 199 135C186 132 186 121 199 117Z" fill="url(#sprite-brim)" stroke="var(--m-secondary, #4568ac)" stroke-width="3"/>
+          <path d="M201 121Q256 109 311 121" stroke="var(--m-shine, #effcff)" stroke-opacity=".8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M244 113Q256 108 268 113L264 134Q256 139 248 134Z" fill="var(--m-accent, #e7c47d)" stroke="var(--m-secondary, #4568ac)" stroke-width="2.5"/>
+          <path d="M256 115L258 121L264 123L258 125L256 131L254 125L248 123L254 121Z" fill="var(--m-shine, #effcff)" fill-opacity=".85"/>
+        </g>
+      </g>
+      <g id="part-spark-l" data-pivot="256 277" data-parent="part-body" transform="translate(256 277) scale(0) translate(-256 -277)">
+        <path d="M256 263L260 273L270 277L260 281L256 291L252 281L242 277L252 273Z" fill="var(--m-accent, #e7c47d)"/>
+        <circle cx="256" cy="277" r="3" fill="var(--m-shine, #effcff)"/>
+      </g>
+      <g id="part-spark-r" data-pivot="256 277" data-parent="part-body" transform="translate(256 277) scale(0) translate(-256 -277)">
+        <path d="M256 266L259 274L267 277L259 280L256 288L253 280L245 277L253 274Z" fill="var(--m-belly, #b6f4ee)"/>
+      </g>
+    </g>
+  </g>
+</svg>

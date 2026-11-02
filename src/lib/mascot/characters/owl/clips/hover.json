@@ -1,0 +1,43 @@
+{
+  "duration": 0.3,
+  "loop": true,
+  "blendIn": 0.12,
+  "blendOut": 0.2,
+  "springScale": 8,
+  "tracks": {
+    "parts": {
+      "wing-l": [
+        {"t": 0, "rotate": 104},
+        {"t": 0.12, "rotate": 42, "ease": "inQuad"},
+        {"t": 0.3, "rotate": 104, "ease": "outSine"}
+      ],
+      "wing-r": [
+        {"t": 0, "rotate": -104},
+        {"t": 0.12, "rotate": -42, "ease": "inQuad"},
+        {"t": 0.3, "rotate": -104, "ease": "outSine"}
+      ],
+      "body": [
+        {"t": 0, "ty": 3},
+        {"t": 0.14, "ty": -3},
+        {"t": 0.3, "ty": 3}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -10}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 10}
+      ],
+      "foot-l": [
+        {"t": 0, "rotate": 4, "ty": 4, "sy": 1}
+      ],
+      "foot-r": [
+        {"t": 0, "rotate": -4, "ty": 4, "sy": 1}
+      ]
+    },
+    "root": [
+      {"t": 0, "y": -24},
+      {"t": 0.15, "y": -20},
+      {"t": 0.3, "y": -24}
+    ]
+  }
+}

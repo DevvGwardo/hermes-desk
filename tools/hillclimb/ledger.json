@@ -1,0 +1,100 @@
+{
+  "attempts": [
+    {
+      "n": 1,
+      "hypothesis": "baseline round 2: clean tree at round-1 best (32 checkJs files, 12 real anys, 6/6 red fixed)",
+      "files": [
+        "tools/hillclimb/score.sh"
+      ],
+      "score": 3338.0,
+      "prevBest": null,
+      "delta": 0.0,
+      "verdict": "baseline",
+      "detail": "",
+      "at": "2026-10-29T20:32:47+00:00"
+    },
+    {
+      "n": 2,
+      "hypothesis": "add config-writer.cjs to checkJs: YamlMapping/YamlNode/McpEntryInput typedefs, validated unknown inputs, equivalent narrowing",
+      "files": [
+        "tsconfig.electron.json electron/local/mcp/config-writer.cjs"
+      ],
+      "score": 3438.0,
+      "prevBest": 3338.0,
+      "delta": 100.0,
+      "verdict": "keep",
+      "detail": "",
+      "at": "2026-10-29T20:39:06+00:00"
+    },
+    {
+      "n": 3,
+      "hypothesis": "add serve-client.cjs to checkJs: RpcFrame/TrackedCall/PendingCall/ServeTap typedefs, validated unknown inputs, zero-delta casts",
+      "files": [
+        "tsconfig.electron.json electron/local/serve-client.cjs"
+      ],
+      "score": 3538.0,
+      "prevBest": 3438.0,
+      "delta": 100.0,
+      "verdict": "keep",
+      "detail": "",
+      "at": "2026-10-29T21:44:45+00:00"
+    },
+    {
+      "n": 4,
+      "hypothesis": "add persist.cjs to checkJs with PersistTab/PersistLanes typedefs and validated unknown inputs",
+      "files": [
+        "tsconfig.electron.json electron/local/workspace/persist.cjs"
+      ],
+      "score": 3638.0,
+      "prevBest": 3538.0,
+      "delta": 100.0,
+      "verdict": "keep",
+      "detail": "",
+      "at": "2026-10-29T21:50:49+00:00"
+    },
+    {
+      "n": 5,
+      "hypothesis": "add attachments.cjs to checkJs with AttachmentsCtx typedef and validated unknown inputs",
+      "files": [
+        "tsconfig.electron.json electron/local/attachments.cjs"
+      ],
+      "score": 3738.0,
+      "prevBest": 3638.0,
+      "delta": 100.0,
+      "verdict": "keep",
+      "detail": "",
+      "at": "2026-10-29T21:57:06+00:00"
+    },
+    {
+      "n": 6,
+      "hypothesis": "add downloads.cjs to checkJs with DownloadItem/DownloadSession/DownloadHandler typedefs and validated unknown inputs",
+      "files": [
+        "tsconfig.electron.json electron/local/workspace/downloads.cjs"
+      ],
+      "score": 3838.0,
+      "prevBest": 3738.0,
+      "delta": 100.0,
+      "verdict": "keep",
+      "detail": "",
+      "at": "2026-10-29T22:04:18+00:00"
+    },
+    {
+      "n": 7,
+      "hypothesis": "add permissions.cjs to checkJs with PermissionSession/WebContents typedefs and validated unknown inputs",
+      "files": [
+        "tsconfig.electron.json electron/local/workspace/permissions.cjs"
+      ],
+      "score": 3938.0,
+      "prevBest": 3838.0,
+      "delta": 100.0,
+      "verdict": "keep",
+      "detail": "",
+      "at": "2026-10-29T22:18:30+00:00"
+    }
+  ],
+  "best": {
+    "n": 7,
+    "score": 3938.0,
+    "hypothesis": "add permissions.cjs to checkJs with PermissionSession/WebContents typedefs and validated unknown inputs"
+  }
+}

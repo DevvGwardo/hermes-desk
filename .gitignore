@@ -1,0 +1,55 @@
+logs
+*.log
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+release
+*.jks
+*.keystore
+*.apk
+android/nub-upload.jks
+.deepsec/
+.commandcode/
+videos/
+docs/grok-extracted/
+docs/grok-mining/
+docs/grok-asar-extract/
+docs/grok-icon-export/
+# Accidental CLI/session dumps dropped in the repo root (YYYYMMDD_HHMMSS_hex)
+/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*
+
+# Prod-eval run artifacts (results live in gates/prod-evals.md)
+/eval/out/
+
+# Workbench capture output (screenshots, videos, traces)
+/workbench/out/
+
+# Blender backup files
+*.blend1
+.vercel
+.env*
+
+# Agent session memory (per-session working notes, not project source)
+.workbuddy-ai/
+
+# Stream-asset renders (tens of MB) stay local; manifests are tracked.
+stream-assets/*.mov
+stream-assets/*.webm
+stream-assets/tmp-*/
+blueprint-out
+tools/mascot/out/
+
+# coverage output (npm run test:coverage)
+coverage/
+
+# Stray Vite chunk dumps at the repo root (build output, never source)
+/index-*.js
+
+# Agent session scratch (plans, session ids) — never project source
+.zcode/

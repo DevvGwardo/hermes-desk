@@ -1,0 +1,12 @@
+.hermes-desk-shell { --desk-agent-accent: var(--desk-accent); --desk-agent-surface: var(--desk-accent-surface); --desk-agent-ink: var(--desk-accent-ink); }
+.desk-work-areas { display: flex; flex: 1; min-height: 0; min-width: 0; position: relative; }
+.desk-side-panel { width: var(--side-panel-w); }
+.desk-side-panel[hidden] { display: none; }
+.desk-side-panel[data-presentation="main"]:not([data-side-panel="workspace"]) { position: absolute; inset: 0 0 0 var(--panel-nav-w); width: auto; max-width: none; z-index: 35; }
+.hermes-desk-shell { position: relative; }
+.desk-side-panel[data-side-panel="workspace"][data-presentation="main"] { position: relative; inset: auto; flex: 1; width: auto; max-width: none; z-index: 10; }
+.desk-side-panel[data-presentation="main"] > [role="separator"] { display: none; }
+.desk-work-area-switch { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-bottom: 1px solid var(--desk-hairline); background: var(--desk-surface-1); }
+.hd-sidebar[data-compact="true"] .hd-nav-link { justify-content: center; }
+.hd-sidebar[data-compact="true"] .hd-section-label { justify-content: center; padding: 4px; }
+.hermes-desk-shell [role="separator"]:focus-visible { outline: 2px solid var(--desk-focus-ring); outline-offset: -2px; background: var(--desk-accent-surface); }

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wisp · Hermes Desk character study</title>
+  <style>
+    :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #e9eef4; background: #0e0e0f; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 36px; }
+    main { max-width: 1120px; margin: auto; }
+    header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 26px; }
+    .eyebrow { color: #94aebf; font: 11px monospace; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 10px 0 7px; font-size: 32px; font-weight: 600; letter-spacing: -.035em; }
+    p { margin: 0; color: #a6abb4; font-size: 13px; line-height: 1.6; }
+    .badge { color: #a0c9c4; font: 11px monospace; border: 1px solid #a0c9c42c; padding: 8px 11px; border-radius: 6px; }
+    nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    button, select { font: inherit; font-size: 12px; color: #bac4cf; background: #1c1c1e; border: 1px solid #ffffff1a; border-radius: 6px; padding: 8px 12px; cursor: pointer; }
+    button[aria-pressed="true"] { color: #c8e9ff; border-color: #8edbff70; background: #8edbff14; }
+    button:hover, select:hover { border-color: #8edbff80; }
+    button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #8edbff; outline-offset: 3px; }
+    .controls { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin: 16px 0 22px; font-size: 12px; color: #a6abb4; }
+    label { display: inline-flex; align-items: center; gap: 7px; }
+    .sheet { display: grid; grid-template-columns: 1.15fr 1fr 1fr; border: 1px solid #ffffff12; border-radius: 12px; overflow: hidden; }
+    .panel { min-height: 290px; padding: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+    .panel:nth-child(1) { background: #0e0e0f; }
+    .panel:nth-child(2) { background: #161617; }
+    .panel:nth-child(3) { background: #1c1c1e; }
+    .caption { color: #888f99; font: 10px monospace; letter-spacing: .09em; }
+    .mascot { width: 160px; height: 160px; line-height: 0; }
+    .mascot svg { width: 100%; height: 100%; overflow: visible; }
+    .hero { width: 224px; height: 224px; }
+    .small { width: 40px; height: 40px; flex-shrink: 0; }
+    .avatar-row { display: flex; align-items: center; gap: 10px; }
+    .avatar-copy { min-width: 104px; font-size: 12px; line-height: 1.5; }
+    .avatar-copy span { display: block; color: #8f969e; font-size: 11px; }
+    .state-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 22px; }
+    .state-card { padding: 10px 0 16px; display: flex; flex-direction: column; align-items: center; background: #161617; border: 1px solid #ffffff0c; border-radius: 9px; }
+    .state-card .mascot { width: 160px; height: 160px; }
+    .state-card .mini { display: flex; align-items: center; gap: 10px; color: #a8b1bd; font-size: 11px; }
+    .state-card .mini .mascot { width: 40px; height: 40px; }
+    footer { margin-top: 18px; color: #787f89; font-size: 11px; line-height: 1.7; }
+    @media (max-width: 800px) { body { padding: 20px; } .sheet { grid-template-columns: 1fr; } .state-grid { grid-template-columns: repeat(2, 1fr); } .badge { display: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div><div class="eyebrow">Hermes Desk / Character 03</div><h1>Wisp, the messenger spirit</h1><p>Soft light. A winged petasos. A little magic between messages.</p></div>
+      <span class="badge">SVG RIG · SPRING MOTION</span>
+    </header>
+    <nav id="states" aria-label="Character state"></nav>
+    <div class="controls">
+      <label>Palette <select id="palette" aria-label="Agent palette"></select></label>
+      <label><input id="reduced" type="checkbox"> Reduced motion</label>
+      <label><input id="cursor" type="checkbox" checked> Cursor look-at</label>
+      <button data-reaction="pulse">Pulse</button><button data-reaction="message">Message</button><button data-reaction="approval">Approval</button>
+    </div>
+    <section class="sheet" aria-label="Size and background comparisons">
+      <div class="panel"><div class="mascot hero" id="hero"></div><div class="caption">224PX · CHROME #0E0E0F</div></div>
+      <div class="panel"><div class="mascot" id="medium"></div><div class="caption">160PX · SIDEBAR #161617</div><div class="avatar-row"><div class="mascot small" id="sidebar"></div><div class="avatar-copy">Wisp<span>Messenger spirit · 40px</span></div></div></div>
+      <div class="panel"><div class="mascot" id="chat"></div><div class="caption">160PX · CHAT #1C1C1E</div><div class="avatar-row"><div class="mascot small" id="chat-small"></div><div class="avatar-copy">Ready when you are<span>Chat header · 40px</span></div></div></div>
+    </section>
+    <section class="state-grid" id="state-grid" aria-label="Every state at 160 and 40 pixels"></section>
+    <footer>This isolated preview uses the same rig and motion spec as the shared engine. Small avatars use blink + breathe only, without effects. No remote assets or runtime dependencies.</footer>
+    <p id="status" role="status" hidden></p>
+  </main>
+  <script type="module">
+    const base = '/src/lib/mascot/characters/sprite/';
+    const [rig, motion, palettes] = await Promise.all([
+      fetch(base + 'rig.svg').then(r => { if (!r.ok) throw new Error('Rig not found'); return r.text(); }),
+      fetch(base + 'motion.json').then(r => r.json()),
+      fetch(base + 'palette.json').then(r => r.json()),
+    ]);
+    const defaults = { rotate: 0, tx: 0, ty: 0, sx: 1, sy: 1 };
+    const stateNames = Object.keys(motion.states);
+    const reducedInput = document.querySelector('#reduced');
+    reducedInput.checked = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let reduced = reducedInput.checked, selected = 'idle', paletteName = 'default', time = 0, frozen = false, last = 0;
+    const instances = [];
+    const ns = 'http://www.w3.org/2000/svg';
+    function make(host, state, small = false, follows = false) {
+      const prefix = 'sprite-preview-' + instances.length + '-';
+      host.innerHTML = rig.replace(/\bid="([^"]+)"/g, (_, id) => `id="${prefix}${id}"`)
+        .replace(/url\(#([^)]+)\)/g, (_, id) => `url(#${prefix}${id})`)
+        .replace(/data-parent="([^"]+)"/g, (_, id) => `data-parent="${prefix}${id}"`)
+        .replace(/aria-labelledby="([^"]+)"/g, (_, ids) => `aria-labelledby="${ids.split(' ').map(id => prefix + id).join(' ')}"`);
+      const svg = host.querySelector('svg');
+      const parts = new Map([...svg.querySelectorAll('[data-pivot]')].map(el => [
+        el.id.replace(prefix + 'part-', ''), { el, pivot: el.dataset.pivot.split(' ').map(Number), value: { ...defaults }, velocity: { ...defaults, sx: 0, sy: 0 } },
+      ]));
+      const fx = document.createElementNS(ns, 'g');
+      fx.dataset.previewFx = '';
+      svg.append(fx);
+      const instance = { host, svg, parts, fx, state, small, follows, reaction: null, look: null, prefix };
+      instances.push(instance);
+      return instance;
+    }
+    ['hero', 'medium', 'sidebar', 'chat', 'chat-small'].forEach(id => make(document.getElementById(id), 'idle', id.includes('small') || id === 'sidebar', true));
+    stateNames.forEach(state => {
+      const button = document.createElement('button');
+      button.textContent = state;
+      button.dataset.state = state;
+      button.setAttribute('aria-pressed', String(state === selected));
+      button.onclick = () => setState(state);
+      document.querySelector('#states').append(button);
+      const card = document.createElement('article');
+      card.className = 'state-card';
+      card.dataset.state = state;
+      card.innerHTML = '<div class="mascot"></div><div class="mini"><div class="mascot"></div><span>' + state + '</span></div>';
+      document.querySelector('#state-grid').append(card);
+      make(card.querySelector('.mascot'), state);
+      make(card.querySelector('.mini .mascot'), state, true);
+    });
+    const paletteSelect = document.querySelector('#palette');
+    ['default', ...Object.keys(palettes.agents)].forEach(name => paletteSelect.add(new Option(name, name)));
+    function setPalette(name) {
+      const palette = name === 'default' ? palettes.default : palettes.agents[name];
+      if (!palette) throw new Error('Unknown palette: ' + name);
+      paletteName = name;
+      paletteSelect.value = name;
+      instances.forEach(i => Object.entries(palette).forEach(([key, value]) => i.host.style.setProperty(key, value)));
+    }
+    function setState(state) {
+      if (!motion.states[state]) throw new Error('Unknown state: ' + state);
+      selected = state;
+      instances.filter(i => i.follows).forEach(i => { i.state = state; i.reaction = null; });
+      document.querySelectorAll('button[data-state]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.state === state)));
+    }
+    function react(name) {
+      if (!motion.reactions[name]) throw new Error('Unknown reaction: ' + name);
+      instances.filter(i => i.follows).forEach(i => { i.reaction = { name, start: time }; });
+    }
+    function transform(el, pivot, pose) {
+      const [x, y] = pivot;
+      el.setAttribute('transform', `translate(${pose.tx} ${pose.ty}) translate(${x} ${y}) rotate(${pose.rotate}) scale(${pose.sx} ${pose.sy}) translate(${-x} ${-y})`);
+    }
+    function render(i, dt, snap) {
+      const spec = motion.states[i.state], oscillating = !reduced;
+      const reaction = !reduced && !i.small && i.reaction ? motion.reactions[i.reaction.name] : null;
+      const progress = reaction ? (time - i.reaction.start) / reaction.duration : 1;
+      const weight = reaction && progress >= 0 && progress < 1 ? Math.sin(progress * Math.PI) : 0;
+      if (i.reaction && progress >= 1) i.reaction = null;
+      for (const [name, part] of i.parts) {
+        const target = { ...defaults, ...spec.pose[name] };
+        const spring = motion.springs.parts[name] || motion.springs.default;
+        for (const key of Object.keys(defaults)) {
+          if (snap || reduced) { part.value[key] = target[key]; part.velocity[key] = 0; }
+          else {
+            const steps = Math.max(1, Math.ceil(dt * 120)), step = dt / steps;
+            for (let n = 0; n < steps; n++) {
+              part.velocity[key] += (spring.stiffness * (target[key] - part.value[key]) - spring.damping * part.velocity[key]) * step;
+              part.value[key] += part.velocity[key] * step;
+            }
+          }
+        }
+        const pose = { ...part.value };
+        if (oscillating) {
+          for (const osc of spec.osc) {
+            if (osc.part !== name || (i.small && !(name === 'body' && osc.prop === 'sy'))) continue;
+            pose[osc.prop] += osc.amp * Math.sin(time * osc.freq * Math.PI * 2 + osc.phase);
+          }
+        }
+        if (weight && reaction.pose[name]) {
+          Object.entries(reaction.pose[name]).forEach(([key, value]) => { pose[key] += (value - defaults[key]) * weight; });
+        }
+        if (name.startsWith('lid-') && i.state !== 'sleep') {
+          const interval = (spec.eyes.blinkEvery[0] + spec.eyes.blinkEvery[1]) / 2;
+          const cycle = (time + 0.67) % interval;
+          const close = cycle < 0.16 ? Math.sin(cycle / 0.16 * Math.PI) : 0;
+          pose.sy = Math.max(pose.sy, close);
+        }
+        transform(part.el, part.pivot, pose);
+      }
+      const gaze = i.look && ['cursor', 'center'].includes(spec.eyes.look) && !reduced ? i.look
+        : spec.eyes.look === 'up-left' ? [-5, -7] : spec.eyes.look === 'down' ? [0, 6] : [0, 0];
+      for (const side of ['l', 'r']) {
+        transform(i.svg.querySelector(`[id="${i.prefix}pupil-${side}"]`), [side === 'l' ? 214 : 294, 235], { ...defaults, tx: gaze[0], ty: gaze[1], sx: spec.eyes.pupilScale, sy: spec.eyes.pupilScale });
+      }
+      const mouth = weight > 0.2 && reaction.mouth ? reaction.mouth
+        : i.state === 'talking' && !reduced && !i.small ? ['open', 'o', 'smile', 'open', 'neutral'][Math.floor(time * 7) % 5] : spec.mouth;
+      i.svg.querySelectorAll('[id*="mouth-"]').forEach(el => { el.style.display = el.id === i.prefix + 'mouth-' + mouth ? '' : 'none'; });
+      i.fx.replaceChildren();
+      if (!reduced && !i.small) [...spec.fx, ...(weight ? reaction.fx : [])].forEach(effect => drawFx(i, effect));
+    }
+    function drawFx(i, effect) {
+      const part = i.parts.get(effect.anchor.replace('part-', ''));
+      const matrix = part.el.getCTM();
+      const svgMatrix = i.svg.getCTM();
+      if (!matrix || !svgMatrix) return;
+      const point = new DOMPoint(...part.pivot).matrixTransform(svgMatrix.inverse().multiply(matrix));
+      const put = (tag, attrs) => {
+        const el = document.createElementNS(ns, tag);
+        Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+        i.fx.append(el);
+        return el;
+      };
+      if (effect.type === 'ring') {
+        const cycle = time * 0.35 % 1, radius = (effect.radius || 135) + cycle * 20;
+        put('ellipse', { cx: point.x, cy: point.y + 21, rx: radius, ry: radius * 0.67, stroke: 'var(--m-primary)', 'stroke-width': 2, opacity: 0.24 * (1 - cycle), fill: 'none' });
+      }
+      if (effect.type === 'dots') {
+        for (let j = 0; j < (effect.count || 3); j++) put('circle', { cx: point.x + 89 + j * 17, cy: point.y - 55 - Math.sin(time * 2 + j) * 4, r: 4, fill: 'var(--m-belly)', opacity: 0.4 + 0.35 * Math.sin(time * 2 + j) ** 2 });
+      }
+      if (effect.type === 'sparkle') {
+        for (let j = 0; j < (effect.count || 6); j++) {
+          const angle = j * 2.399, x = point.x + Math.cos(angle) * (132 + j % 2 * 24), y = point.y + Math.sin(angle) * 127;
+          const size = 4 + 4 * Math.sin(time * 3 + j) ** 2;
+          put('path', { d: `M${x} ${y-size}L${x+size*0.3} ${y-size*0.3}L${x+size} ${y}L${x+size*0.3} ${y+size*0.3}L${x} ${y+size}L${x-size*0.3} ${y+size*0.3}L${x-size} ${y}L${x-size*0.3} ${y-size*0.3}Z`, fill: 'var(--m-accent)', opacity: 0.35 + 0.5 * Math.sin(time * 3 + j) ** 2 });
+        }
+      }
+      if (effect.type === 'zzz') {
+        for (let j = 0; j < (effect.count || 3); j++) {
+          const drift = (time * 0.22 + j / 3) % 1;
+          const el = put('text', { x: point.x + 86 + drift * 41, y: point.y - 57 - drift * 54, 'font-size': 15 + drift * 10, 'font-family': 'sans-serif', fill: 'var(--m-belly)', opacity: 0.6 * (1 - drift) });
+          el.textContent = 'z';
+        }
+      }
+      if (effect.type === 'sweat') put('path', { d: `M${point.x+105} ${point.y-33}q-13 19 0 20q13-1 0-20Z`, fill: 'var(--m-belly)', opacity: 0.55 });
+    }
+    function draw(dt = 0, snap = false) { instances.forEach(i => render(i, dt, snap)); }
+    paletteSelect.onchange = () => setPalette(paletteSelect.value);
+    reducedInput.onchange = () => { reduced = reducedInput.checked; draw(0, true); };
+    document.querySelectorAll('[data-reaction]').forEach(b => { b.onclick = () => react(b.dataset.reaction); });
+    document.addEventListener('pointermove', event => {
+      instances.filter(i => i.follows).forEach(i => {
+        if (!document.querySelector('#cursor').checked) { i.look = null; return; }
+        const box = i.host.getBoundingClientRect(), dx = event.clientX - box.left - box.width / 2, dy = event.clientY - box.top - box.height / 2;
+        const distance = Math.max(1, Math.hypot(dx, dy));
+        i.look = [dx / distance * Math.min(6, distance / 35), dy / distance * Math.min(7, distance / 35)];
+      });
+    });
+    document.querySelector('#cursor').onchange = () => { instances.forEach(i => { i.look = null; }); };
+    function frame(now) {
+      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+      last = now;
+      if (!frozen && !document.hidden) { time += dt; draw(dt); }
+      requestAnimationFrame(frame);
+    }
+    window.spritePreview = {
+      setState, setPalette, react,
+      setReduced(value) { reduced = value; reducedInput.checked = value; draw(0, true); },
+      seek(seconds) { frozen = true; time = seconds; draw(0, true); },
+      play() { frozen = false; },
+      get state() { return selected; },
+      get palette() { return paletteName; },
+      get instances() { return instances; },
+    };
+    setPalette('default');
+    draw(0, true);
+    window.spriteReady = true;
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>

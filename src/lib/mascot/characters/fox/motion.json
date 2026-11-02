@@ -1,0 +1,251 @@
+{
+  "states": {
+    "idle": {
+      "pose": { "lid-l": { "sy": 0 }, "lid-r": { "sy": 0 }, "head": { "rotate": -3 }, "tail": { "rotate": 3 } },
+      "osc": [
+        { "part": "body", "prop": "sy", "amp": 0.012, "freq": 0.28, "phase": 0 },
+        { "part": "head", "prop": "rotate", "amp": 1.4, "freq": 0.22, "phase": 0.6 },
+        { "part": "tail", "prop": "rotate", "amp": 5, "freq": 0.3, "phase": 0.8 },
+        { "part": "ear-l", "prop": "rotate", "amp": 3, "freq": 0.42, "phase": 1.1 },
+        { "part": "scarf-end-l", "prop": "rotate", "amp": 3, "freq": 0.38, "phase": 0.4 },
+        { "part": "scarf-end-r", "prop": "rotate", "amp": 4, "freq": 0.38, "phase": 1.2 }
+      ],
+      "mouth": "smile",
+      "eyes": { "blinkEvery": [3.2, 6.2], "look": "cursor", "pupilScale": 1 }
+    },
+    "thinking": {
+      "pose": {
+        "head": { "rotate": -9, "ty": 3 },
+        "hand-l": { "rotate": -146, "tx": -5, "ty": -17 },
+        "hand-r": { "rotate": 13, "tx": -4 },
+        "ear-l": { "rotate": -13 },
+        "ear-r": { "rotate": 17 },
+        "brow-l": { "rotate": -12, "ty": -4 },
+        "brow-r": { "rotate": 8, "ty": 2 },
+        "lid-l": { "sy": 0.12 },
+        "lid-r": { "sy": 0.12 },
+        "tail": { "rotate": -8 }
+      },
+      "osc": [
+        { "part": "body", "prop": "sy", "amp": 0.012, "freq": 0.24, "phase": 0 },
+        { "part": "ear-l", "prop": "rotate", "amp": 7, "freq": 0.32, "phase": 0 },
+        { "part": "ear-r", "prop": "rotate", "amp": 8, "freq": 0.32, "phase": 2.3 },
+        { "part": "head", "prop": "rotate", "amp": 1.6, "freq": 0.18, "phase": 0.8 },
+        { "part": "tail", "prop": "rotate", "amp": 3, "freq": 0.2, "phase": 0 }
+      ],
+      "mouth": "neutral",
+      "eyes": { "blinkEvery": [4, 7], "look": "up-left", "pupilScale": 0.94 },
+      "fx": [{ "type": "dots", "anchor": "part-head" }]
+    },
+    "tool": {
+      "pose": {
+        "body": { "rotate": -4, "ty": 2 },
+        "head": { "rotate": 7, "ty": 7 },
+        "hand-l": { "rotate": -62, "tx": 8, "ty": -2 },
+        "hand-r": { "rotate": 62, "tx": -8, "ty": -2 },
+        "ear-l": { "rotate": -8 },
+        "ear-r": { "rotate": 6 },
+        "lid-l": { "sy": 0.08 },
+        "lid-r": { "sy": 0.08 },
+        "tail": { "rotate": -7 },
+        "scarf-end-l": { "rotate": -8 },
+        "scarf-end-r": { "rotate": 5 }
+      },
+      "osc": [
+        { "part": "body", "prop": "sy", "amp": 0.012, "freq": 0.4, "phase": 0 },
+        { "part": "hand-l", "prop": "rotate", "amp": 13, "freq": 1.7, "phase": 0 },
+        { "part": "hand-r", "prop": "rotate", "amp": 13, "freq": 1.7, "phase": 3.14 },
+        { "part": "hand-l", "prop": "ty", "amp": 3, "freq": 1.7, "phase": 1.57 },
+        { "part": "hand-r", "prop": "ty", "amp": 3, "freq": 1.7, "phase": 4.71 },
+        { "part": "tail", "prop": "rotate", "amp": 13, "freq": 0.65, "phase": 0.5 },
+        { "part": "scarf-end-l", "prop": "rotate", "amp": 5, "freq": 0.7, "phase": 0 },
+        { "part": "scarf-end-r", "prop": "rotate", "amp": 7, "freq": 0.7, "phase": 1 }
+      ],
+      "mouth": "smile",
+      "eyes": { "blinkEvery": [2.6, 4.8], "look": "down", "pupilScale": 0.95 }
+    },
+    "browsing": {
+      "pose": {
+        "head": { "rotate": 3, "ty": -6 },
+        "ear-l": { "rotate": 7, "sy": 1.04 },
+        "ear-r": { "rotate": -8, "sy": 1.04 },
+        "brow-l": { "ty": -5 },
+        "brow-r": { "ty": -5 },
+        "lid-l": { "sy": 0 },
+        "lid-r": { "sy": 0 },
+        "hand-l": { "rotate": -12 },
+        "hand-r": { "rotate": 12 },
+        "wing-l": { "rotate": 5 },
+        "wing-r": { "rotate": -5 },
+        "tail": { "rotate": -4 }
+      },
+      "osc": [
+        { "part": "body", "prop": "sy", "amp": 0.014, "freq": 0.32, "phase": 0 },
+        { "part": "ear-l", "prop": "rotate", "amp": 11, "freq": 0.65, "phase": 0 },
+        { "part": "ear-r", "prop": "rotate", "amp": 11, "freq": 0.65, "phase": 1.8 },
+        { "part": "wing-l", "prop": "rotate", "amp": 17, "freq": 3.2, "phase": 0 },
+        { "part": "wing-r", "prop": "rotate", "amp": 17, "freq": 3.2, "phase": 3.14 },
+        { "part": "tail", "prop": "rotate", "amp": 6, "freq": 0.46, "phase": 0.5 },
+        { "part": "scarf-end-l", "prop": "rotate", "amp": 4, "freq": 0.8, "phase": 0 },
+        { "part": "scarf-end-r", "prop": "rotate", "amp": 6, "freq": 0.8, "phase": 0.8 }
+      ],
+      "mouth": "o",
+      "eyes": { "blinkEvery": [2.2, 4.2], "look": "wander", "pupilScale": 1.08 }
+    },
+    "waiting": {
+      "pose": {
+        "body": { "sy": 0.87, "ty": 17 },
+        "head": { "rotate": -4, "ty": 6 },
+        "hand-l": { "rotate": -22, "tx": 3, "ty": 10 },
+        "hand-r": { "rotate": 22, "tx": -3, "ty": 10 },
+        "foot-l": { "rotate": 10, "tx": -9, "ty": -5 },
+        "foot-r": { "rotate": -10, "tx": 9, "ty": -5 },
+        "tail": { "rotate": -92, "sx": 0.75, "sy": 0.8, "ty": 50 },
+        "ear-l": { "rotate": -7 },
+        "ear-r": { "rotate": 8 },
+        "lid-l": { "sy": 0 },
+        "lid-r": { "sy": 0 }
+      },
+      "osc": [
+        { "part": "body", "prop": "sy", "amp": 0.013, "freq": 0.23, "phase": 0 },
+        { "part": "ear-r", "prop": "rotate", "amp": 4, "freq": 1.4, "phase": 0.5 },
+        { "part": "tail", "prop": "rotate", "amp": 2, "freq": 0.18, "phase": 0 }
+      ],
+      "mouth": "neutral",
+      "eyes": { "blinkEvery": [3.4, 6.5], "look": "cursor", "pupilScale": 1.04 }
+    },
+    "talking": {
+      "pose": {
+        "head": { "rotate": -3 },
+        "hand-l": { "rotate": 19 },
+        "hand-r": { "rotate": -21, "ty": -7 },
+        "ear-l": { "rotate": -4 },
+        "ear-r": { "rotate": 4 },
+        "lid-l": { "sy": 0 },
+        "lid-r": { "sy": 0 },
+        "tail": { "rotate": 0 }
+      },
+      "osc": [
+        { "part": "body", "prop": "sy", "amp": 0.014, "freq": 0.35, "phase": 0 },
+        { "part": "mouth", "prop": "sy", "amp": 0.25, "freq": 3.8, "phase": 0 },
+        { "part": "head", "prop": "rotate", "amp": 3, "freq": 0.85, "phase": 0 },
+        { "part": "hand-r", "prop": "rotate", "amp": 10, "freq": 0.9, "phase": 0.8 },
+        { "part": "ear-r", "prop": "rotate", "amp": 4, "freq": 0.9, "phase": 1.3 },
+        { "part": "tail", "prop": "rotate", "amp": 6, "freq": 0.5, "phase": 0.6 }
+      ],
+      "mouth": "open",
+      "eyes": { "blinkEvery": [2.4, 5.2], "look": "cursor", "pupilScale": 1 }
+    },
+    "happy": {
+      "pose": {
+        "body": { "ty": -5, "sy": 1.02 },
+        "head": { "rotate": -6, "ty": -3 },
+        "hand-l": { "rotate": 132, "tx": -2 },
+        "hand-r": { "rotate": -132, "tx": 2 },
+        "ear-l": { "rotate": -6 },
+        "ear-r": { "rotate": 6 },
+        "brow-l": { "ty": -5 },
+        "brow-r": { "ty": -5 },
+        "lid-l": { "sy": 0 },
+        "lid-r": { "sy": 0 },
+        "tail": { "rotate": -6 },
+        "wing-l": { "rotate": 12 },
+        "wing-r": { "rotate": -12 }
+      },
+      "osc": [
+        { "part": "body", "prop": "ty", "amp": 11, "freq": 1.6, "phase": 0 },
+        { "part": "body", "prop": "sy", "amp": 0.025, "freq": 1.6, "phase": 1.57 },
+        { "part": "tail", "prop": "rotate", "amp": 17, "freq": 2.1, "phase": 0.6 },
+        { "part": "ear-l", "prop": "rotate", "amp": 5, "freq": 1.6, "phase": 1 },
+        { "part": "ear-r", "prop": "rotate", "amp": 5, "freq": 1.6, "phase": 2 },
+        { "part": "scarf-end-l", "prop": "rotate", "amp": 8, "freq": 1.6, "phase": 1.2 },
+        { "part": "scarf-end-r", "prop": "rotate", "amp": 11, "freq": 1.6, "phase": 1.8 },
+        { "part": "wing-l", "prop": "rotate", "amp": 12, "freq": 2.1, "phase": 0 },
+        { "part": "wing-r", "prop": "rotate", "amp": 12, "freq": 2.1, "phase": 3.14 }
+      ],
+      "mouth": "grin",
+      "eyes": { "blinkEvery": [2, 4], "look": "center", "pupilScale": 1.06 },
+      "fx": [{ "type": "sparkle", "anchor": "part-head" }]
+    },
+    "error": {
+      "pose": {
+        "body": { "sy": 0.96, "ty": 6 },
+        "head": { "rotate": 5, "ty": 10 },
+        "ear-l": { "rotate": -53, "sy": 0.88 },
+        "ear-r": { "rotate": 53, "sy": 0.88 },
+        "brow-l": { "rotate": -17, "ty": 4 },
+        "brow-r": { "rotate": 17, "ty": 4 },
+        "lid-l": { "sy": 0.2 },
+        "lid-r": { "sy": 0.2 },
+        "hand-l": { "rotate": -13, "ty": 3 },
+        "hand-r": { "rotate": 13, "ty": 3 },
+        "tail": { "rotate": 11, "sy": 0.82, "ty": 5 },
+        "wing-l": { "rotate": -15 },
+        "wing-r": { "rotate": 15 },
+        "scarf-end-l": { "rotate": 14 },
+        "scarf-end-r": { "rotate": 12 }
+      },
+      "osc": [
+        { "part": "body", "prop": "sy", "amp": 0.01, "freq": 0.3, "phase": 0 },
+        { "part": "head", "prop": "rotate", "amp": 1.3, "freq": 0.5, "phase": 0 }
+      ],
+      "mouth": "flat",
+      "eyes": { "blinkEvery": [2, 3.8], "look": "down", "pupilScale": 0.82 },
+      "fx": [{ "type": "sweat", "anchor": "part-head" }]
+    },
+    "sleep": {
+      "pose": {
+        "body": { "sy": 0.68, "ty": 40, "rotate": 0 },
+        "head": { "rotate": -17, "tx": -19, "ty": 91, "sx": 0.91, "sy": 0.94 },
+        "ear-l": { "rotate": -24, "sy": 0.88 },
+        "ear-r": { "rotate": 35, "sy": 0.88 },
+        "brow-l": { "ty": 6 },
+        "brow-r": { "ty": 6 },
+        "lid-l": { "sy": 1 },
+        "lid-r": { "sy": 1 },
+        "hand-l": { "rotate": -70, "tx": 25, "ty": 31 },
+        "hand-r": { "rotate": 70, "tx": -25, "ty": 31 },
+        "foot-l": { "rotate": 22, "tx": 8, "ty": -2 },
+        "foot-r": { "rotate": -22, "tx": -8, "ty": -2 },
+        "wing-l": { "rotate": -18 },
+        "wing-r": { "rotate": 18 },
+        "scarf": { "ty": 50, "sx": 0.87 },
+        "scarf-end-l": { "rotate": 19, "ty": 51, "sx": 0.6, "sy": 0.65 },
+        "scarf-end-r": { "rotate": 22, "ty": 51, "sx": 0.6, "sy": 0.65 },
+        "tail": { "rotate": -112, "tx": -7, "ty": 20, "sx": 0.91, "sy": 1.04 }
+      },
+      "osc": [{ "part": "body", "prop": "sy", "amp": 0.016, "freq": 0.18, "phase": 0 }],
+      "mouth": "neutral",
+      "eyes": { "blinkEvery": [8, 12], "look": "center", "pupilScale": 0.9 },
+      "fx": [{ "type": "zzz", "anchor": "part-head" }]
+    }
+  },
+  "springs": {
+    "default": { "stiffness": 170, "damping": 18 },
+    "parts": {
+      "ear-l": { "stiffness": 90, "damping": 9 },
+      "ear-r": { "stiffness": 95, "damping": 9 },
+      "tail": { "stiffness": 75, "damping": 10 },
+      "scarf-end-l": { "stiffness": 80, "damping": 9 },
+      "scarf-end-r": { "stiffness": 65, "damping": 9 },
+      "wing-l": { "stiffness": 125, "damping": 11 },
+      "wing-r": { "stiffness": 125, "damping": 11 },
+      "hand-l": { "stiffness": 190, "damping": 20 },
+      "hand-r": { "stiffness": 190, "damping": 20 }
+    }
+  },
+  "reactions": {
+    "pulse": {
+      "duration": 0.55,
+      "pose": { "body": { "ty": -9, "sy": 1.04 }, "ear-l": { "rotate": -8 }, "ear-r": { "rotate": 8 }, "tail": { "rotate": -9 } }
+    },
+    "message": {
+      "duration": 0.7,
+      "pose": { "head": { "rotate": -7, "ty": -4 }, "hand-r": { "rotate": -125 }, "ear-l": { "rotate": 8 }, "ear-r": { "rotate": -8 }, "wing-l": { "rotate": 18 }, "wing-r": { "rotate": -18 } }
+    },
+    "approval": {
+      "duration": 0.85,
+      "pose": { "body": { "ty": -19, "sy": 1.04 }, "hand-l": { "rotate": 120 }, "hand-r": { "rotate": -120 }, "tail": { "rotate": -18 }, "wing-l": { "rotate": 20 }, "wing-r": { "rotate": -20 } }
+    }
+  }
+}

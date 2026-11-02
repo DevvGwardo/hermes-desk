@@ -1,0 +1,13 @@
+{
+  "default":{"primary":"#8ecfff","secondary":"#457abb","accent":"#ffda85","belly":"#dceeff","ink":"#14253c","eye":"#f4fbff","shine":"#ffffff"},
+  "agents":[
+    {"primary":"#8ecfff","secondary":"#457abb","accent":"#ffda85","belly":"#dceeff","ink":"#14253c","eye":"#f4fbff","shine":"#ffffff"},
+    {"primary":"#c3a3ff","secondary":"#7954bb","accent":"#f5d785","belly":"#eadfff","ink":"#271b42","eye":"#f9f5ff","shine":"#ffffff"},
+    {"primary":"#89dcb2","secondary":"#39876d","accent":"#ffd089","belly":"#dff9ec","ink":"#17372d","eye":"#f4fff9","shine":"#ffffff"},
+    {"primary":"#ffb294","secondary":"#b85f53","accent":"#9dd7ff","belly":"#fff0de","ink":"#442620","eye":"#fffaf4","shine":"#ffffff"},
+    {"primary":"#f5d17f","secondary":"#b78543","accent":"#a5ceff","belly":"#fff6d7","ink":"#40301c","eye":"#fffdf2","shine":"#ffffff"},
+    {"primary":"#f0a6c6","secondary":"#af557e","accent":"#b2eee5","belly":"#ffe5f0","ink":"#402137","eye":"#fff7fc","shine":"#ffffff"},
+    {"primary":"#7cdbdf","secondary":"#398995","accent":"#eed09b","belly":"#dcfbff","ink":"#16353c","eye":"#f5ffff","shine":"#ffffff"},
+    {"primary":"#d0d5e3","secondary":"#737f9d","accent":"#c4b4ff","belly":"#f0f2fc","ink":"#262c43","eye":"#ffffff","shine":"#ffffff"}
+  ]
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;background:transparent !important;}
+#host{display:inline-block;line-height:0;background:transparent !important;}
+</style></head><body>
+<div id="host"></div>
+<script src="./engine.iife.js"></script>
+<script>
+window.__mount = (size) => {
+  window.__inst && window.__inst.unmount();
+  document.getElementById('host').innerHTML = '';
+  window.__inst = GrokEngine.mount({ state: 'idle', shape: 'cat', size: size || 512 }, document.getElementById('host'));
+  return !!window.__inst;
+};
+window.__pause = (p) => window.__inst && window.__inst.setPaused(p);
+window.__setState = (s) => window.__inst && window.__inst.setState(s);
+window.__mount(512);
+</script>
+</body></html>

@@ -1,0 +1,24 @@
+{
+  "duration": 0.6,
+  "blendIn": 0.04,
+  "blendOut": 0.12,
+  "tracks": {
+    "parts": {
+      "head": [
+        {"t": 0, "rotate": -2},
+        {"t": 0.3, "rotate": 5},
+        {"t": 0.6, "rotate": -2}
+      ]
+    },
+    "eyes": [
+      {"t": 0, "lid": 0},
+      {"t": 0.06, "lid": 1, "ease": "inQuad"},
+      {"t": 0.14, "lid": 0},
+      {"t": 0.24, "lid": 1, "ease": "inQuad"},
+      {"t": 0.33, "lid": 0}
+    ]
+  },
+  "procedural": {
+    "blink": false
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-11",
+  "method": "Synthetic approximately 2,000-character bodies; summarize=False; append/menu median of five; builds single cold runs; no model calls. Before is the first-pass reviewed store, not the original deployed plugin. Warm append includes fsync and an already-reconstructed offset cache.",
+  "results": [
+    {
+      "records": 1000,
+      "version": "before",
+      "warm_append_ms": 5.074,
+      "cold_cheap_build_ms": 48.105,
+      "menu_utf8_bytes": 114799,
+      "warm_menu_ms": 0.163
+    },
+    {
+      "records": 1000,
+      "version": "after",
+      "warm_append_ms": 0.273,
+      "cold_cheap_build_ms": 50.097,
+      "menu_utf8_bytes": 7356,
+      "warm_menu_ms": 0.011
+    },
+    {
+      "records": 10000,
+      "version": "before",
+      "warm_append_ms": 79.089,
+      "cold_cheap_build_ms": 565.295,
+      "menu_utf8_bytes": 1149801,
+      "warm_menu_ms": 1.577
+    },
+    {
+      "records": 10000,
+      "version": "after",
+      "warm_append_ms": 0.31,
+      "cold_cheap_build_ms": 315.435,
+      "menu_utf8_bytes": 4625,
+      "warm_menu_ms": 0.01
+    }
+  ],
+  "lookup_method": "Synthetic 10,000 records, same approximately 2,000-character bodies; median of three full-log searches; no model calls.",
+  "lookup_results": [
+    {
+      "records": 10000,
+      "query": "synthetic fact",
+      "version": "before",
+      "median_ms": 288.774,
+      "returned_records": 6
+    },
+    {
+      "records": 10000,
+      "query": "synthetic fact",
+      "version": "after",
+      "median_ms": 60.748,
+      "returned_records": 6
+    },
+    {
+      "records": 10000,
+      "query": "absentneedle",
+      "version": "before",
+      "median_ms": 268.789,
+      "returned_records": 0
+    },
+    {
+      "records": 10000,
+      "query": "absentneedle",
+      "version": "after",
+      "median_ms": 42.588,
+      "returned_records": 0
+    }
+  ]
+}

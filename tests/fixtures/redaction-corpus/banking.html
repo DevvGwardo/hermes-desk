@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Fake local banking fixture</title></head>
+<body>
+  <h1 data-ref="e1">Demo transfer, not a real bank</h1>
+  <form>
+    <label data-ref="e2" for="iban">Destination account</label>
+    <input data-ref="e3" id="iban" value="{{FAKE_IBAN}}">
+    <label data-ref="e4" for="routing">Bank routing</label>
+    <input data-ref="e5" id="routing" value="{{FAKE_ROUTING}}">
+    <label data-ref="e6" for="ssn">Tax identity</label>
+    <input data-ref="e7" id="ssn" value="{{FAKE_SSN}}">
+    <div data-ref="e8" contenteditable="true" aria-label="Routing number">
+      <span data-ref="e9">{{FAKE_EDITABLE}}</span>
+    </div>
+    <label data-ref="e10" for="amount">Amount</label>
+    <input data-ref="e11" id="amount" inputmode="numeric" value="250">
+    <button data-ref="e12" type="submit">Transfer demo funds</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,61 @@
+# Windows release builds on a native runner. Cross-building from macOS works
+# for zips, but Authenticode signing needs signtool — this job is where a cert
+# lands. Fires on v* tags (and manually); artifacts are gated through the same
+# Explorer-compat checks as local builds. Publishing to download.maiavm.com
+# stays with `npm run electron:upload` from the release machine, which also
+# pins install.sh / install.ps1 to the live zip hashes.
+
+name: windows-release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      # Never auto-discover a local identity; sign only via explicit secrets.
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      # When WINDOWS_CSC_LINK (base64 PFX) / WINDOWS_CSC_KEY_PASSWORD are set
+      # as repo secrets, electron-builder signs the exes during packaging.
+      # Empty strings are falsy — unsigned until the cert exists.
+      CSC_LINK: ${{ secrets.WINDOWS_CSC_LINK || '' }}
+      CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CSC_KEY_PASSWORD || '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc -b
+
+      - name: Build + gate Windows zips (x64 + arm64)
+        run: npm run electron:build:win
+
+      - name: Verify Explorer-compat gates (both arches)
+        shell: pwsh
+        run: |
+          Get-ChildItem "release/Nub-Agent-*-win-x64.zip" | ForEach-Object { node scripts/check-win-zip.mjs $_.FullName x64 }
+          Get-ChildItem "release/Nub-Agent-*-win-arm64.zip" | ForEach-Object { node scripts/check-win-zip.mjs $_.FullName arm64 }
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nub-agent-win-${{ github.ref_name }}
+          path: |
+            release/Nub-Agent-*-win-x64.zip
+            release/Nub-Agent-*-win-arm64.zip
+          if-no-files-found: error

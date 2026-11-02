@@ -1,0 +1,26 @@
+{
+  "name": "f5-slow-trickle",
+  "description": "Trickle stress: twelve tiny deltas at 90ms cadence, clean [DONE]. patchMessage rAF coalescing must deliver every token; same single-bubble and exact-text contract as INV1.",
+  "sessionId": "sess_eval_f5",
+  "turns": [
+    {
+      "turnId": "turn_f5_trickle_a",
+      "userPrompt": "Trickle slowly please",
+      "events": [
+        { "id": 1, "delta": "Slow trickle", "delayMs": 90 },
+        { "id": 2, "delta": " keeps twelve", "delayMs": 90 },
+        { "id": 3, "delta": " tiny tokens", "delayMs": 90 },
+        { "id": 4, "delta": " flowing through", "delayMs": 90 },
+        { "id": 5, "delta": " the rAF gate.", "delayMs": 90 },
+        { "id": 6, "delta": " Coalescing must", "delayMs": 90 },
+        { "id": 7, "delta": " not swallow", "delayMs": 90 },
+        { "id": 8, "delta": " any of them.", "delayMs": 90 },
+        { "id": 9, "delta": " Every character", "delayMs": 90 },
+        { "id": 10, "delta": " survives the", "delayMs": 90 },
+        { "id": 11, "delta": " long, lazy ride", "delayMs": 90 },
+        { "id": 12, "delta": " to the bubble.", "delayMs": 90 },
+        { "done": true }
+      ]
+    }
+  ]
+}

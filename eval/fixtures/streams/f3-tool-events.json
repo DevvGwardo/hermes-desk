@@ -1,0 +1,19 @@
+{
+  "name": "f3-tool-events",
+  "description": "INV3 tool interlude: hermes.tool.progress events (websearch, then labeled read_file) sit between token deltas; each tool runs > ACTIVITY_HOLD_MS (800ms) so its live-activity sentence survives the anti-flicker hold; a truncated JSON frame is injected just before [DONE] (malformedAtEnd). Stream must finish, activity line must show, bubble count must stay at one, text must be exact.",
+  "sessionId": "sess_eval_f3",
+  "turns": [
+    {
+      "turnId": "turn_f3_tools_a",
+      "userPrompt": "Search and then finish the thought",
+      "events": [
+        { "id": 1, "delta": "Tool interlude check.", "delayMs": 50 },
+        { "id": 2, "tool": { "tool": "websearch" }, "delayMs": 800 },
+        { "id": 3, "delta": " The agent searched the web,", "delayMs": 50 },
+        { "id": 4, "tool": { "tool": "read_file", "label": "Reading notes.txt" }, "delayMs": 1500 },
+        { "id": 5, "delta": " read a note, then finished the thought in place.", "delayMs": 1200 },
+        { "done": true }
+      ]
+    }
+  ]
+}

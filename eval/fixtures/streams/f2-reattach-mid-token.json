@@ -1,0 +1,21 @@
+{
+  "name": "f2-reattach-mid-token",
+  "description": "INV2 reconnect drill: POST /api/chat drops gracefully (res.end without [DONE]) after event id 3. Client must reattach GET /api/chat/runs/:tid/events with Last-Event-Id: 3, receive only ids 4..n, and append - never reprint - so the bubble holds the full text exactly once.",
+  "sessionId": "sess_eval_f2",
+  "turns": [
+    {
+      "turnId": "turn_f2_reattach_a",
+      "userPrompt": "Drill the reconnect path",
+      "events": [
+        { "id": 1, "delta": "Reattach drill part one arrives before the drop.", "delayMs": 80 },
+        { "id": 2, "delta": " Part two lands after", "delayMs": 60 },
+        { "id": 3, "delta": " the client reattaches", "delayMs": 60 },
+        { "id": 4, "delta": " with the Last Event Id header.", "delayMs": 60 },
+        { "id": 5, "delta": " Nothing prints twice,", "delayMs": 60 },
+        { "id": 6, "delta": " the bubble stays whole,", "delayMs": 60 },
+        { "id": 7, "delta": " and the count stays at one.", "delayMs": 60 },
+        { "done": true }
+      ]
+    }
+  ]
+}

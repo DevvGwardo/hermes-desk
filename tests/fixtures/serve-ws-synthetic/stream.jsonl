@@ -1,0 +1,13 @@
+{"jsonrpc":"2.0","method":"event","params":{"type":"message.start","session_id":"runtime-runner","seq":1,"payload":{}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"reasoning.delta","session_id":"runtime-runner","seq":2,"payload":{"text":"Checking the local fixture."}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"message.delta","session_id":"runtime-runner","seq":3,"payload":{"text":"Hello "}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"message.delta","session_id":"runtime-runner","seq":4,"payload":{"text":"there."}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"tool.generating","session_id":"runtime-runner","seq":5,"payload":{"name":"read_file"}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"tool.start","session_id":"runtime-runner","seq":6,"payload":{"tool_id":"tool-fixture","name":"read_file","args":{"path":"/fake/notes.md"}}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"tool.complete","session_id":"runtime-runner","seq":7,"payload":{"tool_id":"tool-fixture","name":"read_file","duration_s":0.1,"summary":"Read the fixture","result":"Synthetic notes"}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"status.update","session_id":"runtime-runner","seq":8,"payload":{"kind":"working","text":"Reading notes…"}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"todo.updated","session_id":"runtime-runner","seq":9,"payload":{"todos":[{"id":"todo-fixture","text":"Read notes","status":"completed"}],"revision":1}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"session.usage","session_id":"runtime-runner","seq":10,"payload":{"usage":{"input_tokens":10,"output_tokens":4,"cost_usd":0.001}}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"session.title","session_id":"runtime-runner","seq":11,"payload":{"session_id":"runtime-runner","title":"Local notes"}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"browser.controller.command","session_id":"runtime-runner","seq":12,"payload":{"command_id":"cmd-fixture","action":"browser_snapshot","arguments":{},"tool_call_id":"browser-fixture"}}}
+{"jsonrpc":"2.0","method":"event","params":{"type":"message.complete","session_id":"runtime-runner","seq":13,"payload":{"text":"Hello there.","status":"complete","reasoning":"Checking the local fixture."}}}

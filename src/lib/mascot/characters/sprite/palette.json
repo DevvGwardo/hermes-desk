@@ -1,0 +1,13 @@
+{
+  "default": { "--m-primary": "#8edbff", "--m-secondary": "#4568ac", "--m-accent": "#e7c47d", "--m-belly": "#b6f4ee", "--m-ink": "#122b48", "--m-eye": "#e7f8ff", "--m-shine": "#effcff" },
+  "agents": {
+    "maia": { "--m-primary": "#a6d2ff", "--m-secondary": "#4b6fb4", "--m-accent": "#e9c780", "--m-belly": "#c4e4ff", "--m-ink": "#183554", "--m-eye": "#edf6ff", "--m-shine": "#f4fbff" },
+    "sage": { "--m-primary": "#a9ddbf", "--m-secondary": "#427f72", "--m-accent": "#e3d095", "--m-belly": "#d4eed4", "--m-ink": "#173c34", "--m-eye": "#edf9ef", "--m-shine": "#f5fff6" },
+    "iris": { "--m-primary": "#c5b7f5", "--m-secondary": "#7562ae", "--m-accent": "#efc49a", "--m-belly": "#e6d1f5", "--m-ink": "#33254f", "--m-eye": "#f6f0ff", "--m-shine": "#fcf8ff" },
+    "ember": { "--m-primary": "#efb49a", "--m-secondary": "#a66b62", "--m-accent": "#f1d182", "--m-belly": "#f4d4b7", "--m-ink": "#4a2930", "--m-eye": "#fff4ed", "--m-shine": "#fff9f0" },
+    "tide": { "--m-primary": "#88dcd5", "--m-secondary": "#3a829a", "--m-accent": "#e8ca89", "--m-belly": "#baf0df", "--m-ink": "#123b48", "--m-eye": "#eafff9", "--m-shine": "#f3fffc" },
+    "rose": { "--m-primary": "#eab3cd", "--m-secondary": "#9b6698", "--m-accent": "#edd397", "--m-belly": "#f4d1e0", "--m-ink": "#4a2948", "--m-eye": "#fff0f7", "--m-shine": "#fff8fb" },
+    "sol": { "--m-primary": "#e6cc88", "--m-secondary": "#998052", "--m-accent": "#b7e9d1", "--m-belly": "#f4e6b7", "--m-ink": "#423424", "--m-eye": "#fff9e9", "--m-shine": "#fffdf3" },
+    "slate": { "--m-primary": "#b9cddd", "--m-secondary": "#667f9d", "--m-accent": "#d6c39c", "--m-belly": "#dce8ef", "--m-ink": "#263849", "--m-eye": "#f0f6fa", "--m-shine": "#f8fcff" }
+  }
+}

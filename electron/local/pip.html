@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Computer · Hermes Desk</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; font: 12px -apple-system, BlinkMacSystemFont, sans-serif; color: #e9e9ed; }
+    body { padding: 3px; background: transparent; }
+    main { height: 100%; display: flex; flex-direction: column; border: 1px solid #ffffff22; border-radius: 16px; overflow: hidden; background: #1c1c1e; }
+    header { display: flex; align-items: center; gap: 6px; min-height: 42px; padding: 8px 10px; -webkit-app-region: drag; }
+    h1 { font-size: 12px; font-weight: 600; margin: 0; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #dot { color: #8bb8e8; }
+    button { -webkit-app-region: no-drag; border: 1px solid #ffffff1a; border-radius: 7px; padding: 5px 7px; background: #2a2a2c; color: inherit; font: inherit; cursor: pointer; }
+    button:disabled { opacity: .45; cursor: default; }
+    button:focus-visible { outline: 2px solid #8bb8e8; outline-offset: 1px; }
+    #preview { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #101012; display: grid; place-items: center; -webkit-app-region: drag; }
+    #surface { position: relative; max-width: 100%; max-height: 100%; }
+    img { display: block; width: 100%; height: 100%; pointer-events: none; }
+    #point { display: none; position: absolute; width: 13px; height: 13px; border-radius: 50%; border: 2px solid white; transform: translate(-50%, -50%); box-shadow: 0 0 0 4px #ffffff26; pointer-events: none; }
+    #empty { max-width: 260px; padding: 18px; color: #a0a0a8; text-align: center; line-height: 1.5; }
+    footer { padding: 8px 10px; line-height: 1.5; font-size: 10px; color: #a0a0a8; -webkit-app-region: drag; }
+    #age { color: #d5d5db; }
+    #detail { overflow-wrap: anywhere; }
+    @media (max-width: 360px) { header { flex-wrap: wrap; } h1 { flex-basis: 100%; } }
+  </style>
+</head>
+<body>
+  <main aria-label="Computer capture preview">
+    <header>
+      <h1><span id="dot" aria-hidden="true">●</span> Computer · <span id="agent">Hermes</span></h1>
+      <button id="control" disabled>Take control</button>
+      <button id="paste" disabled>Paste</button>
+      <button id="dock" title="Dock in workspace" aria-label="Dock in workspace">⤢</button>
+      <button id="close" title="Close preview" aria-label="Close preview">×</button>
+    </header>
+    <div id="preview">
+      <div id="empty">No completed capture yet.<br>This preview is not a live Mac feed.</div>
+      <div id="surface" hidden><img id="image" alt="Last completed computer-use capture"><span id="point" aria-label="Agent's last action point"></span></div>
+    </div>
+    <footer>
+      <div id="age">No completed capture</div>
+      <div id="hint">Watching · drag anywhere · Take control for mouse and keyboard</div>
+      <div id="detail" role="status"></div>
+    </footer>
+  </main>
+  <script>
+    'use strict'
+    const bridge = window.computerPip
+    const el = (id) => document.getElementById(id)
+    let state = { mode: 'watching' }
+    let frame = null
+    let pending = false
+    const color = (value) => /^#[0-9a-f]{6}$/i.test(value || '') ? value : '#8bb8e8'
+    function age() {
+      el('age').textContent = frame
+        ? 'Last capture · ' + Math.max(0, Math.floor((Date.now() - frame.ts) / 1000)) + 's ago'
+        : 'No completed capture'
+    }
+    function controls() {
+      el('control').disabled = pending || !state.sessionId || state.mode === 'user-control'
+      el('paste').disabled = pending || !state.sessionId || state.mode === 'user-control'
+    }
+    function layout() {
+      const width = frame && (frame.width || el('image').naturalWidth)
+      const height = frame && (frame.height || el('image').naturalHeight)
+      if (!width || !height) return
+      const scale = Math.min(el('preview').clientWidth / width, el('preview').clientHeight / height)
+      el('surface').style.width = width * scale + 'px'
+      el('surface').style.height = height * scale + 'px'
+      const point = state.lastAction
+      const visible = point && Number.isFinite(point.x) && Number.isFinite(point.y) &&
+        point.x >= 0 && point.y >= 0 && point.x <= width && point.y <= height
+      el('point').style.display = visible ? 'block' : 'none'
+      if (visible) {
+        el('point').style.left = point.x / width * 100 + '%'
+        el('point').style.top = point.y / height * 100 + '%'
+        el('point').style.background = color(point.color || state.agentColor)
+      }
+    }
+    async function action(fn) {
+      if (pending) return
+      pending = true
+      controls()
+      el('detail').textContent = ''
+      try { await fn() } catch { el('detail').textContent = 'Action unavailable. Check the active session.' }
+      finally { pending = false; controls() }
+    }
+    if (bridge) {
+      bridge.onFrame((value) => {
+        frame = value && typeof value.ts === 'number' && value.ts > 0 &&
+          /^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(value.dataUrl || '') ? value : null
+        el('surface').hidden = !frame
+        el('empty').hidden = !!frame
+        if (frame) el('image').src = frame.dataUrl
+        else el('image').removeAttribute('src')
+        age()
+        layout()
+      })
+      bridge.onState((value) => {
+        state = value || { mode: 'watching' }
+        el('agent').textContent = state.agentName || state.profile || 'Hermes'
+        el('dot').style.color = color(state.agentColor)
+        el('hint').textContent = state.mode === 'user-control'
+          ? 'You in control · use your Mac’s mouse and keyboard · preview is not live'
+          : 'Watching · drag anywhere · Take control for mouse and keyboard'
+        el('detail').textContent = state.detail || (state.readiness === 'unavailable' ? 'Computer-use permissions or driver unavailable.' : '')
+        controls()
+        layout()
+      })
+      el('control').onclick = () => action(() => bridge.takeControl())
+      el('paste').onclick = () => action(() => bridge.paste())
+      el('dock').onclick = () => action(() => bridge.close(true))
+      el('close').onclick = () => action(() => bridge.close())
+    }
+    el('image').onload = layout
+    el('image').onerror = () => { el('surface').hidden = true; el('empty').hidden = false; el('empty').textContent = 'Completed capture could not be decoded.' }
+    new ResizeObserver(layout).observe(el('preview'))
+    setInterval(age, 1000)
+  </script>
+</body>
+</html>

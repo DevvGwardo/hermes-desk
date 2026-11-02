@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.maiavm.nub",
+      "sha256_cert_fingerprints": [
+        "4C:46:AB:9D:9A:F7:2E:0D:5C:0C:DE:1B:BC:01:26:83:0B:05:3E:B5:15:52:F8:EC:01:3D:B6:9D:3F:F8:22:3A"
+      ]
+    }
+  }
+]

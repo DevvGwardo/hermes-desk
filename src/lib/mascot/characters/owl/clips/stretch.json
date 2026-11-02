@@ -1,0 +1,74 @@
+{
+  "duration": 2.5,
+  "blendIn": 0.3,
+  "blendOut": 0.35,
+  "springScale": 2,
+  "tracks": {
+    "parts": {
+      "wing-l": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.55, "rotate": 128, "ty": -8, "ease": "inOutSine"},
+        {"t": 1.4, "rotate": 136, "ty": -10},
+        {"t": 1.85, "rotate": 58, "ty": 0},
+        {"t": 2.35, "rotate": 0, "ty": 0, "ease": "outBack"}
+      ],
+      "wing-r": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.55, "rotate": -128, "ty": -8, "ease": "inOutSine"},
+        {"t": 1.4, "rotate": -136, "ty": -10},
+        {"t": 1.85, "rotate": -58, "ty": 0},
+        {"t": 2.35, "rotate": 0, "ty": 0, "ease": "outBack"}
+      ],
+      "body": [
+        {"t": 0, "sy": 1, "sx": 1, "ty": 0},
+        {"t": 0.55, "sy": 1.07, "sx": 0.97, "ty": -5},
+        {"t": 1.4, "sy": 1.09, "sx": 0.96, "ty": -6},
+        {"t": 1.85, "sy": 0.97, "sx": 1.02, "ty": 0},
+        {"t": 2.35, "sy": 1, "sx": 1, "ty": 0}
+      ],
+      "head": [
+        {"t": 0, "rotate": -2, "ty": 0},
+        {"t": 0.55, "rotate": -2, "ty": -10},
+        {"t": 1.4, "rotate": 7, "ty": -12},
+        {"t": 2.35, "rotate": -2, "ty": 0}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -3},
+        {"t": 0.55, "rotate": -18},
+        {"t": 1.5, "rotate": -18},
+        {"t": 2.35, "rotate": -3}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 3},
+        {"t": 0.55, "rotate": 18},
+        {"t": 1.5, "rotate": 18},
+        {"t": 2.35, "rotate": 3}
+      ],
+      "foot-l": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.7, "rotate": -10},
+        {"t": 1.5, "rotate": -10},
+        {"t": 2.0, "rotate": 0}
+      ],
+      "foot-r": [
+        {"t": 0, "rotate": 0},
+        {"t": 0.7, "rotate": 10},
+        {"t": 1.5, "rotate": 10},
+        {"t": 2.0, "rotate": 0}
+      ]
+    },
+    "mouth": [
+      {"t": 0.7, "expr": "open"},
+      {"t": 1.65, "expr": "neutral"}
+    ],
+    "eyes": [
+      {"t": 0, "lid": 0},
+      {"t": 0.65, "lid": 0.75},
+      {"t": 1.55, "lid": 0.75},
+      {"t": 1.9, "lid": 0}
+    ]
+  },
+  "procedural": {
+    "blink": false
+  }
+}

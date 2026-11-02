@@ -1,0 +1,78 @@
+{
+  "duration": 1.6,
+  "loop": true,
+  "blendIn": 0.3,
+  "blendOut": 0.25,
+  "springScale": 3,
+  "tracks": {
+    "parts": {
+      "wing-l": [
+        {"t": 0, "rotate": 96},
+        {"t": 0.8, "rotate": 104},
+        {"t": 1.6, "rotate": 96}
+      ],
+      "wing-r": [
+        {"t": 0, "rotate": -96},
+        {"t": 0.8, "rotate": -104},
+        {"t": 1.6, "rotate": -96}
+      ],
+      "body": [
+        {"t": 0, "ty": 0, "rotate": 0}
+      ],
+      "head": [
+        {"t": 0, "ty": 3, "rotate": -2}
+      ],
+      "ear-l": [
+        {"t": 0, "rotate": -20},
+        {"t": 0.4, "rotate": -24},
+        {"t": 0.8, "rotate": -20},
+        {"t": 1.2, "rotate": -24},
+        {"t": 1.6, "rotate": -20}
+      ],
+      "ear-r": [
+        {"t": 0, "rotate": 20},
+        {"t": 0.4, "rotate": 24},
+        {"t": 0.8, "rotate": 20},
+        {"t": 1.2, "rotate": 24},
+        {"t": 1.6, "rotate": 20}
+      ],
+      "helmet-wing-l": [
+        {"t": 0, "rotate": -20},
+        {"t": 0.2, "rotate": -10},
+        {"t": 0.4, "rotate": -20},
+        {"t": 0.6, "rotate": -10},
+        {"t": 0.8, "rotate": -20},
+        {"t": 1.0, "rotate": -10},
+        {"t": 1.2, "rotate": -20},
+        {"t": 1.4, "rotate": -10},
+        {"t": 1.6, "rotate": -20}
+      ],
+      "helmet-wing-r": [
+        {"t": 0, "rotate": 20},
+        {"t": 0.2, "rotate": 10},
+        {"t": 0.4, "rotate": 20},
+        {"t": 0.6, "rotate": 10},
+        {"t": 0.8, "rotate": 20},
+        {"t": 1.0, "rotate": 10},
+        {"t": 1.2, "rotate": 20},
+        {"t": 1.4, "rotate": 10},
+        {"t": 1.6, "rotate": 20}
+      ],
+      "satchel": [
+        {"t": 0, "rotate": -6}
+      ],
+      "foot-l": [
+        {"t": 0, "rotate": 14, "ty": -12, "sy": 0.72}
+      ],
+      "foot-r": [
+        {"t": 0, "rotate": -14, "ty": -12, "sy": 0.72}
+      ]
+    },
+    "root": [
+      {"t": 0, "y": -20}
+    ],
+    "eyes": [
+      {"t": 0, "lid": 0.25}
+    ]
+  }
+}

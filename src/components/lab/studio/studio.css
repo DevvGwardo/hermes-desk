@@ -1,0 +1,707 @@
+/* Loop Studio chrome — dark creative-tool UI, playful-premium.
+ * Type scale (3 levels): panel titles 13px/800, item names 12px/700,
+ * micro/descriptions 11px muted. Buttons/chips/tabs/load/export are all
+ * full-pill; timeline clips are pills too. Accent: nub blue #b7d9ff +
+ * gold #f5b13f selection. Spacing grid: 8/16/24 (sections 16, cards 12,
+ * lanes 8). Off-black surfaces, no purple glow. Every button: hover +
+ * active-press. Muted text #9aa4b2 on #0d1117 passes WCAG AA. */
+
+.ls-root {
+  min-height: 100vh;
+  background: #0d1117;
+  color: #e6edf3;
+  padding: 24px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.ls-mono {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.ls-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  max-width: 1180px;
+  margin: 0 auto 18px;
+}
+
+.ls-kicker {
+  color: #f5b13f;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  margin-bottom: 8px;
+}
+
+.ls-title {
+  font-size: clamp(20px, 3vw, 32px);
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  color: #f6f8fa;
+  margin: 0;
+}
+
+.ls-subtitle {
+  margin: 8px 0 0;
+  color: #9aa4b2;
+  font-size: 12px;
+}
+
+.ls-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.ls-badge {
+  border: 1px solid rgba(63, 190, 134, 0.5);
+  border-radius: 99px;
+  padding: 4px 8px;
+  color: #3fbe86;
+  font: 800 9px/1 ui-monospace, monospace;
+  letter-spacing: 0.12em;
+}
+
+.ls-meta {
+  font-size: 11px;
+  color: #9aa4b2;
+  white-space: nowrap;
+}
+
+.ls-row {
+  display: flex;
+  gap: 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.ls-side {
+  flex: 1 1 420px;
+  min-width: 380px;
+  padding: 14px;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(22, 27, 34, 0.96), rgba(13, 17, 23, 0.96));
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+}
+
+@media (max-width: 760px) {
+  .ls-root { padding: 14px; }
+  .ls-head { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .ls-readout { align-items: flex-start; flex-direction: row; }
+  .ls-side { min-width: 0; }
+}
+
+/* ---------- stage frame ---------- */
+
+.ls-stagecol {
+  flex: 0 1 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ls-stage-frame {
+  border: 1px solid rgba(240, 246, 252, 0.14);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  padding: 12px;
+  background: #11161d;
+}
+
+.ls-stage-box {
+  width: 540px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.ls-stage-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #9aa4b2;
+}
+
+.ls-compare-card {
+  position: absolute;
+  z-index: 5;
+  left: 12px;
+  bottom: 12px;
+  width: 132px;
+  min-height: 154px;
+  display: grid;
+  place-items: center;
+  padding-top: 18px;
+  border: 1px solid rgba(240, 246, 252, 0.2);
+  border-radius: 12px;
+  background: rgba(13, 17, 23, 0.78);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+}
+
+.ls-compare-label {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  color: #9aa4b2;
+  font: 800 9px/1 ui-monospace, monospace;
+  letter-spacing: 0.12em;
+}
+
+.ls-bgchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #c9d1d9;
+}
+
+.ls-bgdot {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(240, 246, 252, 0.35);
+  display: inline-block;
+}
+
+/* ---------- buttons / chips / tabs ---------- */
+
+.ls-btn,
+.ls-chip,
+.ls-tab,
+.ls-mute,
+.ls-swatch {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 99px;
+  cursor: pointer;
+  border: 1px solid rgba(240, 246, 252, 0.2);
+  background: transparent;
+  color: #e6edf3;
+  padding: 4px 10px;
+  transition: background 0.12s ease, transform 0.06s ease, border-color 0.12s ease;
+}
+
+.ls-btn:hover,
+.ls-chip:hover,
+.ls-tab:hover,
+.ls-mute:hover,
+.ls-swatch:hover {
+  background: rgba(240, 246, 252, 0.1);
+  border-color: rgba(240, 246, 252, 0.35);
+}
+
+.ls-btn:active,
+.ls-chip:active,
+.ls-tab:active,
+.ls-mute:active,
+.ls-swatch:active {
+  transform: scale(0.96);
+}
+
+.ls-btn:focus-visible,
+.ls-chip:focus-visible,
+.ls-tab:focus-visible,
+.ls-mute:focus-visible,
+.ls-swatch:focus-visible,
+.ls-swatch input:focus-visible,
+.ls-clip:focus-visible {
+  outline: 2px solid #f5b13f;
+  outline-offset: 1px;
+}
+
+.ls-btn.is-on,
+.ls-chip.is-on,
+.ls-tab.is-on {
+  background: #b7d9ff;
+  border-color: #b7d9ff;
+  color: #0d1117;
+}
+
+.ls-btn.is-on:hover,
+.ls-chip.is-on:hover,
+.ls-tab.is-on:hover {
+  background: #c9e2ff;
+  border-color: #c9e2ff;
+}
+
+.ls-tab {
+  text-transform: capitalize;
+  padding: 5px 14px;
+}
+
+.ls-btn-primary {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 16px;
+  background: #b7d9ff;
+  border-color: #b7d9ff;
+  color: #0d1117;
+}
+
+.ls-btn-primary:hover {
+  background: #d3e7ff;
+  border-color: #d3e7ff;
+}
+
+.ls-btn-primary:active {
+  transform: scale(0.96);
+  background: #9fc9f5;
+}
+
+.ls-btn-danger {
+  border-color: #f9705c;
+  color: #f9705c;
+}
+
+.ls-btn-danger:hover {
+  background: rgba(249, 112, 92, 0.14);
+  border-color: #f9705c;
+}
+
+/* color-input swatch: native input kept, wrapper dressed as a pill. */
+.ls-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 12px 3px 3px;
+}
+
+.ls-swatch input[type="color"] {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.ls-colorfield {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 8px;
+  background: #11161d;
+  color: #c9d1d9;
+  font-size: 11px;
+}
+
+.ls-colorfield span {
+  flex: 1;
+}
+
+.ls-colorfield input[type="color"] {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ls-colorfield code {
+  min-width: 72px;
+  color: #9aa4b2;
+}
+
+.ls-controlrow {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 30px;
+  color: #c9d1d9;
+  font-size: 11px;
+}
+
+.ls-controlrow b {
+  color: #b7d9ff;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-weight: 600;
+}
+
+.ls-controlrow input[type="range"] {
+  width: 100%;
+  accent-color: #f5b13f;
+}
+
+/* ---------- panels / cards ---------- */
+
+.ls-panel {
+  background: #161b22;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.ls-h {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9aa4b2;
+  margin: 16px 0 8px;
+}
+
+.ls-tabs {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ls-gap {
+  width: 12px;
+}
+
+.ls-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ls-stack {
+  margin-top: 16px;
+}
+
+.ls-blurb {
+  font-size: 11px;
+  color: #9aa4b2;
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+.ls-cardhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ls-cardtitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.ls-cardsub {
+  font-weight: 400;
+  font-size: 11px;
+  color: #9aa4b2;
+}
+
+.ls-blockbtn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 4px;
+}
+
+.ls-note {
+  font-size: 11px;
+  color: #9aa4b2;
+  line-height: 1.6;
+}
+
+/* template rows: 96px still left of the text, breathing room via card pad. */
+.ls-tpl {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ls-tplbody {
+  flex: 1;
+  min-width: 0;
+}
+
+.ls-still {
+  width: 96px;
+  height: 96px;
+  flex: none;
+  border-radius: 12px;
+  border: 1px solid rgba(240, 246, 252, 0.14);
+  object-fit: cover;
+}
+
+.ls-empty {
+  font-size: 11px;
+  color: #9aa4b2;
+  text-align: center;
+  padding: 16px;
+}
+
+/* ---------- transport / status / sliders ---------- */
+
+.ls-transport {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.ls-slider {
+  flex: 1;
+  accent-color: #b7d9ff;
+  height: 22px;
+  cursor: pointer;
+}
+
+.ls-inspector .ls-slider {
+  min-width: 120px;
+}
+
+.ls-status {
+  font-size: 11px;
+  color: #9aa4b2;
+  min-height: 16px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.ls-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ---------- timeline ---------- */
+
+.ls-ruler {
+  position: relative;
+  height: 20px;
+  margin-left: 104px;
+  border-bottom: 1px solid rgba(240, 246, 252, 0.12);
+  user-select: none;
+}
+
+.ls-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(240, 246, 252, 0.18);
+}
+
+.ls-tick-label {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 11px;
+  color: #9aa4b2;
+}
+
+.ls-tlwrap {
+  position: relative;
+}
+
+.ls-tlrow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ls-tlhead {
+  width: 96px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9aa4b2;
+  background: #11161d;
+  border: 1px solid rgba(240, 246, 252, 0.08);
+  border-radius: 8px;
+  padding: 0 6px 0 8px;
+  min-height: 24px;
+}
+
+.ls-mute {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  letter-spacing: 0.06em;
+}
+
+.ls-mute[aria-pressed="false"] {
+  opacity: 0.55;
+}
+
+.ls-lane {
+  position: relative;
+  flex: 1;
+  height: 24px;
+  background: #0a0e14;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ls-lanegrid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ls-clip {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-radius: 99px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 700;
+  color: #0d1117;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-left: 8px;
+  padding-right: 8px;
+  line-height: 16px;
+  transition: filter 0.1s ease;
+}
+
+.ls-clip:hover {
+  filter: brightness(1.12);
+}
+
+.ls-clip:active {
+  filter: brightness(0.94);
+}
+
+.ls-clip.is-sel {
+  border-color: #f5b13f;
+  box-shadow: 0 0 0 1px #f5b13f;
+}
+
+.ls-playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #f9705c;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ---------- guides overlay (editor-only, never exported) ---------- */
+
+.ls-guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.ls-guide-v,
+.ls-guide-h {
+  position: absolute;
+  background: rgba(245, 177, 63, 0.35);
+}
+
+.ls-guide-v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.ls-guide-h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.ls-hookbadge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #0d1117;
+  background: rgba(245, 177, 63, 0.92);
+  border-radius: 99px;
+  padding: 2px 8px;
+}
+
+/* ---------- inspector ---------- */
+
+.ls-inspector {
+  margin-top: 16px;
+  font-size: 11px;
+}
+
+.ls-inspector-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.ls-inspector-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.ls-ctl {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ls-ctl > span {
+  white-space: nowrap;
+  color: #c9d1d9;
+}
+
+.ls-field {
+  width: 100%;
+  margin-top: 6px;
+  font-size: 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: #0a0e14;
+  color: #e6edf3;
+  border: 1px solid rgba(240, 246, 252, 0.2);
+}
+
+.ls-field:hover {
+  border-color: rgba(240, 246, 252, 0.35);
+}
+
+.ls-field:focus {
+  outline: 2px solid #b7d9ff;
+  outline-offset: 0;
+  border-color: #b7d9ff;
+}

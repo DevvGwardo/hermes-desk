@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<!-- Static, local, no network: the only script is the inline drag handler. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'" />
+<title>Nub — select an area</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; cursor: crosshair; user-select: none; font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  #shade { position: fixed; inset: 0; background: rgba(8, 12, 20, 0.28); }
+  #box { position: fixed; display: none; border: 2px solid #9ecdff; border-radius: 4px; background: rgba(158, 205, 255, 0.08); box-shadow: 0 0 0 9999px rgba(8, 12, 20, 0.28); }
+  body.dragging #shade { display: none; }
+  #hint { position: fixed; left: 50%; top: 28px; transform: translateX(-50%); padding: 7px 14px; border-radius: 999px; background: rgba(0, 0, 0, 0.72); color: #fff; pointer-events: none; }
+  #size { position: fixed; display: none; padding: 2px 6px; border-radius: 6px; background: rgba(0, 0, 0, 0.72); color: #fff; font-size: 11px; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="shade"></div>
+<div id="box"></div>
+<div id="size"></div>
+<div id="hint">Drag around what you want Nub to look at · Esc to cancel</div>
+<script>
+  (function () {
+    var box = document.getElementById('box')
+    var size = document.getElementById('size')
+    var start = null
+    var finished = false
+    function done(rect) {
+      if (finished) return
+      finished = true
+      try { window.regionPicker.done(rect) } catch (e) {}
+    }
+    function rectFrom(e) {
+      return {
+        x: Math.min(start.x, e.clientX),
+        y: Math.min(start.y, e.clientY),
+        width: Math.abs(e.clientX - start.x),
+        height: Math.abs(e.clientY - start.y),
+      }
+    }
+    window.addEventListener('mousedown', function (e) {
+      if (e.button !== 0) { done(null); return }
+      start = { x: e.clientX, y: e.clientY }
+      document.body.classList.add('dragging')
+    })
+    window.addEventListener('mousemove', function (e) {
+      if (!start) return
+      var r = rectFrom(e)
+      box.style.display = 'block'
+      box.style.left = r.x + 'px'
+      box.style.top = r.y + 'px'
+      box.style.width = r.width + 'px'
+      box.style.height = r.height + 'px'
+      size.style.display = 'block'
+      size.style.left = (r.x + r.width + 6) + 'px'
+      size.style.top = (r.y + r.height + 6) + 'px'
+      size.textContent = r.width + ' × ' + r.height
+    })
+    window.addEventListener('mouseup', function (e) {
+      if (!start) return
+      done(rectFrom(e))
+    })
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') done(null)
+    })
+    // Switching away cancels — but not a focus bounce in the first moments
+    // (the HUD button that opened us can briefly take focus back).
+    var openedAt = Date.now()
+    window.addEventListener('blur', function () {
+      if (Date.now() - openedAt > 400) done(null)
+    })
+  })()
+</script>
+</body>
+</html>

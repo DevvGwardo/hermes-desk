@@ -1,0 +1,106 @@
+name: ci
+
+# Tiered CI to keep Actions minutes near zero while agents push all day.
+# Deliberately NOT a release pipeline: the desktop zips are built + uploaded
+# from the operator Mac (Apple Developer ID signing + wrangler OAuth live
+# outside CI).
+#
+#   PRs              -> `quick`: types/syntax + affected renderer tests only.
+#                       This is explicitly not the full desktop suite.
+#                       Tests are selected by the
+#                       diff (vitest --changed; config/package.json edits can
+#                       trigger all selected renderer tests).
+#   release PRs      -> `full` as well (head branch chore/release-*).
+#   nightly          -> `full` on macOS, skipped when nothing landed that day.
+#   manual           -> `full` on any branch: gh workflow run ci -r <branch>
+#
+# No run on push to main: every change already ran `quick` on its PR, and
+# the nightly covers whatever the affected-tests selection missed.
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'gates/**'
+      - '*.md'
+  schedule:
+    - cron: '17 9 * * *' # ~02:17 PT
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quick:
+    name: types + syntax + affected renderer tests (reduced)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    # Config changes may select all renderer tests. Native Node regressions
+    # are intentionally reserved for the full macOS job below.
+    timeout-minutes: 20
+    env:
+      # Only this explicitly reduced job skips Electron, not the full suite.
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      ELECTRON_SKIP: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # --changed diffs against the base branch, so it needs history.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Types and Node syntax
+        run: npm run lint
+      - name: Affected renderer tests (not desktop acceptance)
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: npx vitest run --project unit --changed "origin/$BASE_REF"
+
+  full:
+    name: macOS types + syntax + full tests + renderer build
+    if: >-
+      github.event_name != 'pull_request' ||
+      startsWith(github.head_ref, 'chore/release-')
+    # Exact socket-owner/process-group regressions require macOS lsof/ps.
+    # This does not provision Hermes or run real-account/native GUI probes.
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Skip nightly if main is unchanged
+        id: gate
+        run: |
+          if [ "${{ github.event_name }}" = schedule ] &&
+             [ -z "$(git log -1 --since='25 hours ago' --format=%H)" ]; then
+            echo "No commits in the last day; skipping."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        if: steps.gate.outputs.run == 'true'
+        run: npm ci
+      - name: Types and Node syntax
+        if: steps.gate.outputs.run == 'true'
+        run: npm run lint
+      - name: Test
+        if: steps.gate.outputs.run == 'true'
+        run: npm run test:run
+      - name: Build renderer
+        if: steps.gate.outputs.run == 'true'
+        run: npm run build

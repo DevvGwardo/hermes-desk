@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hermes Desk README artwork</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #0e0e10; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif; color: #f2f2f5; }
+    #artwork { width: 1600px; position: relative; overflow: hidden; background: #0e0e10; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 64px; line-height: 1.08; letter-spacing: -2.5px; font-weight: 650; }
+    .deck { font-size: 28px; line-height: 1.5; color: #c4c4ce; margin-top: 16px; }
+    .eyebrow { font-size: 17px; font-weight: 600; letter-spacing: 2px; color: #a7ceff; text-transform: uppercase; }
+    .pill { display: inline-flex; align-items: center; border: 1px solid #627c99; border-radius: 40px; padding: 12px 22px; font-size: 18px; letter-spacing: 1.5px; color: #a7ceff; }
+    .owl { display: inline-block; flex-shrink: 0; line-height: 0; }
+    .icon { width: 44px; height: 44px; color: #a7ceff; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .footer { position: absolute; left: 80px; bottom: 44px; color: #adadb9; font-size: 19px; }
+    .small-owl { position: absolute; right: 62px; top: 35px; }
+
+    .banner { height: 800px; background: #0e0e10 url('./hero-background.png') center / cover !important; }
+    .banner-copy { position: absolute; left: 88px; top: 128px; z-index: 2; }
+    .banner h1 { font-size: 112px; letter-spacing: -5px; margin: 42px 0 22px; }
+    .banner .deck { font-size: 43px; line-height: 1.35; margin: 0; }
+    .banner .hero-owl { position: absolute; left: 980px; top: 112px; z-index: 2; }
+    .banner .perch { position: absolute; left: 1075px; top: 618px; width: 392px; height: 3px; background: #526378; }
+    .banner .footer { bottom: 72px; font-size: 22px; }
+    .banner .signature { position: absolute; right: 138px; bottom: 76px; font-size: 17px; color: #adadb9; letter-spacing: .4px; }
+
+    .architecture { height: 1120px; padding: 70px 80px; }
+    .architecture h1 { font-size: 60px; }
+    .architecture .deck { font-size: 26px; }
+    .mac-boundary { position: absolute; left: 80px; top: 240px; width: 1440px; height: 648px; border: 1.5px solid #484852; border-radius: 24px; background: #111113; }
+    .boundary-label { position: absolute; top: 26px; left: 28px; font-size: 20px; letter-spacing: 1.5px; font-weight: 600; color: #c4c4ce; }
+    .arch-card { position: absolute; top: 96px; width: 360px; height: 284px; padding: 28px; border: 1px solid #41414b; border-radius: 18px; background: #1c1c1f; }
+    .arch-card h2 { font-size: 30px; font-weight: 600; margin: 20px 0 18px; letter-spacing: -.7px; }
+    .arch-card p { font-size: 21px; line-height: 1.65; color: #c4c4ce; }
+    .arch-card:nth-of-type(1) { left: 28px; }
+    .arch-card:nth-of-type(2) { left: 540px; }
+    .arch-card:nth-of-type(3) { left: 1052px; }
+    .links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .links text { fill: #a7ceff; font-size: 19px; text-anchor: middle; }
+    .workspace-node { position: absolute; left: 28px; top: 451px; width: 880px; height: 104px; display: flex; align-items: center; gap: 24px; padding: 22px 28px; border: 1px solid #41414b; border-radius: 16px; background: #161618; }
+    .workspace-node h2 { font-size: 27px; margin-bottom: 8px; font-weight: 600; }
+    .workspace-node p { font-size: 21px; color: #c4c4ce; }
+    .local-note { position: absolute; bottom: 28px; left: 28px; font-size: 21px; color: #adadb9; }
+    .provider { position: absolute; right: 80px; top: 966px; width: 570px; height: 108px; border: 1px solid #484852; border-radius: 16px; display: flex; align-items: center; gap: 22px; padding: 20px 28px; }
+    .provider h2 { font-size: 26px; font-weight: 600; margin-bottom: 8px; }
+    .provider p { font-size: 21px; color: #c4c4ce; }
+    .architecture .footer { font-size: 20px; bottom: 70px; max-width: 610px; line-height: 1.5; }
+
+    .workspace { height: 1200px; padding: 60px 80px; }
+    .workspace h1 { font-size: 59px; }
+    .workspace .deck { font-size: 26px; }
+    .workspace iframe { position: absolute; left: 80px; top: 242px; width: 1440px; height: 900px; border: 0; pointer-events: none; }
+    .feature-labels { display: grid; grid-template-columns: 248px 596px 596px; margin-top: 25px; font-size: 21px; color: #c4c4ce; }
+    .feature-labels span { color: #a7ceff; margin-right: 12px; font-size: 17px; }
+    .workspace .footer { bottom: 26px; font-size: 18px; }
+
+    .states, .palettes { height: 720px; padding: 70px 80px; }
+    .states .deck, .palettes .deck { font-size: 27px; }
+    .showcase { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; margin-top: 56px; }
+    .character-card { min-width: 0; text-align: center; }
+    .character-stage { display: flex; align-items: center; justify-content: center; height: 246px; background: #161618; border: 1px solid #ffffff14; border-radius: 18px; }
+    .character-card h2 { font-size: 24px; font-weight: 600; margin-top: 24px; }
+    .character-card p { font-size: 18px; line-height: 1.45; margin-top: 9px; color: #adadb9; }
+    .states .footer, .palettes .footer { bottom: 42px; font-size: 19px; }
+    .palettes .character-stage { position: relative; }
+    .palette-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: 3px; }
+    .palette-caption { position: absolute; left: 16px; top: 14px; font-size: 12px; letter-spacing: 1.3px; color: #adadb9; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <main id="artwork"></main>
+  <script type="module">
+    import { createMascot } from '/src/lib/mascot/engine.ts'
+    import { ManualFrameClock } from '/src/lib/mascot/frame-clock.ts'
+    import rig from '/src/lib/mascot/characters/owl/rig.svg?raw'
+    import motion from '/src/lib/mascot/characters/owl/motion.json'
+    import palettes from '/src/lib/mascot/characters/owl/palette.json'
+
+    const root = document.getElementById('artwork')
+    const view = new URLSearchParams(location.search).get('view') ?? 'banner'
+    const iconPaths = {
+      message: '<path d="M17 9a7 7 0 0 1-7 7H5l-3 2 1-5A7 7 0 1 1 17 9Z"/><path d="M7 9h.01M10 9h.01M13 9h.01"/>',
+      chip: '<rect x="5" y="5" width="10" height="10" rx="2"/><path d="M7 2v3m6-3v3M7 15v3m6-3v3M2 7h3m-3 6h3m10-6h3m-3 6h3"/>',
+      terminal: '<rect x="2" y="3" width="16" height="14" rx="2"/><path d="m6 7 3 3-3 3m5 0h3"/>',
+      browser: '<rect x="2" y="3" width="16" height="14" rx="2"/><path d="M2 7h16M5 5h.01M8 5h.01"/>',
+      providers: '<ellipse cx="10" cy="4" rx="7" ry="2.5"/><path d="M3 4v11c0 3.4 14 3.4 14 0V4M3 10c0 3.4 14 3.4 14 0"/>',
+    }
+    const icon = name => `<svg class="icon" viewBox="0 0 20 20" aria-hidden="true">${iconPaths[name]}</svg>`
+    const owl = (size, state = 'idle', palette = 'maia', className = '') =>
+      `<span class="owl ${className}" data-state="${state}" data-palette="${palette}" data-size="${size}" style="width:${size}px;height:${size}px" role="img" aria-label="Pip: ${state}, ${palette} palette"></span>`
+    const smallOwl = () => owl(128, 'idle', 'maia', 'small-owl')
+    const arrowDefs = `<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse"><path d="M1 1 6 4 1 7" fill="none" stroke="#a7ceff" stroke-width="1.5"/></marker></defs>`
+
+    function banner() {
+      root.className = 'banner'
+      root.innerHTML = `
+        <div class="banner-copy">
+          <div class="pill">ON YOUR MAC</div>
+          <h1>Hermes Desk</h1>
+          <p class="deck">Local Hermes agents.<br>A quieter workspace.</p>
+        </div>
+        <div class="perch"></div>
+        ${owl(560, 'idle', 'maia', 'hero-owl')}
+        <p class="footer">macOS / Electron / React</p>
+        <p class="signature">Pip, the courier owl</p>`
+    }
+
+    function architecture() {
+      root.className = 'architecture'
+      root.innerHTML = `
+        <h1>One desk. Your local agents.</h1>
+        <p class="deck">The app stays on your Mac. Your profiles choose the model providers.</p>
+        ${smallOwl()}
+        <div class="mac-boundary">
+          <div class="boundary-label">YOUR MAC</div>
+          <section class="arch-card">${icon('message')}<h2>React interface</h2><p>Chat and agent roster<br>Workspace controls<br>Local preferences</p></section>
+          <section class="arch-card">${icon('chip')}<h2>Electron main</h2><p>Runtime lifecycle<br>Authenticated bridge<br>Tokens stay in main</p></section>
+          <section class="arch-card">${icon('terminal')}<h2>hermes serve</h2><p>Profiles and sessions<br>Memory and skills<br>Tools and model calls</p></section>
+          <svg class="links" viewBox="0 0 1440 648">${arrowDefs}
+            <g fill="none" stroke="#a7ceff" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)">
+              <path d="M398 230H530"/><path d="M910 230H1042"/><path d="M720 390V441"/>
+            </g>
+            <text x="464" y="205">Preload IPC</text><text x="976" y="205">Loopback API</text>
+            <path d="M1232 390V712" fill="none" stroke="#a7ceff" stroke-width="2" marker-end="url(#arrow)"/>
+            <text x="1110" y="614">Model requests</text>
+          </svg>
+          <div class="workspace-node">${icon('browser')}<div><h2>Native workspace</h2><p>Per-agent browser lanes / opt-in MCP bridge</p></div></div>
+          <p class="local-note">Hermes Desk adds no platform account or telemetry.</p>
+        </div>
+        <div class="provider">${icon('providers')}<div><h2>Configured model providers</h2><p>Hermes uses your profile settings</p></div></div>
+        <p class="footer">Local app, local runtime.<br>Model and tool requests follow your Hermes configuration.</p>`
+    }
+
+    function workspace() {
+      root.className = 'workspace'
+      root.innerHTML = `
+        <h1>Conversation, with room to work.</h1>
+        <p class="deck">Your agents on the left. The conversation in the middle. Their workspace beside it.</p>
+        ${smallOwl()}
+        <div class="feature-labels"><p><span>01</span>Your agents</p><p><span>02</span>One conversation</p><p><span>03</span>A native workspace</p></div>
+        <iframe title="Illustrative Hermes Desk design preview" src="/tools/design/mockups.html?view=full"></iframe>
+        <p class="footer">Illustrative design preview / Local fixture content / Actual in-app mascot</p>`
+    }
+
+    function states() {
+      root.className = 'states'
+      const entries = [
+        ['idle', 'Ready', 'A familiar face'],
+        ['thinking', 'Thinking', 'Working it through'],
+        ['tool', 'Using tools', 'Into the satchel'],
+        ['browsing', 'Browsing', 'Eyes on the page'],
+        ['waiting', 'Waiting', 'A letter for you'],
+        ['sleep', 'Resting', 'A quieter moment'],
+      ]
+      root.innerHTML = `
+        <p class="eyebrow">MEET PIP</p><h1 style="margin-top:16px">A little owl. A lot of personality.</h1>
+        <p class="deck">The same courier owl you see in the app, in six of its native state poses.</p>
+        <div class="showcase">${entries.map(([state, title, caption]) => `
+          <section class="character-card"><div class="character-stage">${owl(210, state)}</div><h2>${title}</h2><p>${caption}</p></section>`).join('')}</div>
+        <p class="footer">Real SVG artwork / Native state poses / Frozen for the README, animated in the app</p>`
+    }
+
+    function paletteShowcase() {
+      root.className = 'palettes'
+      const entries = [['maia', 'Blue'], ['sage', 'Sage'], ['iris', 'Iris'], ['honey', 'Honey'], ['mint', 'Mint'], ['rose', 'Rose']]
+      root.innerHTML = `
+        <p class="eyebrow">ONE COMPANION, EVERY AGENT</p><h1 style="margin-top:16px">Different colours. Still Pip.</h1>
+        <p class="deck">One recognizable silhouette across the app's built-in mascot palettes.</p>
+        <div class="showcase">${entries.map(([palette, title]) => `
+          <section class="character-card"><div class="character-stage"><span class="palette-caption">${palette}</span>${owl(210, 'idle', palette)}</div><h2><span class="palette-dot" style="background:${palettes.agents[palette]['--m-primary']}"></span>${title}</h2><p>Same courier, new colours</p></section>`).join('')}</div>
+        <p class="footer">Actual palette.json colours / Same eyes, winged helmet, feathers and messenger satchel</p>`
+    }
+
+    const views = { banner, architecture, workspace, states, palettes: paletteShowcase }
+    if (!views[view]) throw new Error(`Unknown artwork view: ${view}`)
+    views[view]()
+    const clock = new ManualFrameClock()
+    const handles = [...document.querySelectorAll('.owl')].map((el, i) => createMascot(el, {
+      svg: rig, motion, palette: palettes.agents[el.dataset.palette], state: el.dataset.state,
+      size: Number(el.dataset.size), reducedMotion: true, autonomy: false, interactive: false,
+      seed: `readme-${i}`, clock,
+    }))
+    clock.advance(100)
+    handles.forEach(handle => handle.pause())
+    await document.fonts.ready
+    await Promise.all([...document.images].map(image => image.decode()))
+    const iframe = document.querySelector('iframe')
+    if (iframe) {
+      const deadline = performance.now() + 15000
+      while (!iframe.contentWindow?.deskDesign?.ready) {
+        if (performance.now() > deadline) throw new Error('Design preview did not initialize')
+        await new Promise(requestAnimationFrame)
+      }
+    }
+    window.readmeArtwork = { ready: true, view, owlCount: handles.length }
+  </script>
+</body>
+</html>

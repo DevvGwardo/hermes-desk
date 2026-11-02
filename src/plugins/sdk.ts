@@ -1,0 +1,65 @@
+/**
+ * @hermes/plugin-sdk surface for maia — the single module runtime plugins
+ * import. Re-exports everything the host provides: host, atoms, query, areas,
+ * UI shims. The loader maps `@hermes/plugin-sdk` to this namespace.
+ */
+export { host, $activeProfile, $gatewayState, seedPluginSession, setGatewayState } from './host'
+export { atom, useValue, type ReadableAtom, type WritableAtom } from './atom'
+export { queryClient, useQuery, type UseQueryOptions } from './query'
+export {
+  COMPOSER_AREAS,
+  KEYBINDS_AREA,
+  PALETTE_AREA,
+  PANES_AREA,
+  ROUTES_AREA,
+  SIDEBAR_NAV_AREA,
+  STATUSBAR_AREAS,
+  THEMES_AREA,
+  TITLEBAR_AREAS,
+  applyComposerMiddleware,
+  disposePluginContributions,
+  paletteContributions,
+  panesBySide,
+  publishPlugin,
+  registerContribution,
+  subscribeInventory,
+  subscribeRegistry,
+} from './areas'
+export type { PluginContribution } from './areas'
+export {
+  Button,
+  Checkbox,
+  cn,
+  Codicon,
+  ConfirmDialog,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  EmptyState,
+  GlyphSpinner,
+  haptic,
+  Input,
+  McpTab,
+  profileColor,
+  profileColorSoft,
+  relativeTime,
+  ScrollArea,
+  SearchField,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Switch,
+  Textarea,
+  Tip,
+  ToolsetConfigPanel,
+} from './ui'

@@ -1,0 +1,374 @@
+{
+  "session_id": "20261006_152545_4f16c7",
+  "compaction_summary_id": 1876,
+  "status": "applied",
+  "active_context_sha256": "23ddf2316b6b62c173a584c1637552f69709a37fe5363e4a235c8b711d66ac59",
+  "active_message_count": 74,
+  "records": [
+    {
+      "original_id": 1805,
+      "replacement_id": 1878,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "0eaebd60f41ea2c2c4f8d97648763ee5675bc31acce223b6d12c05c819023c07"
+    },
+    {
+      "original_id": 1807,
+      "replacement_id": 1880,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "2f46f8ba12c6bde206d36dba4b5aa77a0c068cc9befae24b68c9a479b8c4adab"
+    },
+    {
+      "original_id": 1808,
+      "replacement_id": 1881,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "581292fe569bc89ad176706012a55a270bc167f315e9ce53ae8702b7b55dea0d"
+    },
+    {
+      "original_id": 1809,
+      "replacement_id": 1882,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "a6fb5cbeac34ba7b1b777bf1f7d3363325ff57b8e6d22ac5d9147896c00868f5"
+    },
+    {
+      "original_id": 1811,
+      "replacement_id": 1884,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "da6140acb668ab3d5c23fd296ac7c3da3ea6265328683ab2c4f2d99d517aef17"
+    },
+    {
+      "original_id": 1813,
+      "replacement_id": 1886,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "aa9a7aa3c07fc8e727953ba759a0b864d9716b8bd6870e781bcf84bb2e5ba94a"
+    },
+    {
+      "original_id": 1815,
+      "replacement_id": 1888,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "965b50a8642ccfc2f971fd35c9ef819074a83b55fd9c58abec07bcf96f6289a5"
+    },
+    {
+      "original_id": 1817,
+      "replacement_id": 1890,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "4f5024709b91b59fd207a78c96b212abc64603628b5bb680ee833cb7b07389e6"
+    },
+    {
+      "original_id": 1819,
+      "replacement_id": 1892,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "4fda827d4bbc645a1d2238ed39aa14454799c12d0ff5ec28f1f04691ef0aa211"
+    },
+    {
+      "original_id": 1821,
+      "replacement_id": 1894,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "dc86a3611a85bd8e09fbd0287fa39ae10b03f575152693ff215aca2ea9a95c35"
+    },
+    {
+      "original_id": 1823,
+      "replacement_id": 1896,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "62fc964eaa9bf176e6095ab986dff77d9efe92ae1065326993abc43c3c0711e0"
+    },
+    {
+      "original_id": 1825,
+      "replacement_id": 1898,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "80e0569ccce2c42f31a9fcd6f2ec00385024bc4e731aadbb271e501a317a1867"
+    },
+    {
+      "original_id": 1827,
+      "replacement_id": 1900,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "cf317279fcd323a7d8dfff63cb12d48656c301387f57261fae669e5eedc63cb4"
+    },
+    {
+      "original_id": 1829,
+      "replacement_id": 1902,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "0cb12aff0947a568a81c93be9d5e855b2cf3582b1e0b9769792e4d5798d2a4e0"
+    },
+    {
+      "original_id": 1831,
+      "replacement_id": 1904,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "4dcfbde4d3e629b045a24139dc3c0ae1d0e885a4a9c3399693b72f4fbfbf6e2b"
+    },
+    {
+      "original_id": 1833,
+      "replacement_id": 1906,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "35af1f02f54bcab5186f75c78390c85ad5c60388b643a5c4a803029bebcdf23a"
+    },
+    {
+      "original_id": 1835,
+      "replacement_id": 1908,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "837831a5ab50355dafaf224f398087d0a56fa6b45ae570be71a535330fe1f119"
+    },
+    {
+      "original_id": 1837,
+      "replacement_id": 1910,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "d250fcfa6515f40a689eabeac97c950961d6cb92b7574b8c7760dd07ecc8febe"
+    },
+    {
+      "original_id": 1839,
+      "replacement_id": 1912,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "08974b682538e732d081e3396b6149ca9aa95a620e31525e0c9cf52c30ee0758"
+    },
+    {
+      "original_id": 1841,
+      "replacement_id": 1914,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "59de5e72fcc442f9ebf42ac334bec8bc5e95aeee81e5a32dfbc25da25bb2b3d9"
+    },
+    {
+      "original_id": 1843,
+      "replacement_id": 1916,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "8c59532406855251dd6d3da48c233c25979681a15c5f98049ddbd3a8b8b4c2d9"
+    },
+    {
+      "original_id": 1845,
+      "replacement_id": 1918,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "ea098083f2f7d831050cea76603cd2326356a84fd35ea1f8b4921b57d3ee9ba2"
+    },
+    {
+      "original_id": 1847,
+      "replacement_id": 1920,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "50d44289d61218bbeca2adba4063c385d31272b5341cf62f611d5b9da2ba596b"
+    },
+    {
+      "original_id": 1849,
+      "replacement_id": 1922,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "5dfce4597b4f484d24a6aa768832b0892bd85c43258ad688b265c0607a81c346"
+    },
+    {
+      "original_id": 1851,
+      "replacement_id": 1924,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "64deaf50dfc0293d876159f6b63c6ebb0e609f50cbe913f1a1d9acab70785a7c"
+    },
+    {
+      "original_id": 1853,
+      "replacement_id": 1926,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "fcaee3dbde4dac1a1958e59dd5ea91b6155a17898bf852553712c456906d001f"
+    },
+    {
+      "original_id": 1855,
+      "replacement_id": 1928,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "3cec1c5bc98b8f959f1b4a89c68573463a14b4094786fe847920f5ad4cf21527"
+    },
+    {
+      "original_id": 1857,
+      "replacement_id": 1930,
+      "before": {
+        "active": 0,
+        "compacted": 0
+      },
+      "after": {
+        "active": 0,
+        "compacted": 1
+      },
+      "content_sha256": "149c623af040a380537a5ee869af2ec8800a0f01ad4e9cd0eb0feec372065425"
+    }
+  ],
+  "applied_at": 1791762746.2080152
+}

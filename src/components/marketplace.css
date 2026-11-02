@@ -1,0 +1,593 @@
+/*
+ * Marketplace (Grok Bot parity). Metrics are Grok Bot 0.58's own
+ * (sand-plugins-row / __grid / __group, mined from the app bundle):
+ * 16px-radius rows with 12px padding and a 12px gap, a 5% ink wash on hover,
+ * the whole row as one hit area (::after carries the focus ring), a 2-column
+ * grid 8px apart, 13px names (medium) over 12px bylines, one-line subtitles,
+ * and 26px pill actions. Colors come from the Nub --ca-* tokens, so it works
+ * in the light-blue and dark themes.
+ */
+/* Tokens live on every root the sheet renders (home, detail and the search
+   field in the modal toolbar), not just .mk: the detail view and search sit
+   outside it, and lost their fills and contrast. */
+.mk,
+.mk-detail,
+.mk-search {
+  --mk-wash: color-mix(in srgb, var(--ca-ink) 5%, transparent);
+  --mk-fill: color-mix(in srgb, var(--ca-ink) 8%, transparent);
+  --mk-fill-hover: color-mix(in srgb, var(--ca-ink) 15%, transparent);
+  --mk-ink-2: color-mix(in srgb, var(--ca-ink) 74%, transparent);
+  --mk-ink-3: color-mix(in srgb, var(--ca-ink) 58%, transparent);
+}
+
+.mk {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 14px 12px 18px;
+  container-type: inline-size;
+}
+
+.mk-intro {
+  margin: 0 12px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--mk-ink-2);
+}
+
+.mk-search {
+  width: 100%;
+  height: 34px;
+  margin: 10px 0 4px;
+  padding: 0 12px 0 34px;
+  border: 1px solid var(--ca-border);
+  border-radius: 9999px;
+  background: var(--ca-card)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23889' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E")
+    no-repeat 12px center;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ca-ink);
+  outline: none;
+  transition: border-color var(--ca-dur-1) var(--ca-ease), box-shadow var(--ca-dur-1) var(--ca-ease);
+}
+.mk-search::placeholder {
+  color: var(--mk-ink-3);
+}
+.mk-search:focus-visible {
+  border-color: var(--ca-focus-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ca-focus-ring) 18%, transparent);
+}
+
+.mk-group {
+  display: flex;
+  flex-direction: column;
+}
+.mk-group__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 12px 6px;
+}
+.mk-group__title {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--ca-ink);
+}
+.mk-group__action {
+  appearance: none;
+  border: 0;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--mk-ink-2);
+  cursor: pointer;
+  transition: background-color var(--ca-dur-1) var(--ca-ease), color var(--ca-dur-1) var(--ca-ease);
+}
+.mk-group__action:hover {
+  background: var(--mk-wash);
+  color: var(--ca-ink);
+}
+
+.mk-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 8px;
+  row-gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* Connect apps hub: "Your workspace" tiles (Routines, Files, Tasks, Skills,
+   Apps) above the store. Same radius, wash and focus ring as .mk-row. */
+.mk-hub {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0 4px;
+}
+.mk-hub__tile {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 12px;
+  border: 1px solid var(--ca-border);
+  border-radius: 16px;
+  background: var(--ca-card);
+  color: var(--ca-ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--ca-dur-1) var(--ca-ease), border-color var(--ca-dur-1) var(--ca-ease);
+}
+.mk-hub__tile:hover {
+  background: var(--mk-wash);
+}
+.mk-hub__tile:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--ca-focus-ring);
+}
+.mk-hub__icon {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--ca-primary-soft);
+  color: var(--ca-primary-text);
+}
+.mk-hub__label {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mk-hub__hint {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--mk-ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mk-hub__badge {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 9999px;
+  background: var(--ca-primary-soft);
+  color: var(--ca-primary-text);
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@container (max-width: 560px) {
+  .mk-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.mk-row {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: transparent;
+  transition: background-color var(--ca-dur-1) var(--ca-ease);
+}
+.mk-row:hover {
+  background: var(--mk-wash);
+}
+.mk-row__open {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  outline: none;
+}
+.mk-row__open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+}
+.mk-row__open:focus-visible::after {
+  box-shadow: inset 0 0 0 2px var(--ca-focus-ring);
+}
+.mk-row__icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  transition: transform var(--ca-dur-2) var(--ca-ease);
+}
+.mk-row:hover .mk-row__icon {
+  transform: translateY(-1px) scale(1.06);
+}
+.mk-row__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.mk-row__line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+.mk-row__name,
+.mk-row__byline,
+.mk-row__sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 18px;
+}
+.mk-row__name {
+  flex: 0 1 auto;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ca-ink);
+}
+.mk-row__byline {
+  flex: 0 1 auto;
+  font-size: 12px;
+  color: var(--mk-ink-3);
+}
+.mk-row__sub {
+  font-size: 13px;
+  color: var(--mk-ink-2);
+}
+.mk-row__sub--error {
+  color: var(--ca-danger);
+}
+.mk-row__trailing {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.mk-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--mk-fill);
+  color: var(--ca-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--ca-dur-1) var(--ca-ease),
+    transform var(--ca-dur-1) var(--ca-ease);
+}
+.mk-btn:hover {
+  background: var(--mk-fill-hover);
+}
+.mk-btn:active {
+  transform: scale(0.96);
+}
+.mk-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--ca-focus-ring);
+}
+.mk-btn--primary {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 13px;
+  background: var(--ca-primary-fill);
+  color: #fff;
+}
+.mk-btn--primary:hover {
+  background: var(--ca-primary-fill-hover);
+}
+.mk-btn[disabled] {
+  cursor: default;
+  opacity: 0.6;
+  transform: none;
+}
+
+.mk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px 2px 6px;
+  border-radius: 9999px;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  color: var(--mk-ink-3);
+}
+.mk-badge svg {
+  color: var(--ca-success);
+}
+
+.mk-pending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 10px;
+}
+.mk-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--mk-fill-hover);
+  border-top-color: var(--ca-ink);
+  animation: mk-spin 0.8s linear infinite;
+}
+@keyframes mk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mk-empty {
+  margin: 8px 12px;
+  font-size: 13px;
+  color: var(--mk-ink-2);
+}
+
+/* Detail */
+.mk-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 24px 24px;
+  animation: mk-in var(--ca-dur-2) var(--ca-ease) both;
+}
+.mk-back {
+  align-self: flex-start;
+}
+.mk-detail__hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.mk-detail__name {
+  margin: 0;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--ca-ink);
+}
+.mk-detail__byline {
+  font-size: 13px;
+  color: var(--mk-ink-3);
+}
+.mk-detail__about {
+  margin: 0;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--mk-ink-2);
+}
+.mk-detail__label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mk-ink-3);
+}
+.mk-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mk-chip {
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: var(--mk-fill);
+  font-size: 12px;
+  color: var(--ca-ink);
+}
+.mk-detail__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mk-detail__note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--mk-ink-3);
+}
+@keyframes mk-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mk-row,
+  .mk-row__icon,
+  .mk-btn,
+  .mk-search,
+  .mk-group__action {
+    transition: none;
+  }
+  .mk-row:hover .mk-row__icon {
+    transform: none;
+  }
+  .mk-detail {
+    animation: none;
+  }
+  .mk-spinner {
+    animation-duration: 2.4s;
+  }
+}
+
+/* Unified Marketplace additions (plugins + agents in one store). */
+.mk-row__open--static {
+  cursor: default;
+}
+.mk-page-title {
+  margin: 4px 0 8px;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--ca-ink);
+}
+.mk-note {
+  margin: 0 0 12px;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+.mk-note--error {
+  background: color-mix(in srgb, var(--ca-danger) 10%, transparent);
+  color: var(--ca-danger);
+}
+.mk-note--ok {
+  background: color-mix(in srgb, var(--ca-success) 12%, transparent);
+  color: var(--ca-success-text);
+}
+.mk-installed {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 4px 10px 4px 6px;
+  font-size: 13px;
+  color: var(--ca-ink-muted);
+  transition: background-color 120ms var(--ca-ease), color 120ms var(--ca-ease);
+}
+.mk-installed:hover {
+  background: var(--ca-hover);
+  color: var(--ca-ink);
+}
+.mk-installed__marks {
+  display: inline-flex;
+}
+.mk-installed__mark {
+  display: inline-flex;
+  border-radius: 7px;
+  box-shadow: 0 0 0 2px var(--ca-card);
+}
+.mk-installed__mark + .mk-installed__mark {
+  margin-left: -6px;
+}
+.mk-mark-fallback {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--ca-hover);
+}
+.mk-mark-fallback--sm {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+/* Loading placeholder rows (Marketplace PluginSkeleton). */
+.mk-row--skeleton {
+  pointer-events: none;
+  padding: 12px;
+  gap: 12px;
+}
+.mk-row--skeleton .mk-row__main {
+  gap: 7px;
+}
+.mk-skel {
+  display: block;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ca-ink) 8%, transparent);
+  animation: mk-skel-pulse 1.4s ease-in-out infinite;
+}
+.mk-skel--icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+.mk-skel--line {
+  height: 11px;
+  width: 55%;
+}
+.mk-skel--short {
+  width: 80%;
+  opacity: 0.7;
+}
+@keyframes mk-skel-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mk-skel {
+    animation: none;
+  }
+}
+
+/* Routines: a clock in the mascot slot, and the routine's own words on its
+   detail page so the user sees exactly what will run. */
+.mk-routine-glyph {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--ca-primary) 14%, transparent);
+  color: var(--ca-primary-text, var(--ca-primary));
+}
+.mk-detail__prompt {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--mk-fill);
+  font-size: 13px;
+  line-height: 19px;
+  color: var(--ca-ink);
+  white-space: pre-wrap;
+}
+/* Shelf names on the full Agents page: quieter than the page title. */
+.mk-group__title--sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mk-ink-3);
+}

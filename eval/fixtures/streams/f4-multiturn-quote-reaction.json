@@ -1,0 +1,27 @@
+{
+  "name": "f4-multiturn-quote-reaction",
+  "description": "INV4 multi-turn: two sequential POSTs (second sent as a reply-quote of the first bubble), then a user reaction on bubble A. Each turn must render as exactly one assistant bubble; quote pill and reaction pill must not disturb either bubble's text.",
+  "sessionId": "sess_eval_f4",
+  "turns": [
+    {
+      "turnId": "turn_f4_quote_a",
+      "userPrompt": "Give me answer one",
+      "events": [
+        { "id": 1, "delta": "First reply stands alone", "delayMs": 40 },
+        { "id": 2, "delta": " so the quote pill", "delayMs": 40 },
+        { "id": 3, "delta": " has something solid to point at.", "delayMs": 40 },
+        { "done": true }
+      ]
+    },
+    {
+      "turnId": "turn_f4_quote_b",
+      "userPrompt": "Follow up on the quoted line",
+      "events": [
+        { "id": 1, "delta": "Second reply answers the quoted line.", "delayMs": 40 },
+        { "id": 2, "delta": " Two turns, two bubbles,", "delayMs": 40 },
+        { "id": 3, "delta": " zero bleed between them.", "delayMs": 40 },
+        { "done": true }
+      ]
+    }
+  ]
+}
