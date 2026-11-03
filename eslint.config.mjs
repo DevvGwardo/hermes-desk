@@ -109,6 +109,36 @@ export default [
     },
   },
   {
+    // Electron 45 enforces sandboxed preload restrictions: only `electron`
+    // (contextBridge/ipcRenderer) plus web-standard APIs. These never belong
+    // in a preload: Node globals that escape the sandbox, or builtin imports
+    // that are unavailable without nodeIntegration.
+    files: ['electron/**/*preload*.cjs'],
+    rules: {
+      'no-restricted-globals': ['error',
+        { name: 'Buffer', message: 'sandboxed preload: Buffer is unavailable' },
+        { name: 'setImmediate', message: 'sandboxed preload: use queueMicrotask/setTimeout' },
+        { name: 'clearImmediate', message: 'sandboxed preload: use clearTimeout' },
+      ],
+      'no-restricted-imports': ['error', {
+        paths: [
+          { name: 'events', message: 'sandboxed preload: events is unavailable' },
+          { name: 'node:events', message: 'sandboxed preload: events is unavailable' },
+          { name: 'timers', message: 'sandboxed preload: timers is unavailable' },
+          { name: 'node:timers', message: 'sandboxed preload: timers is unavailable' },
+          { name: 'url', message: 'sandboxed preload: url is unavailable' },
+          { name: 'node:url', message: 'sandboxed preload: url is unavailable' },
+          { name: 'fs', message: 'sandboxed preload: fs is unavailable' },
+          { name: 'node:fs', message: 'sandboxed preload: fs is unavailable' },
+          { name: 'path', message: 'sandboxed preload: path is unavailable' },
+          { name: 'node:path', message: 'sandboxed preload: path is unavailable' },
+          { name: 'crypto', message: 'sandboxed preload: crypto is unavailable' },
+          { name: 'node:crypto', message: 'sandboxed preload: crypto is unavailable' },
+        ],
+      }],
+    },
+  },
+  {
     ignores: [
       'node_modules/**',
       'dist/**',

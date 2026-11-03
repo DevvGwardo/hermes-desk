@@ -16,7 +16,7 @@ it('fixed document-start guard locks native surfaces while preserving the genuin
   class Input extends Element {showPicker(){nativeCalls++}}
   const window={alert:()=>nativeCalls++},listeners=[]
   vm.runInNewContext(fs.readFileSync(require.resolve('./preload.cjs'),'utf8'),{
-    process:{argv:['--hd-native-readonly-preload-v1'],versions:{electron:'37.10.3'}},window,HTMLElement:Element,HTMLInputElement:Input,DOMException,
+    process:{argv:['--hd-native-readonly-preload-v1'],versions:{electron:'45.2.1'}},window,HTMLElement:Element,HTMLInputElement:Input,DOMException,
     document:{addEventListener:(...args)=>listeners.push(args)},
     require:()=>({contextBridge:{executeInMainWorld:({func})=>func(),exposeInMainWorld:(_name,value)=>bridge=value},
       ipcRenderer:{invoke:channel=>Promise.resolve({channel}),on:()=>{},removeListener:()=>{},sendSync:()=>{}}}),

@@ -262,9 +262,14 @@ function createViews({ WebContentsView, BrowserWindow, getMainWindow, urlPolicy,
     })
     listen('will-navigate', guard)
     listen('will-redirect', guard)
-    listen('will-frame-navigate', (details) => {
-      const frame = /** @type {{isMainFrame?: unknown, url?: unknown}} */ (details)
-      if (frame.isMainFrame) guard(frame, frame.url)
+    listen('will-frame-navigate', (event, details) => {
+      // Electron 38+ emits (event, details); older detour shapes carried the
+      // details on the event object itself. The real event owns preventDefault.
+      const stoppable = /** @type {{preventDefault?: unknown}} */ (event)
+      const frame = /** @type {{isMainFrame?: unknown, url?: unknown}} */ (details === undefined ? event : details)
+      if (frame && frame.isMainFrame && typeof stoppable?.preventDefault === 'function') {
+        guard(event, frame.url)
+      }
     })
     listen('did-start-loading', () => {
       if (tab.state !== 'agent-acting') getLanes().setTabState(tab.id, 'loading')

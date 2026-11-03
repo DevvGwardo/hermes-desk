@@ -83,7 +83,7 @@ function installFrames() {
   const ipc=()=>Object.assign(new EventEmitter(),{handle:()=>{},handleOnce:()=>{}})
   const protocol={handle:()=>{},registerSchemesAsPrivileged:()=>{}}
   const electron={app,ipcMain:ipc(),protocol,session:{fromPartition:()=>{}},BrowserWindow:class{}}
-  const fakeProcess=Object.assign(new EventEmitter(),{versions:{electron:'37.10.3'},pid:123})
+  const fakeProcess=Object.assign(new EventEmitter(),{versions:{electron:'45.2.1'},pid:123})
   const mocks=new Map(['node:child_process','node:net','node:tls','node:http','node:https','node:dgram','node:worker_threads'].map(n=>[n,{}]))
   const module={exports:{}},messages=[]
   vm.runInNewContext(fs.readFileSync(require.resolve('./self-modification-native-mode.cjs'),'utf8'),{
@@ -125,7 +125,7 @@ it.each([false,true])('genuine preload synthetic originals: normal=%s / all requ
   w.HTMLVideoElement.prototype.requestPictureInPicture=original
   Object.defineProperty(w.navigator,'credentials',{value:{get:original,create:original,store:original,preventSilentAccess:original}})
   w.documentPictureInPicture={requestWindow:original}
-  ctx.process={argv:normal?[]:['--hd-native-readonly-preload-v1'],platform:'darwin',versions:{electron:'37.10.3'}}
+  ctx.process={argv:normal?[]:['--hd-native-readonly-preload-v1'],platform:'darwin',versions:{electron:'45.2.1'}}
   ctx.require=()=>({contextBridge:{executeInMainWorld:({func})=>func(),exposeInMainWorld:(_name,v)=>bridge=v},
     ipcRenderer:{invoke:()=>Promise.resolve({ok:true}),on:()=>{},removeListener:()=>{},sendSync:()=>{}}})
   vm.runInContext(fs.readFileSync(require.resolve('./preload.cjs'),'utf8'),ctx)
@@ -159,7 +159,7 @@ it.each([false,true])('genuine preload synthetic originals: normal=%s / all requ
 it.each([0,1])('preload insertion refuses native frame under Array.prototype[%s] poisoning',index=>{
   const dom=new JSDOM('<!doctype html><body></body>',{runScripts:'outside-only',url:'https://owned.invalid'})
   const ctx=dom.getInternalVMContext(),w=dom.window
-  ctx.process={argv:['--hd-native-readonly-preload-v1'],platform:'darwin',versions:{electron:'37.10.3'}}
+  ctx.process={argv:['--hd-native-readonly-preload-v1'],platform:'darwin',versions:{electron:'45.2.1'}}
   ctx.require=()=>({contextBridge:{executeInMainWorld:({func})=>func(),exposeInMainWorld:()=>{}},
     ipcRenderer:{invoke:()=>Promise.resolve({ok:true}),on:()=>{},removeListener:()=>{},sendSync:()=>{}}})
   try {
@@ -183,7 +183,7 @@ it.each([0,1])('preload insertion refuses native frame under Array.prototype[%s]
 it('native activation gate denies window-capture, closed-shadow and control-type mutation routes',()=>{
   const dom=new JSDOM('<!doctype html><body></body>',{runScripts:'outside-only',url:'https://owned.invalid'})
   const ctx=dom.getInternalVMContext(),w=dom.window
-  ctx.process={argv:['--hd-native-readonly-preload-v1'],platform:'darwin',versions:{electron:'37.10.3'}}
+  ctx.process={argv:['--hd-native-readonly-preload-v1'],platform:'darwin',versions:{electron:'45.2.1'}}
   ctx.require=()=>({contextBridge:{executeInMainWorld:({func})=>func(),exposeInMainWorld:()=>{}},
     ipcRenderer:{invoke:()=>Promise.resolve({ok:true}),on:()=>{},removeListener:()=>{},sendSync:()=>{}}})
   try {

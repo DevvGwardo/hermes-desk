@@ -74,7 +74,7 @@
     "@vitejs/plugin-react": "^4.6.0",
     "@vitest/coverage-v8": "^4.1.10",
     "concurrently": "^9.2.5",
-    "electron": "^37.2.6",
+    "electron": "^45.2.1",
     "electron-builder": "^26.0.12",
     "esbuild": "^0.28.2",
     "eslint": "^10.12.0",
@@ -137,6 +137,9 @@
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "NSAudioCaptureUsageDescription": "Hermes Desk screen sharing can include system audio via the CoreAudio loopback tap."
+      },
       "notarize": false
     }
   }

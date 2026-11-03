@@ -1,8 +1,33 @@
 # Electron 37 → 45 Migration Plan & Validation Matrix
 
-> **Status:** DRAFT — single source of truth (merges `electron-37-to-45-migration.md` + `electron-migration-validation.md`; the latter has been deleted).
+> **Status:** DONE — shipped to `main` on 2026-11-03 (Electron 45.2.1, commits
+> `e7821c1` + `ccda574`). See §Outcome for what actually broke versus what this
+> plan predicted.
 > **Scope:** 8 major releases (Electron 38 → 45).
-> **Branch strategy:** all work on `feat/electron-45-migration`; `main` stays pinned until sign-off.
+> **Branch strategy:** the work landed on `feat/electron-45`, fast-forwarded to
+> `main` after the gates below passed.
+
+## Outcome (2026-11-03)
+
+The upgrade itself was clean; the two real defects were both silent.
+
+1. **The top-navigation lock stopped firing.** `will-frame-navigate` emits
+   `(event, details)` in Electron 38+; the old handler read `isMainFrame` off the
+   event, which no longer carries it, so the guard never ran and no test noticed.
+   Fixed in `electron/local/workspace/views.cjs` with a single-argument fallback.
+2. **A focus-triggered tooltip became audited page content.** Chromium 156 keeps
+   a tooltip open when a dialog hands focus back to its opener; the portal sits
+   outside every landmark, so axe reported `region` on all four chat views. The
+   harness now drops focus before auditing (§6), and the same 13 states audit
+   clean again.
+
+Validation actually run: `check:node` 311 files · `tsc -b --force` and
+`tsc -p tsconfig.electron.json` clean · unit 4,464 passed + 1 expected fail ·
+electron 1,876 passed · `build` ok · layout, a11y and sidebar harnesses 0
+failures · `electron:build` produced a 269 MB app whose Electron Framework
+reports 45.2.1. `electron-builder` stayed on 26.15.3 (v27 is alpha-only) and
+`playwright-core` on 1.63.0 (CDP attach against Chromium 156 exercised by the
+three harnesses above). The installed `/Applications` app was **not** replaced.
 
 ## 0. Authoritative version table (verified 2026-11-03 against https://releases.electronjs.org/releases.json)
 

@@ -42,7 +42,7 @@ function fixture() {
   fs.writeFileSync(path.join(root, 'public/mark.svg'), '<svg/>')
   fs.writeFileSync(path.join(root, 'build/entitlements.mac.plist'), entitlements)
   const plan = preview.createPreviewPlan({ root, workspace, buildConfig: config, electronDist,
-    electronVersion: '37.10.3', builderCli, viteCli, originalSha256: hash('fixture original'),
+    electronVersion: '45.2.1', builderCli, viteCli, originalSha256: hash('fixture original'),
     approvedViteConfigSha256: hash('export default {}') })
   fs.writeFileSync(plan.originalArchive, 'fixture original')
   const calls = []

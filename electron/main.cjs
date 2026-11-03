@@ -1398,7 +1398,19 @@ ipcHandle('maia:notify', async (event, payload) => {
   if (!n.force && mainWindow.isVisible() && !mainWindow.isMinimized() && mainWindow.isFocused()) {
     return { ok: true, skipped: 'focused' }
   }
-  const note = new Notification({ title: n.title, body: n.body || undefined })
+  const note = (() => {
+    // Ad-hoc (unsigned) builds may lack the UNNotification identity; a
+    // notification must degrade to a no-op, never crash the main window.
+    try {
+      const created = new Notification({ title: n.title, body: n.body || undefined })
+      created.on('failed', (event, error) => console.warn('[notify] notification failed:', error && error.message))
+      return created
+    } catch (error) {
+      console.warn('[notify] notification unavailable:', error && error.message)
+      return null
+    }
+  })()
+  if (!note) return { ok: false, skipped: 'unavailable' }
   // Held until clicked or closed: a collected Notification loses its click.
   liveNotifications.add(note)
   const release = () => liveNotifications.delete(note)
@@ -1410,7 +1422,13 @@ ipcHandle('maia:notify', async (event, payload) => {
     showMainWindow(true)
     try { mainWindow.webContents.send('maia:notify:click', { target: n.target }) } catch {}
   })
-  note.show()
+  try {
+    note.show()
+  } catch (error) {
+    console.warn('[notify] notification unavailable:', error && error.message)
+    liveNotifications.delete(note)
+    return { ok: false, skipped: 'unavailable' }
+  }
   if (process.platform === 'darwin' && app.dock) {
     try { app.dock.bounce('informational') } catch {}
   }
@@ -2233,7 +2251,16 @@ app.whenReady().then(async () => {
     },
     notify: (payload) => {
       const n = systemNotify.sanitizeNotification(payload)
-      if (!e2eBackground && n && Notification.isSupported()) new Notification({ title: n.title, body: n.body }).show()
+      if (e2eBackground || !n || !Notification.isSupported()) return
+      // Ad-hoc (unsigned) builds may lack the UNNotification identity; never
+      // let a notification take down the HUD host.
+      try {
+        const note = new Notification({ title: n.title, body: n.body })
+        note.on('failed', (event, error) => console.warn('[hud] notification failed:', error && error.message))
+        note.show()
+      } catch (error) {
+        console.warn('[hud] notification unavailable:', error && error.message)
+      }
     },
   })
   installHudTray()

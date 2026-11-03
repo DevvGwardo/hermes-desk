@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 // Protected constructor marker only. Normal bridge below is byte-unchanged.
 if (typeof process !== 'undefined' && process.argv?.includes('--hd-native-readonly-preload-v1')) {
-  if (process.versions?.electron !== '37.10.3' || typeof contextBridge.executeInMainWorld !== 'function')
+  if (String(process.versions?.electron ?? '').split('.')[0] !== '45' || typeof contextBridge.executeInMainWorld !== 'function')
     throw new Error('Unsupported sealed native surface runtime')
   contextBridge.executeInMainWorld({ func: () => {
     const apply = Reflect.apply, text = String, exec = RegExp.prototype.exec

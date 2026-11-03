@@ -119,6 +119,19 @@ print(json.dumps(rows))
 }
 
 async function audit(name) {
+  // A tooltip renders into a portal at the document root, outside every
+  // landmark. Chromium 156 keeps a focus-triggered tooltip open after a dialog
+  // hands focus back to the control that opened it (the harness closes Settings
+  // with Escape), so axe reported `region` on every chat view; 138 had already
+  // let it go. A tooltip is transient UI, not page content: drop focus so the
+  // portal unmounts, then audit the page. Best-effort — the audit's own
+  // assertions still decide.
+  await h.page.evaluate(() => {
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+  })
+  await h.page.waitForFunction(
+    () => document.querySelectorAll('.desk-tooltip').length === 0, null, { timeout: 5000 },
+  ).catch(() => {})
   await h.page.evaluate(async () => {
     await Promise.all(document.getAnimations().filter(animation => animation.playState === 'running' &&
       Number.isFinite(animation.effect?.getComputedTiming().endTime))

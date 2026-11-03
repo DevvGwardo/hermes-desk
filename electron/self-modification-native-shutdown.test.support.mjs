@@ -67,7 +67,7 @@ export async function shutdownFixture(root,{attack='abort',legacySource}={}) {
         guards:['constructor:BrowserWindow','constructor:Notification','constructor:Tray','constructor:WebContentsView',
           'file-chooser:intercept-installed','document-start:native-surface-guard-observed',...Array(40).fill('synthetic-guard')],
         receipts:[receipt],...legacySource?{}:{surfaceEvidence:{
-          source:'fixed-trusted-inert-main-before-release',runtimeVersion:'37.10.3',
+          source:'fixed-trusted-inert-main-before-release',runtimeVersion:'45.2.1',
           surface:Object.fromEntries(['prototypePoison','subframe','subframeParser','fsa','clipboardRead','clipboardWrite','capture','media','mediaEnumeration','wake'].map(k=>[k,true])),
           nativeAliases:Object.fromEntries(contract.NATIVE_ALIASES.map(k=>[k,true])),...syntheticBarrier()}}})
       if(m.type==='release')emit('released')

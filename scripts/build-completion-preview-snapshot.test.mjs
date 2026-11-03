@@ -36,7 +36,7 @@ function fixture() {
   fs.writeFileSync(path.join(root, 'public/mark.svg'), '<svg/>')
   fs.writeFileSync(path.join(root, 'build/entitlements.mac.plist'), '<plist/>')
   const plan = createPreviewPlan({ root, workspace, buildConfig: config,
-    electronDist: path.join(root, 'node_modules/electron/dist'), electronVersion: '37.10.3',
+    electronDist: path.join(root, 'node_modules/electron/dist'), electronVersion: '45.2.1',
     builderCli: 'unused', viteCli: 'unused', approvedViteConfigSha256: digest('export default {base:"./"}') })
   return { base, root, workspace, template, plan }
 }

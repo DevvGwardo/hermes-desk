@@ -10,7 +10,7 @@ const BOOT=Buffer.from('<!doctype html><meta charset="utf-8"><title>Trusted nati
 const denial=()=>({ok:false,code:'qualification-readonly',error:'Consequential capability disabled during native qualification.'})
 function install(config) {
   if(mode)throw Error('Native qualification mode already installed')
-  if(process.versions.electron!=='37.10.3')throw Error('Unsupported sealed Electron guard inventory/version')
+  if(String(process.versions.electron).split('.')[0]!=='45')throw Error('Unsupported sealed Electron guard inventory/version')
   const electron=require('electron'),{app,ipcMain,session,protocol}=electron
   const guards=[],blocked=[],receipts=[],assets=[]
   let win=null,binding=null,released=false,failed=false,bootPromise=null
@@ -237,7 +237,7 @@ function install(config) {
     wc.on('render-process-gone',()=>fail('Renderer process rotated/gone'))
     wc.on('did-fail-load',(_e,code)=>{if(code!==-3)fail('Native document load failed')})
     wc.on('will-frame-navigate',(event,separateDetails)=>{
-      // Electron 37 details-on-event and the explicit separate-details form.
+      // Electron 45 details-on-event and the explicit separate-details form.
       // ALWAYS cancel the genuine event first. Metadata is never an event.
       if(typeof event?.preventDefault!=='function'){fail('Unsupported uncancellable frame event');return}
       try{event.preventDefault()}catch{fail('Frame event cancellation failed');return}

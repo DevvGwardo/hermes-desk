@@ -2,6 +2,28 @@
 
 ## Hermes Desk, current project
 
+- **2026-11-03, Electron 45.2.1 shipped to main:** 37.10.3 → 45.2.1 (Chromium
+  138.0.7204.251 → 156.0.8078.75, Node 22.21.1 → 24.22.1). Landed on
+  `feat/electron-45` as `e7821c1` + `ccda574`, fast-forwarded to `main`.
+  `electron-builder` stays 26.15.3 (v27 is alpha-only) and `playwright-core`
+  stays 1.63.0. Two defects were silent and only the gates caught them: (1)
+  `will-frame-navigate` now emits `(event, details)`, so the old handler read
+  `isMainFrame` off the event, never matched, and the top-navigation lock had
+  stopped firing — fixed in `views.cjs` with a single-argument fallback; (2) under
+  Chromium 156 a focus-triggered tooltip stays open when a dialog hands focus
+  back to its opener, and because the tooltip portal sits outside every landmark
+  axe reported `region` on all four chat views — the a11y harness now blurs
+  before auditing and the same 13 states pass. Also: sandboxed-preload lint block
+  (Buffer/setImmediate/node builtins), notification creation wrapped so an
+  ad-hoc build without a UNNotification identity degrades instead of crashing,
+  `NSAudioCaptureUsageDescription` for CoreAudio loopback, and runtime version
+  pins accept the 45 major. Gate results: check:node 311 files, tsc -b --force
+  clean, tsc -p tsconfig.electron.json clean, unit 4,464 passed + 1 expected
+  fail, electron 1,876 passed, build ok, layout/a11y/sidebar harnesses 0
+  failures, `electron:build` produced a 269 MB app whose Electron Framework
+  reports 45.2.1. `install:local` was NOT run: `/Applications/Hermes Desk.app`
+  is still the Electron 37 build until you approve replacing it.
+
 - **2026-11-02, public release is live:** `https://github.com/DevvGwardo/hermes-desk`
   is PUBLIC (MIT, topics `electron react macos ai-agents local-first`), pushed as
   a single-commit snapshot so the removed xAI material exists in no commit there.

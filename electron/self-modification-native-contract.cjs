@@ -108,7 +108,7 @@ function validPreflight(v,{browserPid,preload,preloadSha256}) {
   validMetrics(v.metrics,id);validReceipts(v.receipts,id)
   const e=v.surfaceEvidence
   if(!keys(e,['source','runtimeVersion','surface','nativeAliases','barrier','inventoryDigest','permissionEvidence'])||e.source!=='fixed-trusted-inert-main-before-release'||
-    e.runtimeVersion!=='37.10.3'||
+    String(e.runtimeVersion).split('.')[0]!=='45'||
     !keys(e.surface,['prototypePoison','subframe','subframeParser','fsa','clipboardRead','clipboardWrite','capture','media','mediaEnumeration','wake'])||
     !keys(e.nativeAliases,NATIVE_ALIASES)||
     ![...Object.values(e.surface),...Object.values(e.nativeAliases)].every(v=>v===true))
