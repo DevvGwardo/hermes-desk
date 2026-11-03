@@ -1,7 +1,7 @@
 {
   "sources": {
     "src/lib/mascot/characters/owl/rig.svg": "6b01df5a44828e33440c21e3d91c3a810c2e2c9ddad6fed6a1732574552886d4",
-    "src/lib/mascot/characters/owl/motion.json": "e53c089118aa5d406be8fdde7c1c630ed14105522256faafc21e922ffb2b057c",
+    "src/lib/mascot/characters/owl/motion.json": "50c5daee965f83cad30d5f8df0fb0d2c4a1aaa5f4ee64c9cb9d2f4f530fa5c78",
     "src/lib/mascot/characters/owl/palette.json": "ffc21bd020c13ae42b2b2fc9f4a469e91f00c1da6648f4d525f6d95c96a6a6fa"
   },
   "captures": [
@@ -10,6 +10,7 @@
       "width": 1600,
       "height": 800,
       "textOverflow": [],
+      "coveredText": [],
       "nativeOwls": [
         {
           "state": "idle",
@@ -24,13 +25,14 @@
       "previewReady": true,
       "horizontalOverflow": false,
       "deterministic": true,
-      "sha256": "39654e223bab15593157d381acbe5ebe53d13336248d0c7229a968f3fea54ba7"
+      "sha256": "7d2133fc4e8f6723cfc1920aebabc3d2a2c7ad7b0ab8f30fd66741db7042ac9a"
     },
     {
-      "file": "hermes-desk-architecture.png",
+      "file": "hermes-desk-infographic.png",
       "width": 1600,
       "height": 1120,
       "textOverflow": [],
+      "coveredText": [],
       "nativeOwls": [
         {
           "state": "idle",
@@ -45,13 +47,14 @@
       "previewReady": true,
       "horizontalOverflow": false,
       "deterministic": true,
-      "sha256": "3c6adae4d6c865635ed303fed151797f7854d42e3523f3dec755442e673a70cc"
+      "sha256": "efe8ed3d8f59b01aba03e417df7bbb11c0b79ce06cc5e9c4dc254515cd557936"
     },
     {
       "file": "hermes-desk-workspace.png",
       "width": 1600,
       "height": 1200,
       "textOverflow": [],
+      "coveredText": [],
       "nativeOwls": [
         {
           "state": "idle",
@@ -66,13 +69,14 @@
       "previewReady": true,
       "horizontalOverflow": false,
       "deterministic": true,
-      "sha256": "021bab586468a01316c95ba0b0d0d48e7cfecf2e7f9dd1afd6f9368ed2fce0d4"
+      "sha256": "6d39162385a41353762825adf24cc0f80b921559e0ce6f8f8cc8fa015d27f06c"
     },
     {
       "file": "hermes-desk-states.png",
       "width": 1600,
       "height": 720,
       "textOverflow": [],
+      "coveredText": [],
       "nativeOwls": [
         {
           "state": "idle",
@@ -127,13 +131,14 @@
       "previewReady": true,
       "horizontalOverflow": false,
       "deterministic": true,
-      "sha256": "4120997653ee5c8d29b12aecaf29e6b170baba0d5ba3446d5a79b4efa610a157"
+      "sha256": "9964b9f78e71ceca1b07d3d1d4b5a8cfaadc7241671f520f0dc76803ea128014"
     },
     {
       "file": "hermes-desk-palettes.png",
       "width": 1600,
       "height": 720,
       "textOverflow": [],
+      "coveredText": [],
       "nativeOwls": [
         {
           "state": "idle",
@@ -188,7 +193,7 @@
       "previewReady": true,
       "horizontalOverflow": false,
       "deterministic": true,
-      "sha256": "626d1cfc73a95e45870fad72e12fdc12cf407e6f3665594f791e88f23a2e15d2"
+      "sha256": "02ca28355a4546eb608f52e9539488212f0f914e592fff3b41561b6f659a813f"
     }
   ]
 }

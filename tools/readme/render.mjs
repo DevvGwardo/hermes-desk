@@ -10,7 +10,7 @@ const root = fileURLToPath(new URL('../../', import.meta.url))
 const output = await mkdtemp(join(tmpdir(), 'hermes-desk-artwork-'))
 const captures = [
   ['banner', 800, 1],
-  ['architecture', 1120, 1],
+  ['infographic', 1120, 1],
   ['workspace', 1200, 1],
   ['states', 720, 6],
   ['palettes', 720, 6],
@@ -84,14 +84,30 @@ try {
         profile: el.querySelector('svg')?.dataset.mascotProfile,
       }))
       const iframe = artwork.querySelector('iframe')
+      // A block that wraps one line more than its layout allows can end up
+      // underneath the section frame; nothing in textOverflow notices, because
+      // the text is inside the canvas and does not scroll.
+      const frame = artwork.querySelector('.info-frame')
+      const frameRect = frame?.getBoundingClientRect()
+      const coveredText = frameRect
+        ? [...artwork.querySelectorAll('h1, .deck, .eyebrow, .footer, .pill')]
+          .filter(el => !frame.contains(el))
+          .filter(el => {
+            const rect = el.getBoundingClientRect()
+            return rect.left < frameRect.right && rect.right > frameRect.left &&
+              rect.top < frameRect.bottom && rect.bottom > frameRect.top
+          })
+          .map(el => el.textContent)
+        : []
       return {
-        width: bounds.width, height: bounds.height, textOverflow, nativeOwls,
+        width: bounds.width, height: bounds.height, textOverflow, coveredText, nativeOwls,
         previewOwlCount: iframe ? iframe.contentDocument.querySelectorAll('[data-character="owl"]').length : 0,
         previewReady: iframe ? Boolean(iframe.contentWindow.deskDesign?.ready) : true,
         horizontalOverflow: document.documentElement.scrollWidth > innerWidth,
       }
     })
     if (metrics.width !== 1600 || metrics.height !== height || metrics.horizontalOverflow || metrics.textOverflow.length ||
+        metrics.coveredText.length ||
         metrics.nativeOwls.length !== expectedOwls || !metrics.previewReady ||
         metrics.nativeOwls.some(owl => !owl.hasHelmet || !owl.hasSatchel || owl.parts < 25 || owl.profile !== 'reduced') ||
         (view === 'workspace' && metrics.previewOwlCount < 6)) {

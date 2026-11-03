@@ -24,31 +24,40 @@
     .banner h1 { font-size: 112px; letter-spacing: -5px; margin: 42px 0 22px; }
     .banner .deck { font-size: 43px; line-height: 1.35; margin: 0; }
     .banner .hero-owl { position: absolute; left: 980px; top: 112px; z-index: 2; }
-    .banner .perch { position: absolute; left: 1075px; top: 618px; width: 392px; height: 3px; background: #526378; }
-    .banner .footer { bottom: 72px; font-size: 22px; }
-    .banner .signature { position: absolute; right: 138px; bottom: 76px; font-size: 17px; color: #adadb9; letter-spacing: .4px; }
+    .banner .perch { position: absolute; left: 1063px; top: 609px; width: 392px; height: 3px; background: #526378; }
+    .banner .footer { bottom: 72px; font-size: 22px; left: 88px; }
+    .banner .signature { position: absolute; left: 1063px; top: 652px; width: 392px; text-align: center; font-size: 19px; color: #adadb9; letter-spacing: .4px; }
 
-    .architecture { height: 1120px; padding: 70px 80px; }
-    .architecture h1 { font-size: 60px; }
-    .architecture .deck { font-size: 26px; }
-    .mac-boundary { position: absolute; left: 80px; top: 240px; width: 1440px; height: 648px; border: 1.5px solid #484852; border-radius: 24px; background: #111113; }
-    .boundary-label { position: absolute; top: 26px; left: 28px; font-size: 20px; letter-spacing: 1.5px; font-weight: 600; color: #c4c4ce; }
-    .arch-card { position: absolute; top: 96px; width: 360px; height: 284px; padding: 28px; border: 1px solid #41414b; border-radius: 18px; background: #1c1c1f; }
-    .arch-card h2 { font-size: 30px; font-weight: 600; margin: 20px 0 18px; letter-spacing: -.7px; }
-    .arch-card p { font-size: 21px; line-height: 1.65; color: #c4c4ce; }
-    .arch-card:nth-of-type(1) { left: 28px; }
-    .arch-card:nth-of-type(2) { left: 540px; }
-    .arch-card:nth-of-type(3) { left: 1052px; }
-    .links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-    .links text { fill: #a7ceff; font-size: 19px; text-anchor: middle; }
-    .workspace-node { position: absolute; left: 28px; top: 451px; width: 880px; height: 104px; display: flex; align-items: center; gap: 24px; padding: 22px 28px; border: 1px solid #41414b; border-radius: 16px; background: #161618; }
-    .workspace-node h2 { font-size: 27px; margin-bottom: 8px; font-weight: 600; }
-    .workspace-node p { font-size: 21px; color: #c4c4ce; }
-    .local-note { position: absolute; bottom: 28px; left: 28px; font-size: 21px; color: #adadb9; }
-    .provider { position: absolute; right: 80px; top: 966px; width: 570px; height: 108px; border: 1px solid #484852; border-radius: 16px; display: flex; align-items: center; gap: 22px; padding: 20px 28px; }
-    .provider h2 { font-size: 26px; font-weight: 600; margin-bottom: 8px; }
-    .provider p { font-size: 21px; color: #c4c4ce; }
-    .architecture .footer { font-size: 20px; bottom: 70px; max-width: 610px; line-height: 1.5; }
+    .infographic { height: 1120px; padding: 70px 80px; }
+    .infographic h1 { font-size: 62px; }
+    .infographic .deck { font-size: 29px; max-width: 1040px; }
+    .info-frame { position: absolute; left: 80px; top: 262px; width: 1440px; height: 386px; border: 1.5px solid #4b4b56; border-radius: 24px; background: #111113; }
+    .info-frame-label { position: absolute; top: 16px; left: 26px; font-size: 20px; letter-spacing: 1.8px; font-weight: 600; color: #c4c4ce; }
+    .info-rail { position: absolute; left: 26px; top: 54px; display: flex; align-items: stretch; }
+    .info-step { width: 320px; height: 258px; padding: 22px; border: 1px solid #43434e; border-radius: 16px; background: #1a1b1f; }
+    .info-num { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid #4d6178; color: #a7ceff; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .info-step .icon { width: 36px; height: 36px; float: right; margin-top: 1px; }
+    .info-step h2 { font-size: 32px; font-weight: 600; margin: 12px 0 10px; letter-spacing: -.8px; }
+    .info-step p { font-size: 25px; line-height: 1.42; color: #c4c4ce; }
+    .info-arrow { width: 28px; display: flex; align-items: center; justify-content: center; color: #6b7b8f; font-size: 26px; }
+    .info-turn { position: absolute; left: 26px; top: 324px; width: 1388px; border-top: 1px solid #2d2d35; padding-top: 16px; display: flex; align-items: center; }
+    .info-turn-label { font-size: 19px; letter-spacing: 1.7px; color: #8f8f9c; margin-right: 18px; }
+    .info-chip { border: 1px solid #43434e; border-radius: 999px; padding: 9px 18px; font-size: 23px; color: #e6e6ec; background: #17181b; white-space: nowrap; }
+    .info-chip-arrow { color: #6b7b8f; font-size: 24px; margin: 0 11px; }
+    .info-local { position: absolute; left: 80px; top: 682px; width: 700px; }
+    .info-local h2 { font-size: 30px; font-weight: 600; margin-bottom: 16px; }
+    .info-local ul { margin: 0; padding: 0; list-style: none; }
+    .info-local li { font-size: 24px; line-height: 1.4; color: #c4c4ce; margin-bottom: 10px; }
+    .info-local li b { color: #e6e6ec; font-weight: 600; }
+    .info-local li span { color: #8f8f9c; }
+    .info-badges { position: absolute; left: 892px; top: 818px; width: 628px; display: flex; flex-direction: column; gap: 12px; align-items: stretch; }
+    .info-badge { border: 1px solid #43434e; border-radius: 14px; padding: 9px 20px; font-size: 21px; color: #c4c4ce; }
+    .info-provider { position: absolute; left: 892px; top: 700px; width: 628px; height: 112px; border: 1px solid #4b4b56; border-radius: 16px; display: flex; align-items: center; gap: 20px; padding: 16px 26px; }
+    .info-provider h2 { font-size: 26px; font-weight: 600; margin-bottom: 8px; letter-spacing: -.3px; }
+    .info-provider p { font-size: 21px; color: #c4c4ce; }
+    .info-egress { position: absolute; left: 892px; top: 648px; width: 628px; height: 52px; }
+    .info-egress text { fill: #a7ceff; font-size: 20px; }
+    .infographic .footer { bottom: 44px; font-size: 21px; }
 
     .workspace { height: 1200px; padding: 60px 80px; }
     .workspace h1 { font-size: 59px; }
@@ -109,30 +118,60 @@
         <p class="signature">Pip, the courier owl</p>`
     }
 
-    function architecture() {
-      root.className = 'architecture'
+    function infographic() {
+      root.className = 'infographic'
+      const steps = [
+        ['01', 'message', 'React interface', 'Roster, chat, workspace<br>Renders from local state'],
+        ['02', 'chip', 'Preload IPC', 'Typed bridge<br>No token in the renderer'],
+        ['03', 'terminal', 'Electron main', 'Runtime lifecycle<br>Spawns serve, holds token'],
+        ['04', 'providers', 'hermes serve', 'Your Hermes install<br>Profiles, memory, tools'],
+      ]
+      const turns = ['You type', 'serve streams', 'tool step', 'reply lands']
+      const local = [
+        ['Chats and drafts', 'transcripts, attachments, per-chat model'],
+        ['Rooms', 'membership, approval queue, handoff journal'],
+        ['Routines and board', 'schedules, runs, task-board state'],
+        ['Settings', 'appearance, connections, preferences'],
+        ['Memory and history', 'profile memory, session index, archives'],
+      ]
       root.innerHTML = `
-        <h1>One desk. Your local agents.</h1>
-        <p class="deck">The app stays on your Mac. Your profiles choose the model providers.</p>
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h1 style="margin-top:16px">One app. Your machine. Your agents.</h1>
+        <p class="deck">Four local layers. Only what Hermes sends leaves this Mac.</p>
         ${smallOwl()}
-        <div class="mac-boundary">
-          <div class="boundary-label">YOUR MAC</div>
-          <section class="arch-card">${icon('message')}<h2>React interface</h2><p>Chat and agent roster<br>Workspace controls<br>Local preferences</p></section>
-          <section class="arch-card">${icon('chip')}<h2>Electron main</h2><p>Runtime lifecycle<br>Authenticated bridge<br>Tokens stay in main</p></section>
-          <section class="arch-card">${icon('terminal')}<h2>hermes serve</h2><p>Profiles and sessions<br>Memory and skills<br>Tools and model calls</p></section>
-          <svg class="links" viewBox="0 0 1440 648">${arrowDefs}
-            <g fill="none" stroke="#a7ceff" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)">
-              <path d="M398 230H530"/><path d="M910 230H1042"/><path d="M720 390V441"/>
-            </g>
-            <text x="464" y="205">Preload IPC</text><text x="976" y="205">Loopback API</text>
-            <path d="M1232 390V712" fill="none" stroke="#a7ceff" stroke-width="2" marker-end="url(#arrow)"/>
-            <text x="1110" y="614">Model requests</text>
-          </svg>
-          <div class="workspace-node">${icon('browser')}<div><h2>Native workspace</h2><p>Per-agent browser lanes / opt-in MCP bridge</p></div></div>
-          <p class="local-note">Hermes Desk adds no platform account or telemetry.</p>
+        <div class="info-frame">
+          <div class="info-frame-label">YOUR MAC</div>
+          <div class="info-rail">
+            ${steps.map(([num, iconName, title, detail], index) => `
+              ${index ? '<div class="info-arrow">&#8594;</div>' : ''}
+              <section class="info-step">
+                <span class="info-num">${num}</span>${icon(iconName)}
+                <h2>${title}</h2>
+                <p>${detail}</p>
+              </section>`).join('')}
+          </div>
+          <div class="info-turn">
+            <span class="info-turn-label">ONE TURN</span>
+            ${turns.map((turn, index) => `${index ? '<span class="info-chip-arrow">&#8594;</span>' : ''}<span class="info-chip">${turn}</span>`).join('')}
+          </div>
         </div>
-        <div class="provider">${icon('providers')}<div><h2>Configured model providers</h2><p>Hermes uses your profile settings</p></div></div>
-        <p class="footer">Local app, local runtime.<br>Model and tool requests follow your Hermes configuration.</p>`
+        <svg class="info-egress" viewBox="0 0 628 60">
+          <defs><marker id="egress-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse"><path d="M1 1 6 4 1 7" fill="none" stroke="#a7ceff" stroke-width="1.5"/></marker></defs>
+          <path d="M314 0V48" fill="none" stroke="#a7ceff" stroke-width="2" marker-end="url(#egress-arrow)"/>
+          <text x="332" y="20">model requests</text>
+          <text x="332" y="42" style="fill:#8f8f9c">only outbound</text>
+        </svg>
+        <div class="info-provider">${icon('providers')}<div><h2>Configured model providers</h2><p>Only the calls your profile already makes</p></div></div>
+        <div class="info-local">
+          <h2>Stays on this Mac</h2>
+          <ul>${local.map(([title, detail]) => `<li><b>${title}</b> <span>&#8212; ${detail}</span></li>`).join('')}</ul>
+        </div>
+        <div class="info-badges">
+          <span class="info-badge">No account</span>
+          <span class="info-badge">No telemetry</span>
+          <span class="info-badge">Tokens stay in main</span>
+        </div>
+        <p class="footer">Local app, local runtime. Model and tool requests follow your Hermes configuration.</p>`
     }
 
     function workspace() {
@@ -175,7 +214,7 @@
         <p class="footer">Actual palette.json colours / Same eyes, winged helmet, feathers and messenger satchel</p>`
     }
 
-    const views = { banner, architecture, workspace, states, palettes: paletteShowcase }
+    const views = { banner, infographic, workspace, states, palettes: paletteShowcase }
     if (!views[view]) throw new Error(`Unknown artwork view: ${view}`)
     views[view]()
     const clock = new ManualFrameClock()

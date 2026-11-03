@@ -14,7 +14,7 @@ Your agents, conversation, and native workspace side by side. This illustrative 
 
 The React interface connects to local `hermes serve` through Electron's authenticated bridge. Tokens stay in the main process. Hermes uses the model providers configured in your profiles.
 
-![Hermes Desk architecture: React interface connects through preload IPC to Electron main, which connects over loopback to hermes serve and owns the native workspace. Hermes sends model requests to your configured providers.](docs/readme/hermes-desk-architecture.png)
+![How Hermes Desk works: four local layers inside the Mac — React interface, preload IPC, Electron main, and hermes serve — with a one-turn strip showing a message streaming, a tool step, an approval and the reply; chats, rooms, routines and settings stay on the Mac, and only model requests leave for the providers your profile already configures.](docs/readme/hermes-desk-infographic.png)
 
 ## Meet Pip
 
