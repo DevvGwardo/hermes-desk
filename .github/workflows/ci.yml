@@ -6,10 +6,8 @@ name: ci
 # outside CI).
 #
 #   PRs              -> `quick`: types/syntax + affected renderer tests on Linux.
-#                       On PRs touching src/**, triggers `harnesses` on macOS
-#                       for layout, accessibility, and compact-sidebar gates.
 #   release PRs      -> `full` (head branch chore/release-*): lint, full unit +
-#                       electron tests, renderer build, and native harnesses.
+#                       electron tests, renderer build.
 #   nightly          -> `full` on macOS, skipped when nothing landed that day.
 #   manual           -> `full` on any branch: gh workflow run ci -r <branch>
 #
@@ -45,8 +43,6 @@ jobs:
       # Only this explicitly reduced job skips Electron, not the full suite.
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       ELECTRON_SKIP: '1'
-    outputs:
-      src_changed: ${{ steps.changes.outputs.src }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,27 +60,18 @@ jobs:
         env:
           BASE_REF: ${{ github.base_ref }}
         run: npx vitest run --project unit --changed "origin/$BASE_REF"
-      - name: Check for changes in src/
-        id: changes
-        env:
-          BASE_REF: ${{ github.base_ref }}
-        run: |
-          CHANGES=$(git diff --name-only "origin/$BASE_REF"...HEAD || git diff --name-only "origin/$BASE_REF" HEAD)
-          if echo "$CHANGES" | grep -q '^src/'; then
-            echo "src=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "src=false" >> "$GITHUB_OUTPUT"
-          fi
 
   full:
-    name: macOS types + syntax + full tests + native harnesses + renderer build
+    name: macOS types + syntax + full tests + renderer build
     if: >-
       github.event_name != 'pull_request' ||
       startsWith(github.head_ref, 'chore/release-')
     # Exact socket-owner/process-group regressions require macOS lsof/ps.
-    # Runs the full test suite and native visual desktop harnesses.
+    # This does not provision Hermes or run real-account/native GUI probes: the
+    # native harnesses in tests/e2e/ need a local `hermes` checkout (see
+    # docs/native-harnesses-inventory.md) and run on the operator Mac.
     runs-on: macos-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -104,14 +91,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Cache Playwright browsers
-        if: steps.gate.outputs.run == 'true'
-        uses: actions/cache@v4
-        with:
-          path: ~/Library/Caches/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
       - name: Install
         if: steps.gate.outputs.run == 'true'
         run: npm ci
@@ -124,45 +103,4 @@ jobs:
       - name: Build renderer
         if: steps.gate.outputs.run == 'true'
         run: npm run build
-      - name: Native layout harness
-        if: steps.gate.outputs.run == 'true'
-        run: npm run test:layout
-      - name: Native accessibility harness
-        if: steps.gate.outputs.run == 'true'
-        run: npm run test:a11y
-      - name: Native sidebar harness
-        if: steps.gate.outputs.run == 'true'
-        run: npm run test:sidebar
 
-  harnesses:
-    name: macOS visual and native desktop harnesses
-    needs: quick
-    if: >-
-      github.event_name == 'pull_request' &&
-      needs.quick.outputs.src_changed == 'true' &&
-      !startsWith(github.head_ref, 'chore/release-')
-    runs-on: macos-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/Library/Caches/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
-      - name: Install
-        run: npm ci
-      - name: Build renderer
-        run: npm run build
-      - name: Native layout harness
-        run: npm run test:layout
-      - name: Native accessibility harness
-        run: npm run test:a11y
-      - name: Native sidebar harness
-        run: npm run test:sidebar

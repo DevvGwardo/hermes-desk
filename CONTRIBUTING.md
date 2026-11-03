@@ -262,6 +262,12 @@ Our GitHub Actions CI runs in tiers to maximize efficiency:
 - **Pull Requests (Ubuntu):** Runs a quick gate checking types, Node syntax (`npm run lint`), and tests affected by the diff (`vitest --changed`).
 - **Nightly / Release Branches (macOS):** Runs the comprehensive macOS verification suite including full Vitest execution and renderer build.
 
+The native harnesses under `tests/e2e/` are **not** part of CI: each one spawns a
+real Electron app against an isolated `hermes` checkout, which a stock runner
+does not have. Run them locally (`npm run test:layout`, `test:a11y`,
+`test:sidebar`, or `test:all-e2e`); they need `HERMES_E2E_SOURCE` or
+`~/.hermes/hermes-agent`.
+
 ---
 
 ## Reporting Issues & Security

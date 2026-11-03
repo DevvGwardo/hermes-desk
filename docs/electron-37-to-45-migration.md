@@ -46,7 +46,7 @@ Per-intermediate-release Chromium/Node/V8 cells in §3 are **UNVERIFIED** (carri
 - Hardcoded runtime pins at `electron/preload.cjs:5`, `electron/self-modification-native-mode.cjs:13`, `electron/self-modification-native-contract.cjs:111` — all assert `'37.10.3'` (see Fix 1).
 - Signing: ad-hoc only (`"identity": null`, `"notarize": false` in `package.json`; `scripts/build-desktop.mjs` enforces hardened-runtime `disable-library-validation`). No Apple Developer account — notifications behaviour in Fix 5 follows from this.
 - Packaging: `scripts/build-desktop.mjs` → mac build; `npm run package:release` → zip + checksums.
-- CI: `.github/workflows/ci.yml` (PR quick job + macOS full job incl. native layout harness), `secrets.yml`, `release-mac.yml` (+ `release-win.yml`).
+- CI: `.github/workflows/ci.yml` (PR quick job + macOS full job), `secrets.yml`, `release-mac.yml` (+ `release-win.yml`). The native harnesses are **not** in CI: they need a local `hermes` checkout, so they run on the operator Mac.
 
 ## 2. Codebase API audit (condensed — full detail was in the superseded plan)
 
@@ -113,7 +113,7 @@ Run before (baseline) and after each stage bump:
 | 1 Static | `npm run lint` | `tsc -b`, electron tsconfig, `check-node-syntax` |
 | 2 Unit | `npm run test:unit` | renderer/components (prior doc claimed 437 files — **UNVERIFIED**) |
 | 3 Electron invariants | `npm run test:electron` | main-process/security suites incl. `security-invariants`, `d04-will-navigate`, `fs-guard`, `serve-auth`, `self-modification-*` (prior doc claimed 1,869 tests / 103 files — **UNVERIFIED, re-count when run**) |
-| 4 E2E | `npm run test:all-e2e` | Playwright harnesses under `tests/e2e/` (composer typing, attachments, secrets, modal layers, sidebar-compact, a11y, layout, …); CI macOS job also runs the native layout harness |
+| 4 E2E | `npm run test:all-e2e` | Playwright harnesses under `tests/e2e/` (composer typing, attachments, secrets, modal layers, sidebar-compact, a11y, layout, …); these need a local `hermes` checkout and run on the operator Mac, not in CI |
 | 5 Package | `npm run electron:build` + `codesign --verify --deep --strict` + `node tests/e2e/packaged-media.mjs` | hardened-runtime ad-hoc signature, entitlements, packaged launch |
 
 ### Mutation testing (security tripwires — run at Stage 3)
