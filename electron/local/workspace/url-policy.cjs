@@ -23,6 +23,7 @@ const DEFAULT_SEARCH = 'https://www.google.com/search?q={query}'
  * @property {() => {agents?: Record<string, AgentUrlRules>}} [getWorkspaceConfig]
  * @property {Record<string, AgentUrlRules>} [agents]
  * @property {unknown} [searchEngine]
+ * @property {boolean} [e2eLoopback] Only the isolated E2E harness sets this.
  */
 /**
  * @typedef {object} PolicyContext
@@ -135,10 +136,17 @@ function createUrlPolicy(config = {}) {
     const url = parseHttp(raw)
     if (!url) return { ok: false, reason: 'Only HTTP(S) URLs without credentials are allowed' }
     if (context.laneKind === 'agent') {
-      if (!isPublicHostname(url.hostname)) {
-        return { ok: false, reason: 'Workspace agents may only reach public network addresses' }
+      // The isolated E2E harness serves its fake model on loopback, which an
+      // agent lane would otherwise refuse. The caller decides — a packaged app
+      // ignores the E2E flags entirely (electron/main.cjs), so this cannot be
+      // turned on by an environment variable alone.
+      const isE2ELoopback = config.e2eLoopback === true && isLoopback(url.hostname)
+      if (!isE2ELoopback) {
+        if (!isPublicHostname(url.hostname)) {
+          return { ok: false, reason: 'Workspace agents may only reach public network addresses' }
+        }
+        if (url.port) return { ok: false, reason: 'Workspace agents may only use standard HTTP(S) ports' }
       }
-      if (url.port) return { ok: false, reason: 'Workspace agents may only use standard HTTP(S) ports' }
       const ports = new Set([8642, 9119, ...(config.servePorts || []), ...(context.servePorts || [])].map(Number))
       const port = Number(url.port || (url.protocol === 'https:' ? 443 : 80))
       if (isLoopback(url.hostname) && ports.has(port)) {

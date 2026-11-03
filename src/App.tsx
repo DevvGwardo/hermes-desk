@@ -51,6 +51,7 @@ import { activePluginThemeId, setPluginTheme } from './plugins/themes'
 import { agentColor } from './components/AgentCard'
 import { ChatsPage } from './components/ChatsPage'
 import { NewChatDialog } from './components/NewChatDialog'
+import { Onboarding } from './components/Onboarding'
 import { destinationFor, initialWorkspaceOpen, panelBudget, WORKSPACE_MIN_WIDTH, WORKSPACE_OPEN_KEY, type MainDestination } from './lib/shell-layout'
 import { ShellLayoutContext, useShellLayout } from './lib/use-shell-layout'
 import { Icon } from './components/ui/icons'
@@ -922,6 +923,7 @@ export default function App() {
               const saved = await upsertRoutine(draft, existing); await refreshRoutines(); return saved
             }} onDelete={async (job) => { await removeRoutine(job); await refreshRoutines() }}
             onTestRun={async (draft) => { await fireRoutine(draft, editingRoutine) }} /></Suspense>}
+          <Onboarding onOpenSettings={() => openSettings()} />
         </Suspense>
       </div>
       </ShellLayoutContext.Provider>

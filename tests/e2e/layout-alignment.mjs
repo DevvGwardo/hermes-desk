@@ -340,9 +340,11 @@ try {
   }, tab.id), 'native page load complete')
   await waitFor(() => nativeVisible(tab.id), 'native browser visible')
   await check('native viewport bounds match the rendered workspace', async () => {
-    const bounds = await h.app.evaluate((_electron, id) => globalThis.__hermesDeskE2E.ws.views.get(id).getBounds(), tab.id)
-    const rendered = await h.page.locator('.workspace-viewport').boundingBox()
-    for (const key of ['x', 'y', 'width', 'height']) assert(Math.abs(bounds[key] - rendered[key]) <= 1)
+    await waitFor(async () => {
+      const bounds = await h.app.evaluate((_electron, id) => globalThis.__hermesDeskE2E.ws.views.get(id).getBounds(), tab.id)
+      const rendered = await h.page.locator('.workspace-viewport').boundingBox()
+      return rendered && ['x', 'y', 'width', 'height'].every(key => Math.abs(bounds[key] - rendered[key]) <= 1)
+    }, 'native viewport bounds match')
   })
   await check('Take control and Resume preserve the isolated tab partition', async () => {
     const partition = await h.app.evaluate((_electron, id) => globalThis.__hermesDeskE2E.ws.lanes.getTab(id).partition, tab.id)
@@ -429,7 +431,7 @@ try {
     await waitFor(() => nativeVisible(tab.id), 'native browser restored after palette')
   })
   await check('File preview deep link hides native content and restores the same tab', async () => {
-    const file = path.join(h.root, 'Documents', 'fixture-preview.md')
+    const file = path.join(h.root, 'Hermes Desk', 'fixture-preview.md')
     await mkdir(path.dirname(file), { recursive: true })
     await writeFile(file, '# Disposable preview\nOnly local fixture content.\n')
     await h.page.evaluate(file => {

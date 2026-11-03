@@ -54,9 +54,11 @@
 [data-skin="messenger"] .messenger-date-gutter {
   position: absolute; inset: 0 0 auto; height: 32px;
   display: flex; align-items: center; justify-content: center;
+  margin: 0;
   background: var(--desk-surface-2); pointer-events: none;
+  z-index: 2;
 }
-[data-skin="messenger"] .messenger-thread-date-gutter { display: flex; align-items: center; justify-content: center; min-height: 32px; flex-shrink: 0; background: var(--desk-surface-2); }
+[data-skin="messenger"] .messenger-thread-date-gutter { display: flex; align-items: center; justify-content: center; min-height: 32px; flex-shrink: 0; margin: 0; background: var(--desk-surface-2); }
 
 [data-skin="messenger"] .sand-message-action-anchor { max-width: min(88%, var(--desk-message-measure)); min-width: 0; padding-bottom: 0; }
 [data-skin="messenger"] .sand-message-action-anchor[data-msg-role="user"] { max-width: min(80%, 68ch); }
@@ -272,14 +274,14 @@
   min-width: 0;
   border-radius: var(--desk-radius-md);
   background: var(--messenger-incoming);
-  padding: 5px var(--desk-space-2) 5px var(--desk-space-3);
+  padding: 3px var(--desk-space-2) 3px var(--desk-space-3);
   border: 1px solid var(--desk-control-border);
   min-height: 44px;
 }
 [data-skin="messenger"] .messenger-input-field:focus-within { outline: 2px solid var(--desk-focus-ring); outline-offset: 2px; }
 [data-skin="messenger"] .messenger-input-field textarea {
-  font-size: 15px; line-height: 22px; max-height: 160px; min-height: 24px;
-  border: 0; border-radius: 0; outline: 0; background: transparent; padding: 0; box-shadow: none;
+  font-size: 15px; line-height: 22px; max-height: 160px; min-height: 36px;
+  border: 0; border-radius: 0; outline: 0; background: transparent; padding: 7px 0; box-shadow: none;
 }
 [data-skin="messenger"] .messenger-input-field > button { flex-shrink: 0; font-size: 22px; color: var(--ca-ink-muted); }
 [data-skin="messenger"] .messenger-send { color: var(--messenger-chrome); background: var(--messenger-accent); font-size: 21px; }

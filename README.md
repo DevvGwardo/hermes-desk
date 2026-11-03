@@ -61,6 +61,14 @@ npm run install:local
 
 `install:local` builds the macOS arm64 app and copies it to `/Applications/Hermes Desk.app`, keeping a backup of any previous installation. Quit the old app before installing. Builds use ad-hoc signing; macOS may ask for approval.
 
+To package a standalone distributable zip archive and SHA-256 checksum manifest for download:
+
+```sh
+npm run package:release
+```
+
+See [docs/releases/v0.1.0.md](docs/releases/v0.1.0.md) for v0.1.0 release notes, checksum verification, and Gatekeeper quarantine clearing instructions.
+
 Update by pulling source changes and running `npm run install:local` again. There is no hosted update feed, platform account, or telemetry. Hermes itself uses the model providers configured in your profiles.
 
 ## Tests

@@ -1,5 +1,11 @@
-# Security — maiavm-desktop
+# Security baseline — inherited Maia/Nub era (historical)
 
+> **This is an archived audit baseline, not the current policy.** For reporting a
+> vulnerability now, read [`/SECURITY.md`](../SECURITY.md) at the repository root.
+> The material below documents the sandbox, IPC and token invariants inherited
+> from the Maia/Nub desktop codebase; it is kept because the app still enforces
+> most of them, and because the red-team findings it records are still cited.
+>
 > Last audited: 2026-08-24 (red-team remediation pass) · Branch: `main` · Electron 37.x · Vite 6.3.5
 
 This doc records the current `npm audit` surface, the ElectronCSP/sandbox posture, and the upgrade plan. It is the canonical place to check before shipping.

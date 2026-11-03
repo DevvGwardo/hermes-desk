@@ -29,9 +29,15 @@ export function Onboarding({ onOpenSettings }: { onOpenSettings: () => void }) {
     return () => { alive = false }
   }, [host, status?.serve.state])
   const finish = async () => {
-    if (busy || !host) return
+    if (busy) return
     setBusy(true)
-    try { await host.setConfig({ onboarding: { completed: true } }); setDismissed(true) }
+    try {
+      if (host?.setConfig) {
+        const next = await host.setConfig({ onboarding: { completed: true } })
+        if (next) setConfig(next)
+      }
+      setDismissed(true)
+    }
     catch (cause) { setNote(errorText(cause, 'Could not remember setup. Try again.')) }
     finally { setBusy(false) }
   }

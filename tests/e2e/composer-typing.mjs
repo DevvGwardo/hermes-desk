@@ -71,6 +71,7 @@ try {
 
   await input.fill('E2E:chat typing-check')
   await input.press('Enter')
+  await waitFor(async () => (await input.inputValue()) === '', 'draft cleared after send')
   await input.pressSequentially('Another fixture draft while the previous reply arrives.', { delay: 100 })
   assert.equal(await input.inputValue(), 'Another fixture draft while the previous reply arrives.')
   report.checks.push('Typing during a streamed reply retains the next draft')

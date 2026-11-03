@@ -22,7 +22,6 @@ import { Tooltip } from './ui/Tooltip'
 import { ListRow } from './ui/ListRow'
 import { Badge } from './ui/Badge'
 import { EmptyState } from './EmptyState'
-import { Onboarding } from './Onboarding'
 import { ConnectorStrip, useHostStatus } from './ConnectorStrip'
 import { RestoreHiddenMenu } from './RestoreHiddenMenu'
 import { SidebarCreateActions } from './SidebarCreateActions'
@@ -495,7 +494,6 @@ export const Sidebar = memo(function Sidebar({
         .hd-sidebar .hd-connector {font-size:11px;color:var(--desk-text-tertiary)}
         .hd-sidebar .hd-connector-divider {display:none}
       `}</style>
-      <Onboarding onOpenSettings={onOpenSettings} />
       <div className="hd-sidebar-top">
         <header className="hd-sidebar-header">
           {compact ? (

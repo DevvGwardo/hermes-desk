@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Documentation & Architecture"
+    url: "https://github.com/DevvGwardo/hermes-desk#readme"
+    about: "Read the Hermes Desk README, architectural overview, and workflow guides."
+  - name: "Security Vulnerability Reporting"
+    url: "https://github.com/DevvGwardo/hermes-desk/blob/main/SECURITY.md"
+    about: "Privately disclose security issues or vulnerabilities according to our policy."
+  - name: "Contributing Guidelines"
+    url: "https://github.com/DevvGwardo/hermes-desk/blob/main/CONTRIBUTING.md"
+    about: "Learn how to build from source, run test suites, and submit pull requests."
+  - name: "Changelog & Version History"
+    url: "https://github.com/DevvGwardo/hermes-desk/blob/main/CHANGELOG.md"
+    about: "Review the changelog, past releases, and upcoming features."

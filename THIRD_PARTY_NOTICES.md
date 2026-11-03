@@ -18,10 +18,10 @@ poses, particle tables or artwork remains in this repository's current state.
 
 Two consequences worth knowing:
 
-- **This repository never contained it.** It starts from a single initial
-  commit made after the removal, so no extracted material appears here in any
-  form — not in the tree and not in history. The private working repository
-  keeps its own full history, which does contain it, and stays private.
+- **History still contains it.** The private repository's older commits hold the
+  deleted files, so publishing *this* repository's history would republish them.
+  A public release is published as a fresh snapshot from the current tree, not
+  by flipping visibility on the working repository.
 - **Do not reintroduce it.** `src/lib/mascot/` is the only avatar engine. Any
   new character belongs there, drawn from the project's own rigs.
 

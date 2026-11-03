@@ -209,7 +209,7 @@ ${Array.from({ length: 12 }, (_, i) => `## Step ${i + 1}\n\nA deterministic para
 `
 
 try {
-  h = await launchHarness()
+  h = await launchHarness({ onboarding: false })
   r.report.failedResponses = []
   const watchPage = page => {
     page.on('console', msg => { if (msg.type() === 'error') r.consoleError(msg.text()) })
@@ -278,7 +278,7 @@ try {
     }
   })
   await h.page.reload()
-  await h.page.getByRole('button', { name: 'Alpha', exact: true }).waitFor({ timeout: 30000 })
+  await h.page.getByRole('button', { name: 'Alpha', exact: true, includeHidden: true }).waitFor({ timeout: 30000 })
   r.measure('Cold launch to populated roster', +(performance.now() - h.launchedAt).toFixed(1), 'ms',
     'Existing isolated launchHarness launchedAt to visible Alpha after reload/observer installation; includes instrumentation overhead')
   r.report.automationHook = await h.page.evaluate(() => typeof window.__hermesDesk)
@@ -286,6 +286,10 @@ try {
   const onboarding = await h.page.getByRole('dialog').count()
   promise('First run explains local setup before asking users to chat', onboarding > 0,
     { dialogs: onboarding, freshUserData: true, automationHook: r.report.automationHook }, 'onboarding', first.screenshot)
+  if (onboarding > 0) {
+    const startButton = h.page.getByRole('button', { name: 'Start using Hermes Desk' })
+    if (await startButton.count()) await startButton.click()
+  }
   // Nine normal profiles plus hidden/scratch cases, all disposable, fake-only.
   const profiles = ['gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta']
   for (const profile of profiles) {

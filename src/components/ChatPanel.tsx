@@ -2763,7 +2763,7 @@ export const ChatPanel = memo(function ChatPanel({
       // Reconnects must not disable a focused textarea and eject its caret.
       // `disabled` still gates Send and every server-backed action.
       disabled={disabledProp}
-      className="nub-composer-input max-h-[min(40vh,320px)] min-h-[24px] flex-1 resize-none overflow-y-auto bg-transparent text-sm leading-6 text-[var(--ca-ink)] outline-none placeholder:text-[var(--ca-placeholder)] disabled:opacity-50"
+      className="nub-composer-input max-h-[min(40vh,320px)] min-h-[36px] py-1.5 flex-1 resize-none overflow-y-auto bg-transparent text-sm leading-6 text-[var(--ca-ink)] outline-none placeholder:text-[var(--ca-placeholder)] disabled:opacity-50"
     />
   )
 

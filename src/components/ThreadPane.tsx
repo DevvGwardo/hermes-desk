@@ -355,7 +355,7 @@ export const ThreadPane = memo(function ThreadPane({
             rows={1}
             placeholder="Reply in thread…"
             aria-label="Reply in thread"
-            className="max-h-24 min-h-[24px] flex-1 resize-none bg-transparent text-sm text-[var(--ca-ink)] outline-none placeholder:text-[var(--ca-placeholder)]"
+            className="max-h-24 min-h-[36px] py-1.5 flex-1 resize-none bg-transparent text-sm text-[var(--ca-ink)] outline-none placeholder:text-[var(--ca-placeholder)]"
           />
           <button
             type="button"

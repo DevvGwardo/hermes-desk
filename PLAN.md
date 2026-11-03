@@ -12,9 +12,10 @@ Hermes Desk is the private, local-only macOS project described in [README.md](RE
   Grok Bot mark engine (`src/lib/grok-orb/`) and its extracted `docs/grok-*`
   artifacts were deleted, and `FatCatIcon` renders the project's own owl engine
   instead. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). What remains is
-  mechanical, and done: this repository is the public snapshot of that tree,
-  published under `DevvGwardo/hermes-desk`. The private working repository keeps
-  the full history (which still contains the deleted files) and stays private.
+  mechanical: this repository's history still contains the deleted files, so the
+  public release ships as a **fresh snapshot from the current tree**, not by
+  flipping visibility here. This work does not change visibility, publish
+  commits, or install over the running app.
 
 ## Historical plans
 

@@ -103,3 +103,30 @@ describe('URL policy matrix', () => {
       expect(isPublicAddress(address)).toBe(false)
     })
 })
+
+describe('isolated E2E loopback escape', () => {
+  const e2eAgent = { laneKind: 'agent', laneId: 'profile:scout', servePorts: [9121] }
+  const e2ePolicy = createUrlPolicy({ servePorts: [9120], e2eLoopback: true })
+
+  it('allows an agent lane to reach the harness fake model on loopback', () => {
+    expect(e2ePolicy.check('http://127.0.0.1:53124/', e2eAgent)).toEqual({ ok: true, url: 'http://127.0.0.1:53124/' })
+    expect(e2ePolicy.check('http://localhost:53124/', e2eAgent).ok).toBe(true)
+  })
+
+  it('keeps every other agent-lane refusal while the escape is on', () => {
+    expect(e2ePolicy.check('http://169.254.169.254/latest/meta-data/', e2eAgent).ok).toBe(false)
+    expect(e2ePolicy.check('http://10.0.0.1/', e2eAgent).ok).toBe(false)
+    expect(e2ePolicy.check('http://8.8.8.8:8080/', e2eAgent).ok).toBe(false)
+  })
+
+  it('ignores the environment variable: only the caller can enable it', () => {
+    const previous = process.env.HERMES_DESK_E2E
+    process.env.HERMES_DESK_E2E = '1'
+    try {
+      expect(policy.check('http://127.0.0.1:53124/', e2eAgent).ok).toBe(false)
+    } finally {
+      if (previous === undefined) delete process.env.HERMES_DESK_E2E
+      else process.env.HERMES_DESK_E2E = previous
+    }
+  })
+})

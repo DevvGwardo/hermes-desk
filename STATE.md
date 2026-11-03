@@ -2,6 +2,29 @@
 
 ## Hermes Desk, current project
 
+- **2026-11-02, public release is live:** `https://github.com/DevvGwardo/hermes-desk`
+  is PUBLIC (MIT, topics `electron react macos ai-agents local-first`), pushed as
+  a single-commit snapshot so the removed xAI material exists in no commit there.
+  The working repository was renamed **`hermes-desk-private`** and stays private
+  with its full history (local `origin` updated, and worktrees share that config,
+  so `hermes-desk-notice-fix` followed automatically). The snapshot excludes the
+  generated run artifacts (`docs/overnight/`, the `eval/uniichat-evaluation-*`
+  output) and was verified standalone: fresh `npm ci`
+  (`ELECTRON_SKIP_BINARY_DOWNLOAD=1`), `npm run build` ✓, `npm run test:unit`
+  4,464 passed + 1 expected fail / 18 skipped. Anonymous checks after the flip:
+  `raw.githubusercontent.com/.../README.md` → 200, API reports
+  `visibility: public`, `license: MIT`. Security posture enabled on the public
+  repo: secret scanning, push protection, non-provider patterns and validity
+  checks. Two self-caught defects worth remembering: the first workflow run
+  failed because `RUNNER_TEMP/bin` did not exist (fixed), and the first push to
+  the new repository was a **root commit**, which made the new-branch scan ask
+  for `$sha^..$sha`, log `fatal: ambiguous argument`, scan **0 commits and exit
+  0** — a green run proving nothing; the workflow now scans a root commit by SHA
+  and fails when the selection is empty. Also renamed the preview fixture's
+  credential values to `obviously-fake-csc-*` because the global password
+  scanner blocks any 8+ character `*PASSWORD` literal that does not read as a
+  placeholder, and it blocked the snapshot commit.
+
 - **2026-11-02, the xAI mascot engine is gone; the app renders its own owl:**
   the shipped avatar renderer was `src/lib/grok-orb/` — a 1,796-line verbatim
   port of xAI's Grok Bot mark engine — which blocked any public release. It is

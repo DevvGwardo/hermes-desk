@@ -91,7 +91,7 @@ async function staticServer(directory) {
     } }
 }
 
-export async function seed(root, env, modelUrl) {
+export async function seed(root, env, modelUrl, { onboarding = true } = {}) {
   for (const profile of ['default', 'alpha', 'beta', 'session-e2e-scratch']) {
     const home = profile === 'default' ? env.HERMES_HOME : path.join(env.HERMES_HOME, 'profiles', profile)
     await mkdir(home, { recursive: true })
@@ -129,7 +129,7 @@ mcp_servers: {}
   await mkdir(path.join(root, 'userData'), { recursive: true })
   await writeFile(path.join(root, 'userData/settings.json'),
     // Onboarding is a first-run modal; the isolated profile has already been "set up".
-    JSON.stringify({ workspace: { enabledProfiles: ['alpha', 'beta'] }, onboarding: { completed: true } }))
+    JSON.stringify({ workspace: { enabledProfiles: ['alpha', 'beta'] }, onboarding: { completed: onboarding } }))
 }
 
 /** Same-origin pre-boot script (the CSP allows no inline script) that turns Home off. */
@@ -146,7 +146,7 @@ async function disableHomeOnLaunch(directory) {
 export async function launchHarness({ source = process.env.HERMES_E2E_SOURCE ||
   path.join(os.homedir(), '.hermes/hermes-agent'), diagnosticSettingsAdapter = false, diagnosticSeedTabs = false,
   home = false, developmentReact = false, captureRenderLoops = false, holdStartupSessions = false, settingsSaveControl = false,
-  branchControl = false, contextControl = false } = {}) {
+  branchControl = false, contextControl = false, onboarding = true } = {}) {
   assert.equal(process.platform, 'darwin', 'The E2E harness requires the macOS sandbox')
   source = await realpath(source)
   const installedRuntime = await inspectHermesRuntime(source)
@@ -185,7 +185,7 @@ export async function launchHarness({ source = process.env.HERMES_E2E_SOURCE ||
     cleanups.push(() => fixture.close())
     model = await startFakeModel({ fixtureUrl: fixture.url })
     cleanups.push(() => model.close())
-    await seed(root, env, model.url)
+    await seed(root, env, model.url, { onboarding })
     await mkdir(path.join(root, 'bin'))
     const shQuote = value => `'${value.replaceAll("'", "'\\''")}'`
     await writeFile(path.join(root, 'bin/hermes'), `#!/bin/sh\nexec ${shQuote(runtime.python)} -B ${shQuote(path.join(source, 'hermes'))} "$@"\n`, { mode: 0o700 })

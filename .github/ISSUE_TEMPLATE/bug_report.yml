@@ -1,0 +1,131 @@
+name: Bug Report
+description: File a reproducible bug report to help us improve Hermes Desk.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue with Hermes Desk!
+
+        > [!IMPORTANT]
+        > **Security Notice:** If you have discovered a potential security vulnerability, please **DO NOT** submit it here.
+        > Review [SECURITY.md](https://github.com/DevvGwardo/hermes-desk/blob/main/SECURITY.md) and report it privately via GitHub Security Advisories or via email.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the problem is.
+      placeholder: Describe the issue you encountered...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Step-by-step instructions to reproduce the behavior.
+      placeholder: |
+        1. Open Hermes Desk with profile '...'
+        2. Click on '...'
+        3. Send message '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Describe the behavior you expected...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually occurred instead?
+      placeholder: Describe the actual behavior or error...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os_version
+    attributes:
+      label: Operating System / Platform
+      description: Select your macOS version and hardware architecture.
+      options:
+        - "macOS 15 Sequoia (Apple Silicon)"
+        - "macOS 15 Sequoia (Intel)"
+        - "macOS 14 Sonoma (Apple Silicon)"
+        - "macOS 14 Sonoma (Intel)"
+        - "macOS 13 Ventura (Apple Silicon)"
+        - "macOS 13 Ventura (Intel)"
+        - "Other macOS version"
+        - "Linux / Other development environment"
+    validations:
+      required: true
+
+  - type: input
+    id: app_version
+    attributes:
+      label: Hermes Desk Version
+      description: Version from package.json or commit SHA if running from source (e.g. 0.1.0 or git rev-parse --short HEAD).
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: hermes_version
+    attributes:
+      label: Hermes CLI & Python Environment
+      description: Version of the local Hermes CLI and Python runtime (e.g. `hermes --version`, Python 3.11.x in venv).
+      placeholder: "hermes 0.x.x / Python 3.11"
+    validations:
+      required: false
+
+  - type: input
+    id: model_profile
+    attributes:
+      label: Model Provider & Profile
+      description: The configured agent profile and model provider in use (e.g. Default profile, Claude 3.5 Sonnet, Nous, Ollama local).
+      placeholder: "e.g., Default profile / Nous Portal / Ollama"
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs & Console Output
+      description: |
+        Paste terminal output, Electron DevTools console logs, or Render Troubleshooting logs.
+        **CRITICAL:** Redact any API keys, credentials, or personal tokens before pasting!
+      render: shell
+      placeholder: Paste sanitized error output or logs here...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context or Screenshots
+      description: Attach screenshots, screen recordings, or any other relevant context.
+      placeholder: Drag and drop images or write additional notes here...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Submission Checklist
+      options:
+        - label: I have searched existing issues and verified this is not a duplicate.
+          required: true
+        - label: I have verified that no secrets, auth tokens, or private credentials are included in the logs.
+          required: true
+        - label: This is a software defect or bug, not a security vulnerability.
+          required: true

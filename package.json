@@ -27,6 +27,8 @@
     "test:coverage": "vitest run --project unit --coverage",
     "electron:dev": "node scripts/launch-desktop.mjs",
     "electron:build": "node scripts/build-desktop.mjs",
+    "electron:package": "node scripts/package-release.mjs",
+    "package:release": "node scripts/package-release.mjs",
     "workbench": "open workbench/app/gallery.html && node workbench/app/capture-app.cjs",
     "dev:local": "node scripts/launch-desktop.mjs",
     "install:local": "npm run electron:build && node scripts/install-local.mjs",
@@ -118,6 +120,12 @@
       "target": [
         {
           "target": "dir",
+          "arch": [
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
           "arch": [
             "arm64"
           ]

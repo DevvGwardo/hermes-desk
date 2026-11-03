@@ -98,7 +98,7 @@ export async function measureDOM(page) {
       const modal = document.querySelector('[role="dialog"][aria-modal="true"]')
       if (!modal || modal.contains(el)) {
         const geometry = [...range.getClientRects()].map(r => visibleRect(el, r, true)).filter(Boolean)
-        textBoxes.push(...geometry.map(rect => ({ ...rect, text: text.slice(0, 80), date: !!el.closest('.messenger-date') })))
+        textBoxes.push(...geometry.map(rect => ({ ...rect, text: text.slice(0, 80), date: !!el.closest('.messenger-date,.messenger-date-gutter,.messenger-thread-date-gutter') })))
       }
       const rectangles = [...range.getClientRects()].map(r => visibleRect(el, r)).filter(Boolean)
       if (!rectangles.length) continue

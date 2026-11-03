@@ -1,0 +1,119 @@
+# macOS release builds on an Apple Silicon (macOS arm64) runner.
+# Automatically builds and publishes the macOS arm64 release when a release tag
+# is pushed (v*) or when manually triggered via workflow_dispatch.
+#
+# Ad-hoc signed with hardened runtime and entitlements.
+# Release notes include instructions for macOS Gatekeeper (xattr -cr).
+
+name: macos-release
+
+'on':
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release-mac:
+    name: Build & Publish macOS arm64 Release
+    runs-on: macos-latest
+    timeout-minutes: 30
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22 with npm caching
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run typecheck and node syntax checks (npm run lint)
+        run: npm run lint
+
+      - name: Resolve release version and tag
+        id: vars
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [[ "${{ github.ref_name }}" =~ ^v[0-9] ]]; then
+            RELEASE_TAG="${{ github.ref_name }}"
+            APP_VERSION="${GITHUB_REF_NAME#v}"
+          else
+            APP_VERSION="${PKG_VERSION}"
+            RELEASE_TAG="v${PKG_VERSION}"
+          fi
+          ZIP_NAME="Hermes-Desk-${APP_VERSION}-mac-arm64.zip"
+          echo "RELEASE_TAG=${RELEASE_TAG}" >> "$GITHUB_ENV"
+          echo "APP_VERSION=${APP_VERSION}" >> "$GITHUB_ENV"
+          echo "ZIP_NAME=${ZIP_NAME}" >> "$GITHUB_ENV"
+          echo "Release tag: ${RELEASE_TAG}"
+          echo "App version: ${APP_VERSION}"
+          echo "Zip file:    ${ZIP_NAME}"
+
+      - name: Package desktop app and generate checksums
+        run: npm run package:release
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hermes-desk-${{ env.APP_VERSION }}-mac-arm64
+          path: |
+            release/${{ env.ZIP_NAME }}
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: Hermes Desk ${{ env.RELEASE_TAG }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            release/${{ env.ZIP_NAME }}
+            release/SHA256SUMS.txt
+          body: |
+            ## Hermes Desk ${{ env.RELEASE_TAG }} (macOS arm64)
+
+            Hermes Desk desktop release for Apple Silicon (macOS arm64).
+
+            ### 📦 Installation & macOS Gatekeeper Instructions
+
+            Hermes Desk is built with ad-hoc signing and the hardened runtime (without a paid Apple Developer ID notarization).
+            When downloaded through a web browser, macOS attaches the `com.apple.quarantine` extended attribute, which causes macOS to warn that the app is "damaged" or that the developer cannot be verified.
+
+            To install and open Hermes Desk:
+
+            1. Extract the downloaded zip file:
+               ```bash
+               unzip Hermes-Desk-${{ env.APP_VERSION }}-mac-arm64.zip
+               ```
+            2. Move `Hermes Desk.app` to your Applications folder:
+               ```bash
+               mv "Hermes Desk.app" /Applications/
+               ```
+            3. Remove the macOS quarantine attribute in Terminal:
+               ```bash
+               xattr -cr "/Applications/Hermes Desk.app"
+               ```
+            4. Launch Hermes Desk!
+
+            > **Note for macOS Sequoia (15+) / Sonoma (14+):** If macOS displays a security prompt on first launch, navigate to **System Settings → Privacy & Security**, scroll down to the **Security** section, and click **Open Anyway**.
+
+            ### 🔒 Verify Checksums (SHA-256)
+
+            Verify the integrity of your download:
+            ```bash
+            shasum -a 256 -c SHA256SUMS.txt
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

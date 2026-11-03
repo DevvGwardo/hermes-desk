@@ -1,0 +1,74 @@
+name: Feature Request
+description: Propose a new idea, capability, or enhancement for Hermes Desk.
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting an idea to make Hermes Desk better!
+        Please describe your proposal in detail below so we can discuss the design and trade-offs.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement / Motivation
+      description: Is your feature request related to a problem, limitation, or friction you encountered?
+      placeholder: "I find it challenging when... / It would be great if..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution & User Experience
+      description: Describe how you envision this feature working. What does the workflow look like?
+      placeholder: "A clear description of what should happen and how users will interact with it..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternatives or workarounds you have considered or currently use.
+      placeholder: "I considered using... but it falls short because..."
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Primary Area Affected
+      description: Which part of Hermes Desk does this proposal touch?
+      options:
+        - "Multi-Agent Workspace & Shared Rooms"
+        - "Chat, Composer & Rendering (Markdown/LaTeX/Mermaid)"
+        - "Browser Lanes & Web Sidecar"
+        - "Generated UI (render_ui MCP cards)"
+        - "Mascot Engine (Pip Rig, Palettes & Motion)"
+        - "Electron Architecture, Security & IPC"
+        - "Developer Experience, Tooling & Test Harnesses"
+        - "Documentation & Community"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context, Mockups or Sketches
+      description: Add any wireframes, reference links, mockups, or extra notes here.
+      placeholder: Paste images or links...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Proposal Checklist
+      options:
+        - label: I have searched existing issues and pull requests to confirm this has not already been proposed.
+          required: true
+        - label: I understand that Hermes Desk is strictly local-first and does not support remote tracking or cloud telemetry.
+          required: true

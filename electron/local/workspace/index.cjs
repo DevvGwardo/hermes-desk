@@ -38,6 +38,8 @@ function registerWorkspace(ctx) {
     return [...(ctx.servePorts || []), ...(status?.serve?.port ? [status.serve.port] : [])]
   }
   const urlPolicy = createUrlPolicy({ ...(ctx.workspaceConfig || {}), servePorts: servePorts(),
+    // Packaged builds ignore every E2E flag (electron/main.cjs), including this one.
+    e2eLoopback: !ctx.isPackaged && process.env.HERMES_DESK_E2E === '1',
     getWorkspaceConfig: workspaceConfig,
     getAppOrigins: () => {
       const appUrl = getMainWindow()?.webContents.getURL()
