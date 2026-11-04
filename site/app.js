@@ -148,13 +148,61 @@
     }
   }
 
-  /* Workspace regions ----------------------------------------------------- */
-  const shotTabs = $$(".shot-tab");
-  const regions = $$(".region");
-  const shotPanel = $("#shot-panel");
+  /* Workspace tour -------------------------------------------------------- */
+  const TOUR = {
+    agents: {
+      step: "01 / 03",
+      title: "Your agents",
+      copy:
+        "Pip avatars make the roster scannable. Every profile keeps its own model route, history, and voice, so switching agents never means losing your place.",
+      points: [
+        "Model and provider per profile",
+        "Live status and recent activity",
+        "One click to the profile card",
+      ],
+    },
+    chat: {
+      step: "02 / 03",
+      title: "One conversation",
+      copy:
+        "The whole turn stays visible: what the agent is thinking, which tools it ran, how long they took, and where you need to approve. Nothing is hidden behind another panel.",
+      points: [
+        "Reasoning and tool timings",
+        "Approvals in place",
+        "A transcript you can read",
+      ],
+    },
+    work: {
+      step: "03 / 03",
+      title: "A native workspace",
+      copy:
+        "Pages and files open in a lane beside the chat. The agent works while you keep reading, and a Take control handoff lets you step in without breaking the thread.",
+      points: [
+        "Agent tabs and history",
+        "An isolated browser lane",
+        "Take control at any time",
+      ],
+    },
+  };
+  const TOUR_ORDER = ["agents", "chat", "work"];
 
-  const selectRegion = (name, focus = false) => {
-    shotTabs.forEach((tab) => {
+  const tourMedia = $("#tour-media");
+  const tourDetail = $("#tour-detail");
+  const tourTabs = $$(".tour-lane");
+  const tourHotspots = $$(".tour-hotspot");
+  const tourStep = $("#tour-step");
+  const tourTitle = $("#tour-title");
+  const tourCopy = $("#tour-copy");
+  const tourPoints = $("#tour-points");
+  const tourBody = $(".tour-detail-body");
+  const tourLive = $("#tour-live");
+  let tourSwapTimer = 0;
+
+  const selectLane = (name, focus = false) => {
+    const data = TOUR[name];
+    if (!data) return;
+
+    tourTabs.forEach((tab) => {
       const active = tab.dataset.region === name;
       tab.classList.toggle("is-active", active);
       tab.setAttribute("aria-selected", String(active));
@@ -162,29 +210,78 @@
       if (active && focus) tab.focus();
     });
 
-    regions.forEach((region) => {
-      region.classList.toggle("is-active", region.dataset.region === name);
+    tourHotspots.forEach((hotspot) => {
+      const active = hotspot.dataset.region === name;
+      hotspot.classList.toggle("is-active", active);
+      hotspot.setAttribute("aria-pressed", String(active));
     });
 
-    if (shotPanel) {
-      const activeTab = shotTabs.find((tab) => tab.dataset.region === name);
-      if (activeTab) shotPanel.setAttribute("aria-labelledby", activeTab.id);
+    if (tourMedia) tourMedia.dataset.region = name;
+    if (tourDetail) {
+      const activeTab = tourTabs.find((tab) => tab.dataset.region === name);
+      if (activeTab) tourDetail.setAttribute("aria-labelledby", activeTab.id);
+    }
+
+    if (tourStep) tourStep.textContent = data.step;
+    if (tourTitle) tourTitle.textContent = data.title;
+    if (tourCopy) tourCopy.textContent = data.copy;
+    if (tourPoints) {
+      tourPoints.replaceChildren(
+        ...data.points.map((point) => {
+          const li = document.createElement("li");
+          li.textContent = point;
+          return li;
+        })
+      );
+    }
+    if (tourLive) tourLive.textContent = `${data.title}. ${data.copy}`;
+
+    if (tourBody && !reducedMotion.matches) {
+      tourBody.classList.remove("is-swapping");
+      void tourBody.offsetWidth;
+      tourBody.classList.add("is-swapping");
+      window.clearTimeout(tourSwapTimer);
+      tourSwapTimer = window.setTimeout(
+        () => tourBody.classList.remove("is-swapping"),
+        380
+      );
     }
   };
 
-  shotTabs.forEach((tab) => {
-    tab.addEventListener("click", () => selectRegion(tab.dataset.region));
-    tab.addEventListener("mouseenter", () => selectRegion(tab.dataset.region));
-    tab.addEventListener("focus", () => selectRegion(tab.dataset.region));
+  tourTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => selectLane(tab.dataset.region));
     tab.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      let next = null;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+        next = tourTabs[(index + 1) % tourTabs.length];
+      } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+        next = tourTabs[(index - 1 + tourTabs.length) % tourTabs.length];
+      } else if (event.key === "Home") {
+        next = tourTabs[0];
+      } else if (event.key === "End") {
+        next = tourTabs[tourTabs.length - 1];
+      }
+      if (!next) return;
       event.preventDefault();
-      const index = shotTabs.indexOf(tab);
+      selectLane(next.dataset.region, true);
+    });
+  });
+
+  tourHotspots.forEach((hotspot) => {
+    hotspot.addEventListener("click", () => selectLane(hotspot.dataset.region));
+  });
+
+  $$(".tour-arrow").forEach((button) => {
+    button.addEventListener("click", () => {
+      const activeTab = tourTabs.find(
+        (tab) => tab.getAttribute("aria-selected") === "true"
+      );
+      const current = activeTab ? activeTab.dataset.region : "agents";
+      const index = TOUR_ORDER.indexOf(current);
+      const direction = Number(button.dataset.dir) || 1;
       const next =
-        event.key === "ArrowRight"
-          ? shotTabs[(index + 1) % shotTabs.length]
-          : shotTabs[(index - 1 + shotTabs.length) % shotTabs.length];
-      selectRegion(next.dataset.region, true);
+        TOUR_ORDER[(index + direction + TOUR_ORDER.length) % TOUR_ORDER.length];
+      selectLane(next);
     });
   });
 

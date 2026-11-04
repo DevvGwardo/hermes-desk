@@ -688,45 +688,86 @@
             </p>
           </header>
 
-          <div class="shot-frame reveal">
-            <div class="shot-tabs" role="tablist" aria-label="Workspace regions">
-              <button class="shot-tab is-active" type="button" role="tab" id="tab-agents" aria-selected="true" aria-controls="shot-panel" tabindex="0" data-region="agents">
-                <span>01</span> Your agents
-              </button>
-              <button class="shot-tab" type="button" role="tab" id="tab-chat" aria-selected="false" aria-controls="shot-panel" tabindex="-1" data-region="chat">
-                <span>02</span> One conversation
-              </button>
-              <button class="shot-tab" type="button" role="tab" id="tab-work" aria-selected="false" aria-controls="shot-panel" tabindex="-1" data-region="work">
-                <span>03</span> A native workspace
-              </button>
+          <div class="tour reveal" id="workspace-tour">
+            <div class="tour-frame">
+              <div class="tour-bar">
+                <div class="tour-lanes" role="tablist" aria-label="Workspace lanes">
+                  <button class="tour-lane is-active" type="button" role="tab" id="tour-tab-agents" aria-selected="true" aria-controls="tour-detail" tabindex="0" data-region="agents">
+                    <span class="tour-lane-num">01</span>
+                    <svg class="icon" aria-hidden="true"><use href="#i-users" /></svg>
+                    <span class="tour-lane-name">Your agents</span>
+                    <span class="tour-lane-short">Agents</span>
+                  </button>
+                  <button class="tour-lane" type="button" role="tab" id="tour-tab-chat" aria-selected="false" aria-controls="tour-detail" tabindex="-1" data-region="chat">
+                    <span class="tour-lane-num">02</span>
+                    <svg class="icon" aria-hidden="true"><use href="#i-message" /></svg>
+                    <span class="tour-lane-name">One conversation</span>
+                    <span class="tour-lane-short">Chat</span>
+                  </button>
+                  <button class="tour-lane" type="button" role="tab" id="tour-tab-work" aria-selected="false" aria-controls="tour-detail" tabindex="-1" data-region="work">
+                    <span class="tour-lane-num">03</span>
+                    <svg class="icon" aria-hidden="true"><use href="#i-layout" /></svg>
+                    <span class="tour-lane-name">A native workspace</span>
+                    <span class="tour-lane-short">Workspace</span>
+                  </button>
+                </div>
+                <a class="tour-expand" href="./assets/workspace.png" target="_blank" rel="noreferrer" aria-label="Open the full workspace preview">
+                  <span>Full preview</span>
+                  <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right" /></svg>
+                </a>
+              </div>
+
+              <div class="tour-media" id="tour-media" data-region="agents">
+                <div class="tour-canvas">
+                  <picture>
+                    <source srcset="./assets/workspace.webp" type="image/webp" />
+                    <img
+                      src="./assets/workspace.png"
+                      width="1468"
+                      height="890"
+                      loading="lazy"
+                      decoding="async"
+                      alt="The Hermes Desk window: agents with Pip avatars on the left, a conversation with tool steps in the middle, and an agent's browser lane on the right."
+                    />
+                  </picture>
+                  <button class="tour-hotspot tour-hotspot-agents is-active" type="button" data-region="agents" aria-label="Show the agents lane" aria-pressed="true"></button>
+                  <button class="tour-hotspot tour-hotspot-chat" type="button" data-region="chat" aria-label="Show the conversation lane" aria-pressed="false"></button>
+                  <button class="tour-hotspot tour-hotspot-work" type="button" data-region="work" aria-label="Show the workspace lane" aria-pressed="false"></button>
+                </div>
+              </div>
             </div>
 
-            <div class="shot" id="shot-panel" role="tabpanel" aria-labelledby="tab-agents">
-              <picture>
-                <source srcset="./assets/workspace.webp" type="image/webp" />
-                <img
-                  src="./assets/workspace.png"
-                  width="1468"
-                  height="890"
-                  loading="lazy"
-                  decoding="async"
-                  alt="The Hermes Desk window: agents with Pip avatars on the left, a conversation with tool steps in the middle, and an agent's browser lane on the right."
-                />
-              </picture>
-              <span class="region region-agents is-active" data-region="agents" aria-hidden="true"><span class="region-label">Your agents</span></span>
-              <span class="region region-chat" data-region="chat" aria-hidden="true"><span class="region-label">One conversation</span></span>
-              <span class="region region-work" data-region="work" aria-hidden="true"><span class="region-label">A native workspace</span></span>
+            <div class="tour-detail" id="tour-detail" role="tabpanel" aria-labelledby="tour-tab-agents">
+              <div class="tour-detail-lead">
+                <span class="tour-step" id="tour-step">01 / 03</span>
+                <h3 id="tour-title">Your agents</h3>
+                <div class="tour-controls">
+                  <button class="tour-arrow" type="button" data-dir="-1" aria-label="Previous lane">
+                    <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
+                  </button>
+                  <button class="tour-arrow" type="button" data-dir="1" aria-label="Next lane">
+                    <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="tour-detail-body">
+                <p id="tour-copy">
+                  Pip avatars make the roster scannable. Every profile keeps its own model
+                  route, history, and voice, so switching agents never means losing your place.
+                </p>
+                <ul class="tour-points" id="tour-points">
+                  <li>Model and provider per profile</li>
+                  <li>Live status and recent activity</li>
+                  <li>One click to the profile card</li>
+                </ul>
+              </div>
             </div>
 
-            <p class="shot-caption">
-              <span>
-                Illustrative design preview with local fixture content. Pip is the actual in-app
-                mascot, not a look-alike.
-              </span>
-              <a class="caption-link" href="./assets/workspace.png" target="_blank" rel="noreferrer">
-                Open full preview
-                <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right" /></svg>
-              </a>
+            <p class="sr-only" id="tour-live" aria-live="polite"></p>
+
+            <p class="tour-caption">
+              Illustrative design preview with local fixture content. Pip is the actual in-app
+              mascot, not a look-alike.
             </p>
           </div>
         </div>
